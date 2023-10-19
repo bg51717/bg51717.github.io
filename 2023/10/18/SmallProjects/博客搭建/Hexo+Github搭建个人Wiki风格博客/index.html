@@ -2,11 +2,12 @@
 <html lang=zh>
 <head>
     <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
     
     <title>Hexo+Github搭建个人Wiki风格博客 | Blogs</title>
     
     
-        <meta name="keywords" content="-博客 -Hexo -Wiki" />
+        <meta name="keywords" content="博客,Hexo,Wiki" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="介绍以前一直不理解更新博客的用处，后来发现记录一些学到的东西和处理问题的经验对个人还是互联网都是有促进作用的(希望不是在生产互联网垃圾)。 所以本文会介绍一下个人搭建这个博客的过程。 博客风格 简洁（本来想弄点二次元风格的，但是博客还是减少点无用东西吧） 多级分类：多级分类可以帮助来快速浏览学过的知识点 标签：标签还是比较重要的，可以实习对相关博客的快速定位  主题选择基于上述的需求，最终选择了W">
@@ -17,9 +18,11 @@
 <meta property="og:description" content="介绍以前一直不理解更新博客的用处，后来发现记录一些学到的东西和处理问题的经验对个人还是互联网都是有促进作用的(希望不是在生产互联网垃圾)。 所以本文会介绍一下个人搭建这个博客的过程。 博客风格 简洁（本来想弄点二次元风格的，但是博客还是减少点无用东西吧） 多级分类：多级分类可以帮助来快速浏览学过的知识点 标签：标签还是比较重要的，可以实习对相关博客的快速定位  主题选择基于上述的需求，最终选择了W">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-18T08:12:44.000Z">
-<meta property="article:modified_time" content="2023-10-18T13:25:46.366Z">
+<meta property="article:modified_time" content="2023-10-19T13:46:32.471Z">
 <meta property="article:author" content="lacia">
-<meta property="article:tag" content="-博客 -Hexo -Wiki">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Wiki">
 <meta name="twitter:card" content="summary">
     
 
@@ -179,15 +182,24 @@
         
         
          <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" >  </ul> 
+                    </li> 
+                    
                     <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
                             &nbsp;
-                            -SmallProjects -博客搭建
+                            博客搭建
                         </a>
                          <ul class="unstyled" id="tree" >  <li class="file active"><a href="/2023/10/18/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Hexo+Github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BAWiki%E9%A3%8E%E6%A0%BC%E5%8D%9A%E5%AE%A2/">Hexo+Github搭建个人Wiki风格博客</a></li>  </ul> 
                     </li> 
-                     <li class="file"><a href="/2023/10/17/Welcome-to-Lacia-s-Wiki-and-Blog/">Welcome to Lacia's Wiki and Blog</a></li>  </ul> 
+                     <li class="file"><a href="/2023/10/18/Welcome-to-Lacia-s-Wiki-and-Blog/">Welcome to Lacia's Wiki and Blog</a></li>  </ul> 
     </div>
     <script>
         $(document).ready(function() {
@@ -268,13 +280,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/SmallProjects-%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">-SmallProjects -博客搭建</a>
+        <a class="article-category-link" href="/categories/SmallProjects/">SmallProjects</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link-link" href="/tags/%E5%8D%9A%E5%AE%A2-Hexo-Wiki/" rel="tag">-博客 -Hexo -Wiki</a>
+        <a class="tag-link-link" href="/tags/Hexo/" rel="tag">Hexo</a>, <a class="tag-link-link" href="/tags/Wiki/" rel="tag">Wiki</a>, <a class="tag-link-link" href="/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
     </div>
 
                         
@@ -392,8 +404,8 @@
 <h2 id="评论系统giscus"><a href="#评论系统giscus" class="headerlink" title="评论系统giscus"></a>评论系统giscus</h2><p>由于不知名的原因，Gitment和Gitalk无法使用，选择了<a target="_blank" rel="noopener" href="https://giscus.app/zh-CN#category">giscus</a>来替代,参考<a target="_blank" rel="noopener" href="https://blog.webrelay.cn/giscus/">Hexo静态博客使用giscus评论系统教程</a></p>
 <p><strong>1.打开自己的GitHub，选择博客所在仓库或可新建一个仓库</strong></p>
 <ul>
-<li>确保仓库是公开的(新建的时候选择<code>private</code>或者在仓库的<code>Settings - General</code>，选择<code>change visibility - change to public</code>)</li>
-<li>确保仓库开启了 <code>Discussions</code>(在仓库的<code>Settings - General</code>，勾选<code>Discussions</code>)</li>
+<li>确保仓库是公开的(新建的时候选择 <code>private</code>或者在仓库的 <code>Settings - General</code>，选择 <code>change visibility - change to public</code>)</li>
+<li>确保仓库开启了 <code>Discussions</code>(在仓库的 <code>Settings - General</code>，勾选 <code>Discussions</code>)</li>
 <li>确保安装了 <a target="_blank" rel="noopener" href="https://github.com/apps/giscus">giscus app</a></li>
 </ul>
 <p><strong>2.打开官方配置页面<a target="_blank" rel="noopener" href="https://giscus.app/zh-CN#category">giscus</a>，生成代码</strong></p>
@@ -405,20 +417,22 @@
 <li>特性:按个人喜好即可，本博客加载了：<code>启用主贴上的反应</code>,<code>将评论框放在评论上方</code>,<code>懒加载评论</code></li>
 <li>主题：选择与博客风格一致的主题</li>
 </ul>
-<p><strong>3.修改主题<code>_config.yml</code></strong><br>在文件末尾添加</p>
+<p><strong>3.修改主题 <code>_config.yml</code></strong><br>在文件末尾添加</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: true</span><br></pre></td></tr></table></figure>
+
 <p>方便以后直接从配置文件开关评论区</p>
-<p><strong>4.粘贴代码</strong><br>网页会自动生成代码,复制粘贴到网页模板文件即可<br>不同主题的模板文件位置可能不同，本主题在<code>themes/Wikitten/layout/_partial/article.ejs</code>添加代码,代码添加位置用<code>footer</code>元素定位</p>
+<p><strong>4.粘贴代码</strong><br>网页会自动生成代码,复制粘贴到网页模板文件即可<br>不同主题的模板文件位置可能不同，本主题在 <code>themes/Wikitten/layout/_partial/article.ejs</code>添加代码,代码添加位置用 <code>footer</code>元素定位</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;% /* 其他代码 */ %&gt;</span><br><span class="line"></span><br><span class="line">&lt;% if (theme.gitalk.enable) &#123; %&gt;</span><br><span class="line"></span><br><span class="line">&lt;script src=&quot;https://giscus.app/client.js&quot;</span><br><span class="line">        data-repo=&quot;bg51717/Hexo-Blogs-comments&quot;</span><br><span class="line">        data-repo-id=&quot;*********&quot;</span><br><span class="line">        data-category=&quot;General&quot;</span><br><span class="line">        data-category-id=&quot;*********&quot;</span><br><span class="line">        data-mapping=&quot;pathname&quot;</span><br><span class="line">        data-strict=&quot;0&quot;</span><br><span class="line">        data-reactions-enabled=&quot;1&quot;</span><br><span class="line">        data-emit-metadata=&quot;0&quot;</span><br><span class="line">        data-input-position=&quot;top&quot;</span><br><span class="line">        data-theme=&quot;light&quot;</span><br><span class="line">        data-lang=&quot;zh-CN&quot;</span><br><span class="line">        data-loading=&quot;lazy&quot;</span><br><span class="line">        crossorigin=&quot;anonymous&quot;</span><br><span class="line">        async&gt;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;% &#125; %&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;footer class=&quot;article-footer&quot;&gt;</span><br><span class="line">        &lt;/footer&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;% /* 其他代码 */ %&gt;</span><br></pre></td></tr></table></figure>
 
-
 <h2 id="常见QA"><a href="#常见QA" class="headerlink" title="常见QA"></a>常见QA</h2><p>1.<strong>修改配置文件应该修改站点的 <code>_config.yml</code> 还是主题的 <code>_config.yml</code>?</strong><br>具体使用哪个，要看主题的源代码，如果是 <code>config.xxx</code>那就是用的根目录配置文件，如果是 <code>theme.xxx</code>那就用的是主题目录的配置文件。</p>
+<p>2.<strong>怎么让自己的博客可以被常用搜索引擎搜索到?</strong><br>很多搜索引擎可以在搜索框里用<code>site:网址</code>来判断是否被收录<br><strong>Google</strong><br>1.打开Google搜索，搜索“Google Search Console”<br>2.根据提示登录你的Google账号<br>3.选择资源类型<br>4.选择验证方式(本博客用的是<strong>HTML标记</strong>,把对应代码添加到主题文件里面,本主题是<code>themes/Wikitten/layout/common/head.ejs</code>)</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/60578464">使用 Hexo+GitHub 搭建个人免费博客教程（小白向）</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.zthxxx.me/post/personal-wiki-system-theme-for-hexo/#%E7%94%A8-hexo-%E5%81%9A%E4%B8%AA%E4%BA%BA-wiki-%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F">Hexo 的个人 Wiki 主题 - Wikitten</a></li>
 <li><a target="_blank" rel="noopener" href="https://godweiyang.com/2018/04/13/hexo-blog/#toc-heading-14">超详细Hexo+Github博客搭建小白教程</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.webrelay.cn/giscus/">Hexo静态博客使用giscus评论系统教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo官方文档</a></li>
 </ul>
 </blockquote>
 
@@ -454,11 +468,15 @@
     
 <nav id="article-nav">
     
-    
-        <a href="/2023/10/17/Welcome-to-Lacia-s-Wiki-and-Blog/" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">Welcome to Lacia&#39;s Wiki and Blog</div>
+        <a href="/2023/10/18/Welcome-to-Lacia-s-Wiki-and-Blog/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Welcome to Lacia&#39;s Wiki and Blog
+                
+            </div>
         </a>
+    
     
 </nav>
 
