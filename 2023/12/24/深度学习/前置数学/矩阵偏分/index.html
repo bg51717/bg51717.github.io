@@ -7,22 +7,22 @@
     <title>矩阵偏分 | Blogs</title>
     
     
-        <meta name="keywords" content="深度学习,矩阵,数学" />
+        <meta name="keywords" content="深度学习,数学,矩阵" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置和分母转置两种，本篇介绍的是分母转置。） Jacobian形式矩阵论里的求导: 假设$A$矩阵维度列表为$[a_1,a_2,…,a_n]$ 假设$B$矩阵维度列表翻转为$[b_m,b_{m-1},…,b_1]$ $A$矩阵对$B$矩阵求偏导的结果$C$,维度上相当于$">
+    <meta name="description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置和分母转置两种，本篇介绍的是分母转置。） Jacobian形式 矩阵论里的求导: 假设\(A\)矩阵维度列表为\([a_1,a_2,...,a_n]\) 假设\(B\)矩阵维度列表翻转为\([b_m,b_{m-1},...,b_1]\) \(A\)矩阵">
 <meta property="og:type" content="article">
 <meta property="og:title" content="矩阵偏分">
 <meta property="og:url" content="http://example.com/2023/12/24/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/%E7%9F%A9%E9%98%B5%E5%81%8F%E5%88%86/index.html">
 <meta property="og:site_name" content="Blogs">
-<meta property="og:description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置和分母转置两种，本篇介绍的是分母转置。） Jacobian形式矩阵论里的求导: 假设$A$矩阵维度列表为$[a_1,a_2,…,a_n]$ 假设$B$矩阵维度列表翻转为$[b_m,b_{m-1},…,b_1]$ $A$矩阵对$B$矩阵求偏导的结果$C$,维度上相当于$">
+<meta property="og:description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置和分母转置两种，本篇介绍的是分母转置。） Jacobian形式 矩阵论里的求导: 假设\(A\)矩阵维度列表为\([a_1,a_2,...,a_n]\) 假设\(B\)矩阵维度列表翻转为\([b_m,b_{m-1},...,b_1]\) \(A\)矩阵">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-12-24T07:18:43.000Z">
 <meta property="article:modified_time" content="2024-03-09T09:09:34.338Z">
 <meta property="article:author" content="bg51717">
 <meta property="article:tag" content="深度学习">
-<meta property="article:tag" content="矩阵">
 <meta property="article:tag" content="数学">
+<meta property="article:tag" content="矩阵">
 <meta name="twitter:card" content="summary">
     
 
@@ -303,7 +303,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -457,7 +457,7 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Jacobian%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">Jacobian形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%90%91%E9%87%8F%E5%81%8F%E5%AF%BC%E5%BD%A2%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">行向量偏导形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E9%80%82%E5%81%9A%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">合适做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jacobian%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">Jacobian形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%90%91%E9%87%8F%E5%81%8F%E5%AF%BC%E5%BD%A2%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">行向量偏导形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E9%80%82%E5%81%9A%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">合适做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
                 </div>
             
         
@@ -466,25 +466,41 @@
 <p>在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.</p>
 </blockquote>
 <p>（矩阵求导有分子转置和分母转置两种，本篇介绍的是分母转置。）</p>
-<h2 id="Jacobian形式"><a href="#Jacobian形式" class="headerlink" title="Jacobian形式"></a>Jacobian形式</h2><p>矩阵论里的求导:</p>
-<p>假设$A$矩阵维度列表为$[a_1,a_2,…,a_n]$</p>
-<p>假设$B$矩阵维度列表翻转为$[b_m,b_{m-1},…,b_1]$</p>
-<p>$A$矩阵对$B$矩阵求偏导的结果$C$,维度上相当于$A$矩阵维度列表和$B$矩阵维度列表翻转连起来</p>
-<p>即$C$矩阵维度列表为$[a_1,a_2,…,a_n,b_m,b_{m-1},…,b_1]$</p>
-<p>根据维度信息也能很方便的推导各个元素的含义,即为$A$矩阵的每个元素对$B$矩阵的每个元素求一个偏导。</p>
-<h2 id="行向量偏导形式"><a href="#行向量偏导形式" class="headerlink" title="行向量偏导形式"></a>行向量偏导形式</h2><p>此外，行向量偏导和Jacobian形式不同。把矩阵变成按列堆栈向量化$vec$，</p>
-<p>$$<br>vec(X)&#x3D;[x_{11},x_{21},..,x_{12},x_{22},…,x_{1n},x_{2n},…,x_{nm}]^T<br>$$</p>
-<h2 id="合适做法"><a href="#合适做法" class="headerlink" title="合适做法"></a>合适做法</h2><p>合适的做法还是对于矩阵的每个元素单独看梯度和贡献，然后根据指标的变化来总结公式。</p>
-<p>比如，计算$x_{ij}$是如何影响$y_{ik}$的，然后总结梯度公式。</p>
+<h2 id="jacobian形式">Jacobian形式</h2>
+<p>矩阵论里的求导:</p>
+<p>假设<span class="math inline">\(A\)</span>矩阵维度列表为<span class="math inline">\([a_1,a_2,...,a_n]\)</span></p>
+<p>假设<span class="math inline">\(B\)</span>矩阵维度列表翻转为<span class="math inline">\([b_m,b_{m-1},...,b_1]\)</span></p>
+<p><span class="math inline">\(A\)</span>矩阵对<span class="math inline">\(B\)</span>矩阵求偏导的结果<span class="math inline">\(C\)</span>,维度上相当于<span class="math inline">\(A\)</span>矩阵维度列表和<span class="math inline">\(B\)</span>矩阵维度列表翻转连起来</p>
+<p>即<span class="math inline">\(C\)</span>矩阵维度列表为<span class="math inline">\([a_1,a_2,...,a_n,b_m,b_{m-1},...,b_1]\)</span></p>
+<p>根据维度信息也能很方便的推导各个元素的含义,即为<span class="math inline">\(A\)</span>矩阵的每个元素对<span class="math inline">\(B\)</span>矩阵的每个元素求一个偏导。</p>
+<h2 id="行向量偏导形式">行向量偏导形式</h2>
+<p>此外，行向量偏导和Jacobian形式不同。把矩阵变成按列堆栈向量化<span class="math inline">\(vec\)</span>，</p>
+<p><span class="math display">\[
+vec(X)=[x_{11},x_{21},..,x_{12},x_{22},...,x_{1n},x_{2n},...,x_{nm}]^T
+\]</span></p>
+<h2 id="合适做法">合适做法</h2>
+<p>合适的做法还是对于矩阵的每个元素单独看梯度和贡献，然后根据指标的变化来总结公式。</p>
+<p>比如，计算<span class="math inline">\(x_{ij}\)</span>是如何影响<span class="math inline">\(y_{ik}\)</span>的，然后总结梯度公式。</p>
 <p>示例1：</p>
-<p>$$<br>X*A&#x3D;Y,而X \in R^{n \times p}, A \in R^{p \times m},Y \in R^{n \times m},l为标量 \<br>已知\frac{\partial l}{\partial Y},求\frac{\partial l}{\partial X}  \<br>计算x_{ik}的贡献,有 \frac{\partial z}{\partial x_{ik}}&#x3D;\sum_{j}a_{kj}\frac{\partial z}{\partial y_{ij}} \<br>根据维度信息(i在左侧,k在右侧)总结,得到\frac{\partial l}{\partial X}&#x3D;\frac{\partial l}{\partial Y}A^T<br>$$</p>
+<p><span class="math display">\[
+X*A=Y,而X \in R^{n \times p}, A \in R^{p \times m},Y \in R^{n \times
+m},l为标量 \\
+已知\frac{\partial l}{\partial Y},求\frac{\partial l}{\partial X}  \\
+计算x_{ik}的贡献,有 \frac{\partial z}{\partial
+x_{ik}}=\sum_{j}a_{kj}\frac{\partial z}{\partial y_{ij}} \\
+根据维度信息(i在左侧,k在右侧)总结,得到\frac{\partial l}{\partial
+X}=\frac{\partial l}{\partial Y}A^T
+\]</span></p>
 <blockquote>
 <p>tip:由于一维向量很多时候会被写为列向量,所以有的教程理解不是很方便,但如果接触过pytorch框架,会方便理解很多.</p>
 </blockquote>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/263777564">矩阵求导的本质与分子布局、分母布局的本质（矩阵求导——本质篇） - 知乎 (zhihu.com)</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yifanrensheng/p/12639539.html#_label0">【ML-0-3】矩阵求导-链式法则 - 忆凡人生 - 博客园 (cnblogs.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/263777564">矩阵求导的本质与分子布局、分母布局的本质（矩阵求导——本质篇）
+- 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yifanrensheng/p/12639539.html#_label0">【ML-0-3】矩阵求导-链式法则
+- 忆凡人生 - 博客园 (cnblogs.com)</a></li>
 </ul>
 </blockquote>
 

@@ -10,12 +10,12 @@
         <meta name="keywords" content="深度学习,自然语言处理" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="介绍传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入">
+    <meta name="description" content="介绍 传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构 Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Word2Vec">
 <meta property="og:url" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/index.html">
 <meta property="og:site_name" content="Blogs">
-<meta property="og:description" content="介绍传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入">
+<meta property="og:description" content="介绍 传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构 Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703252876064.png">
 <meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703253424041.png">
@@ -310,7 +310,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -464,74 +464,139 @@
             
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Word2Vec%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">Word2Vec的网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80"><span class="toc-number">3.</span> <span class="toc-text">网络结构基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CBOW-%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">CBOW 词袋模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Skip-gram-Model-%E8%B7%B3%E5%85%83%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">Skip-gram Model 跳元模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%91%E4%BC%BC%E8%AE%AD%E7%BB%83"><span class="toc-number">6.</span> <span class="toc-text">近似训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E9%87%87%E6%A0%B7Negative-Sampling"><span class="toc-number">6.1.</span> <span class="toc-text">负采样Negative Sampling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82softmax-Hierarchical-Softmax"><span class="toc-number">6.2.</span> <span class="toc-text">分层softmax Hierarchical Softmax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word2vec%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">Word2Vec的网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80"><span class="toc-number">3.</span> <span class="toc-text">网络结构基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cbow-%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">CBOW 词袋模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#skip-gram-model-%E8%B7%B3%E5%85%83%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">Skip-gram Model 跳元模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%91%E4%BC%BC%E8%AE%AD%E7%BB%83"><span class="toc-number">6.</span> <span class="toc-text">近似训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E9%87%87%E6%A0%B7negative-sampling"><span class="toc-number">6.1.</span> <span class="toc-text">负采样Negative
+Sampling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82softmax-hierarchical-softmax"><span class="toc-number">6.2.</span> <span class="toc-text">分层softmax Hierarchical
+Softmax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
                 </div>
             
         
         
-            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量</p>
+            <h2 id="介绍">介绍</h2>
+<p>传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量</p>
 <p>Word2Vec是一种Distributed Representation,相比独热编码有以下优点:</p>
 <ul>
 <li>维度远小于独热编码</li>
 <li>能更好的反馈向量间的关系</li>
 <li>每个维度都被充分利用</li>
 </ul>
-<h2 id="Word2Vec的网络结构"><a href="#Word2Vec的网络结构" class="headerlink" title="Word2Vec的网络结构"></a><strong>Word2Vec的网络结构</strong></h2><p>Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入输出的不同，主要包括CBOW和Skip-gram模型。</p>
-<p>CBOW模型,在知道上下文的情况下预测中心词$w_t$</p>
-<p>Skip-gram模型,在知道中心词$w_t$的情况下预测</p>
-<p><img src="1703252876064.png" alt="1703252876064"></p>
-<h2 id="网络结构基础"><a href="#网络结构基础" class="headerlink" title="网络结构基础"></a>网络结构基础</h2><p>下图是两种模型结构的基础,是输入一个词,预测一个词</p>
-<p><img src="1703253424041.png" alt="1703253424041"></p>
+<h2 id="word2vec的网络结构"><strong>Word2Vec的网络结构</strong></h2>
+<p>Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入输出的不同，主要包括CBOW和Skip-gram模型。</p>
+<p>CBOW模型,在知道上下文的情况下预测中心词<span class="math inline">\(w_t\)</span></p>
+<p>Skip-gram模型,在知道中心词<span class="math inline">\(w_t\)</span>的情况下预测</p>
+<figure>
+<img src="1703252876064.png" alt="1703252876064">
+<figcaption aria-hidden="true">1703252876064</figcaption>
+</figure>
+<h2 id="网络结构基础">网络结构基础</h2>
+<p>下图是两种模型结构的基础,是输入一个词,预测一个词</p>
+<figure>
+<img src="1703253424041.png" alt="1703253424041">
+<figcaption aria-hidden="true">1703253424041</figcaption>
+</figure>
 <p>中间的运算都会使用矩阵方便加速:</p>
 <ul>
-<li>一个词语转换成对应的词向量,就会使用独热编码乘以这个$W_{V\times N}$,(其中V为词库大小,N为词向量维度数)</li>
-<li>一个词向量和别的词的上下文向量点乘,也会乘以矩阵$W^{‘}_{V\times N}$,得到$\bm y$,也就是$\bm u^T\cdot \bm v$</li>
+<li>一个词语转换成对应的词向量,就会使用独热编码乘以这个<span class="math inline">\(W_{V\times
+N}\)</span>,(其中V为词库大小,N为词向量维度数)</li>
+<li>一个词向量和别的词的上下文向量点乘,也会乘以矩阵<span class="math inline">\(W^{&#39;}_{V\times N}\)</span>,得到<span class="math inline">\(\bm y\)</span>,也就是<span class="math inline">\(\bm u^T\cdot \bm v\)</span></li>
 </ul>
 <p>之后词语k的概率就是softmax:</p>
-<p>$$<br>P(w_k|w_c)&#x3D;\frac{\exp(\bm u^T_k\cdot \bm v_c)}{\sum \exp(\bm u^T_i\cdot \bm v_c)}&#x3D;\frac{\exp(\bm y_k)}{\sum \exp(\bm y_i)}<br>$$</p>
+<p><span class="math display">\[
+P(w_k|w_c)=\frac{\exp(\bm u^T_k\cdot \bm v_c)}{\sum \exp(\bm u^T_i\cdot
+\bm v_c)}=\frac{\exp(\bm y_k)}{\sum \exp(\bm y_i)}
+\]</span></p>
 <p>之后就是追求句子概率最大化:</p>
-<p>$$<br>\prod P(w_k|w_c)<br>$$</p>
+<p><span class="math display">\[
+\prod P(w_k|w_c)
+\]</span></p>
 <p>对数化后取负数就得到了损失函数:</p>
-<p>$$<br>Loss&#x3D;\sum_{o \in context}( \bm u^T_k\cdot \bm v_c-log(\sum_{i \in V}exp(\bm u^T_i\cdot \bm v_c)))<br>$$</p>
-<p>通过微分，我们可以获得其相对于中心词向量$\bm v_c$的梯度为</p>
-<p><img src="1703256300356.png#pic_center" alt="1703256300356"></p>
+<p><span class="math display">\[
+Loss=\sum_{o \in context}( \bm u^T_k\cdot \bm v_c-log(\sum_{i \in
+V}exp(\bm u^T_i\cdot \bm v_c)))
+\]</span></p>
+<p>通过微分，我们可以获得其相对于中心词向量<span class="math inline">\(\bm v_c\)</span>的梯度为</p>
+<figure>
+<img src="1703256300356.png#pic_center" alt="1703256300356">
+<figcaption aria-hidden="true">1703256300356</figcaption>
+</figure>
 <p>其他向量的方法也是类似.这里就不给予推导.</p>
-<h2 id="CBOW-词袋模型"><a href="#CBOW-词袋模型" class="headerlink" title="CBOW 词袋模型"></a>CBOW 词袋模型</h2><p>用上下文预测中心词$w_t$</p>
-<p><img src="1703256961548.png#pic_center" alt="1703256961548"></p>
-<h2 id="Skip-gram-Model-跳元模型"><a href="#Skip-gram-Model-跳元模型" class="headerlink" title="Skip-gram Model 跳元模型"></a>Skip-gram Model 跳元模型</h2><p>用中心词$w_t$预测上下文</p>
-<p><img src="1703256988046.png#pic_center" alt="1703256988046"></p>
-<h2 id="近似训练"><a href="#近似训练" class="headerlink" title="近似训练"></a>近似训练</h2><p>由于softmax操作的性质，上下文词可以是词表V中的任意项，式子包含与整个词表大小一样多的项的求 和。因此，跳元模型的梯度计算和连续词袋模型的梯度计算都包含求和。不幸的是， 在一个词典上（通常有几十万或数百万个单词）求和的梯度的计算成本是巨大的！</p>
-<p>为了降低上述计算复杂度，引入两种近似训练方法：负采样和分层softmax。由于跳元模型和连续词袋 模型的相似性，将以跳元模型为例来描述这两种近似训练方法。</p>
-<h3 id="负采样Negative-Sampling"><a href="#负采样Negative-Sampling" class="headerlink" title="负采样Negative Sampling"></a>负采样<strong>Negative Sampling</strong></h3><blockquote>
+<h2 id="cbow-词袋模型">CBOW 词袋模型</h2>
+<p>用上下文预测中心词<span class="math inline">\(w_t\)</span></p>
+<figure>
+<img src="1703256961548.png#pic_center" alt="1703256961548">
+<figcaption aria-hidden="true">1703256961548</figcaption>
+</figure>
+<h2 id="skip-gram-model-跳元模型">Skip-gram Model 跳元模型</h2>
+<p>用中心词<span class="math inline">\(w_t\)</span>预测上下文</p>
+<figure>
+<img src="1703256988046.png#pic_center" alt="1703256988046">
+<figcaption aria-hidden="true">1703256988046</figcaption>
+</figure>
+<h2 id="近似训练">近似训练</h2>
+<p>由于softmax操作的性质，上下文词可以是词表V中的任意项，式子包含与整个词表大小一样多的项的求
+和。因此，跳元模型的梯度计算和连续词袋模型的梯度计算都包含求和。不幸的是，
+在一个词典上（通常有几十万或数百万个单词）求和的梯度的计算成本是巨大的！</p>
+<p>为了降低上述计算复杂度，引入两种近似训练方法：负采样和分层softmax。由于跳元模型和连续词袋
+模型的相似性，将以跳元模型为例来描述这两种近似训练方法。</p>
+<h3 id="负采样negative-sampling">负采样<strong>Negative
+Sampling</strong></h3>
+<blockquote>
 <p>负采样指的是加入一些负样本来进行模型的训练.</p>
 </blockquote>
 <p>负采样修改了原目标函数来减少运算成本.</p>
-<p>给定中心词$w_c$的上下文窗口，任意上下文词$w_o$来自该上下文窗口的被认为是由下式建模概率的事件：</p>
-<p>$$<br>P(D&#x3D;1|w_c,w_o)&#x3D;\sigma(\bm u^T_o\bm v_c)<br>$$</p>
+<p>给定中心词<span class="math inline">\(w_c\)</span>的上下文窗口，任意上下文词<span class="math inline">\(w_o\)</span>来自该上下文窗口的被认为是由下式建模概率的事件：</p>
+<p><span class="math display">\[
+P(D=1|w_c,w_o)=\sigma(\bm u^T_o\bm v_c)
+\]</span></p>
 <p>其中</p>
-<p>$$<br>\sigma(x)&#x3D;\frac{1}{1+exp(-x)}<br>$$</p>
+<p><span class="math display">\[
+\sigma(x)=\frac{1}{1+exp(-x)}
+\]</span></p>
 <p>考虑最大化联合概率</p>
-<p>$$<br>\prod^T_{t&#x3D;1}\prod_{-m\leqslant j \leqslant m,j\neq 0} P(D&#x3D;1|w_t,w_{t+j})<br>$$</p>
+<p><span class="math display">\[
+\prod^T_{t=1}\prod_{-m\leqslant j \leqslant m,j\neq 0}
+P(D=1|w_t,w_{t+j})
+\]</span></p>
 <p>然而这样只考虑了正样本,当且仅当所有词向量都等于无穷大的时候,这个式子会最大化为1,因此考虑加入一些噪声词作为负样本.</p>
-<p>$$<br>\prod^T_{t&#x3D;1}\prod_{-m\leqslant j \leqslant m,j\neq 0} P(w_{t+j}|w_t)  \<br>其中<br>P(w_{t+j}|w_t)&#x3D;P(D&#x3D;1|w_t,w_{t+j})\prod^K_{k&#x3D;1,w_k\thicksim P(w)}P(D&#x3D;0|w_t,w_k)<br>$$</p>
+<p><span class="math display">\[
+\prod^T_{t=1}\prod_{-m\leqslant j \leqslant m,j\neq 0}
+P(w_{t+j}|w_t)  \\
+其中
+P(w_{t+j}|w_t)=P(D=1|w_t,w_{t+j})\prod^K_{k=1,w_k\thicksim
+P(w)}P(D=0|w_t,w_k)
+\]</span></p>
 <p>关于条件概率的对数损失函数为:</p>
-<p><img src="1703258521309.png#pic_center" alt="1703258521309"></p>
-<h3 id="分层softmax-Hierarchical-Softmax"><a href="#分层softmax-Hierarchical-Softmax" class="headerlink" title="分层softmax Hierarchical Softmax"></a>分层softmax Hierarchical Softmax</h3><p><img src="1703258985364.png" alt="1703258985364"></p>
+<figure>
+<img src="1703258521309.png#pic_center" alt="1703258521309">
+<figcaption aria-hidden="true">1703258521309</figcaption>
+</figure>
+<h3 id="分层softmax-hierarchical-softmax">分层softmax Hierarchical
+Softmax</h3>
+<figure>
+<img src="1703258985364.png" alt="1703258985364">
+<figcaption aria-hidden="true">1703258985364</figcaption>
+</figure>
 <p>这是一颗二叉树,从根节点开始,每次走左节点还是右节点都是概率时间,每个叶子节点都是词,所以根据中心词向量预测上下文可以看作是从根节点到叶子节点路径的概率乘积.</p>
 <p>一种构造二叉树的方法是根据词语的出现频率构造哈夫曼树.</p>
-<p>在非叶子节点$i$走右边的概率是</p>
-<p>$$<br>\sigma(\bm x^T_w \bm \theta)&#x3D;\frac{1}{1+eps(-\bm x^T_w \bm \theta)}<br>$$</p>
-<p>根据中心词$w_t$预测上下文$w_o$的概率也很就容易得到.</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<p>在非叶子节点<span class="math inline">\(i\)</span>走右边的概率是</p>
+<p><span class="math display">\[
+\sigma(\bm x^T_w \bm \theta)=\frac{1}{1+eps(-\bm x^T_w \bm \theta)}
+\]</span></p>
+<p>根据中心词<span class="math inline">\(w_t\)</span>预测上下文<span class="math inline">\(w_o\)</span>的概率也很就容易得到.</p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
 <p>第一篇写的最为详细全面,包括本文各种没有提到的细节,点赞!</p>
 <p>参考资料里面第一篇和第三篇其实说的是一个东西,只不过一个是以矩阵的形式给出的.</p>
 <p>可以通过奇异值分解减少词的特征维度.</p>
 </blockquote>
 <blockquote>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114538417">深入浅出Word2Vec原理解析 - 知乎 (zhihu.com)</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/v_JULY_v/article/details/102708459">如何通俗理解Word2Vec (23年修订版)-CSDN博客</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html">14.1. 词嵌入（word2vec） — 动手学深度学习 2.0.0 documentation (d2l.ai)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114538417">深入浅出Word2Vec原理解析 -
+知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/v_JULY_v/article/details/102708459">如何通俗理解Word2Vec
+(23年修订版)-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html">14.1.
+词嵌入（word2vec） — 动手学深度学习 2.0.0 documentation
+(d2l.ai)</a></li>
 </ul>
 </blockquote>
 
