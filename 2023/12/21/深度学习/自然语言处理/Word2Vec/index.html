@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>Word2Vec | Blogs</title>
+    
+    
+        <meta name="keywords" content="深度学习,自然语言处理" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Word2Vec">
+<meta property="og:url" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/index.html">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703252876064.png">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703253424041.png">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703256300356.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703256961548.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703256988046.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703258521309.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703258985364.png">
+<meta property="article:published_time" content="2023-12-21T08:53:05.000Z">
+<meta property="article:modified_time" content="2024-07-08T14:05:55.293Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="自然语言处理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703252876064.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/">首页</a>
+                
+                    <a class="main-nav-link" href="/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            AI实战
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            Kaggle
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/12/08/AI%E5%AE%9E%E6%88%98/Kaggle/%E8%A7%A3%E9%A2%98%E6%B5%81%E7%A8%8B/">解题流程</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" >  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/18/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Hexo+Github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BAWiki%E9%A3%8E%E6%A0%BC%E5%8D%9A%E5%AE%A2/">Hexo+Github搭建个人Wiki风格博客</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/04/05/%E5%B7%A5%E5%85%B7/utools/">快速启动工具——utools</a></li>  <li class="file"><a href="/2023/11/22/%E5%B7%A5%E5%85%B7/%E6%96%87%E7%8C%AE%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7zotero/">文献管理工具zotero</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            排行榜
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2024/04/05/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/nlp%E5%B8%B8%E7%94%A8%E6%8E%92%E8%A1%8C%E6%A6%9C/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2024/03/23/%E6%9D%82%E9%A1%B9/huggingface/transformers_tutorials%E6%9D%82%E9%A1%B9/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/2023/12/29/%E6%9D%82%E9%A1%B9/pytroch_tutorials%E6%9D%82%E9%A1%B9/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/2024/04/19/%E6%9D%82%E9%A1%B9/vscode%E8%B0%83%E8%AF%95python/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2024/02/24/%E6%A8%A1%E6%9D%BF/pytorch-model/">pytorch_model</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/12/24/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/%E7%9F%A9%E9%98%B5%E5%81%8F%E5%88%86/">矩阵偏分</a></li>  <li class="file"><a href="/2024/01/31/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/%E4%BF%A1%E6%81%AF%E7%86%B5/">信息熵</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/">Word2Vec</a></li>  <li class="file"><a href="/2023/12/22/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/GloVe/">GloVe</a></li>  <li class="file"><a href="/2023/12/27/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/%E4%BE%9D%E8%B5%96%E5%88%86%E6%9E%90Dependency-Parsing/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/12/08/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%BA%90/readme/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/2023/12/29/Adam-Optimizer/">Adam Optimizer</a></li>  <li class="file"><a href="/2024/02/17/index/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-深度学习/自然语言处理/Word2Vec" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a>, <a class="tag-link-link" href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" rel="tag">自然语言处理</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/">
+            <time datetime="2023-12-21T08:53:05.000Z" itemprop="datePublished">2023-12-21</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/深度学习/自然语言处理/Word2Vec.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/深度学习/自然语言处理/Word2Vec.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/深度学习/自然语言处理/Word2Vec.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Word2Vec
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Word2Vec%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">Word2Vec的网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80"><span class="toc-number">3.</span> <span class="toc-text">网络结构基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CBOW-%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">CBOW 词袋模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Skip-gram-Model-%E8%B7%B3%E5%85%83%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">Skip-gram Model 跳元模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%91%E4%BC%BC%E8%AE%AD%E7%BB%83"><span class="toc-number">6.</span> <span class="toc-text">近似训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E9%87%87%E6%A0%B7Negative-Sampling"><span class="toc-number">6.1.</span> <span class="toc-text">负采样Negative Sampling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82softmax-Hierarchical-Softmax"><span class="toc-number">6.2.</span> <span class="toc-text">分层softmax Hierarchical Softmax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量</p>
+<p>Word2Vec是一种Distributed Representation,相比独热编码有以下优点:</p>
+<ul>
+<li>维度远小于独热编码</li>
+<li>能更好的反馈向量间的关系</li>
+<li>每个维度都被充分利用</li>
+</ul>
+<h2 id="Word2Vec的网络结构"><a href="#Word2Vec的网络结构" class="headerlink" title="Word2Vec的网络结构"></a><strong>Word2Vec的网络结构</strong></h2><p>Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入输出的不同，主要包括CBOW和Skip-gram模型。</p>
+<p>CBOW模型,在知道上下文的情况下预测中心词$w_t$</p>
+<p>Skip-gram模型,在知道中心词$w_t$的情况下预测</p>
+<p><img src="1703252876064.png" alt="1703252876064"></p>
+<h2 id="网络结构基础"><a href="#网络结构基础" class="headerlink" title="网络结构基础"></a>网络结构基础</h2><p>下图是两种模型结构的基础,是输入一个词,预测一个词</p>
+<p><img src="1703253424041.png" alt="1703253424041"></p>
+<p>中间的运算都会使用矩阵方便加速:</p>
+<ul>
+<li>一个词语转换成对应的词向量,就会使用独热编码乘以这个$W_{V\times N}$,(其中V为词库大小,N为词向量维度数)</li>
+<li>一个词向量和别的词的上下文向量点乘,也会乘以矩阵$W^{‘}_{V\times N}$,得到$\bm y$,也就是$\bm u^T\cdot \bm v$</li>
+</ul>
+<p>之后词语k的概率就是softmax:</p>
+<p>$$<br>P(w_k|w_c)&#x3D;\frac{\exp(\bm u^T_k\cdot \bm v_c)}{\sum \exp(\bm u^T_i\cdot \bm v_c)}&#x3D;\frac{\exp(\bm y_k)}{\sum \exp(\bm y_i)}<br>$$</p>
+<p>之后就是追求句子概率最大化:</p>
+<p>$$<br>\prod P(w_k|w_c)<br>$$</p>
+<p>对数化后取负数就得到了损失函数:</p>
+<p>$$<br>Loss&#x3D;\sum_{o \in context}( \bm u^T_k\cdot \bm v_c-log(\sum_{i \in V}exp(\bm u^T_i\cdot \bm v_c)))<br>$$</p>
+<p>通过微分，我们可以获得其相对于中心词向量$\bm v_c$的梯度为</p>
+<p><img src="1703256300356.png#pic_center" alt="1703256300356"></p>
+<p>其他向量的方法也是类似.这里就不给予推导.</p>
+<h2 id="CBOW-词袋模型"><a href="#CBOW-词袋模型" class="headerlink" title="CBOW 词袋模型"></a>CBOW 词袋模型</h2><p>用上下文预测中心词$w_t$</p>
+<p><img src="1703256961548.png#pic_center" alt="1703256961548"></p>
+<h2 id="Skip-gram-Model-跳元模型"><a href="#Skip-gram-Model-跳元模型" class="headerlink" title="Skip-gram Model 跳元模型"></a>Skip-gram Model 跳元模型</h2><p>用中心词$w_t$预测上下文</p>
+<p><img src="1703256988046.png#pic_center" alt="1703256988046"></p>
+<h2 id="近似训练"><a href="#近似训练" class="headerlink" title="近似训练"></a>近似训练</h2><p>由于softmax操作的性质，上下文词可以是词表V中的任意项，式子包含与整个词表大小一样多的项的求 和。因此，跳元模型的梯度计算和连续词袋模型的梯度计算都包含求和。不幸的是， 在一个词典上（通常有几十万或数百万个单词）求和的梯度的计算成本是巨大的！</p>
+<p>为了降低上述计算复杂度，引入两种近似训练方法：负采样和分层softmax。由于跳元模型和连续词袋 模型的相似性，将以跳元模型为例来描述这两种近似训练方法。</p>
+<h3 id="负采样Negative-Sampling"><a href="#负采样Negative-Sampling" class="headerlink" title="负采样Negative Sampling"></a>负采样<strong>Negative Sampling</strong></h3><blockquote>
+<p>负采样指的是加入一些负样本来进行模型的训练.</p>
+</blockquote>
+<p>负采样修改了原目标函数来减少运算成本.</p>
+<p>给定中心词$w_c$的上下文窗口，任意上下文词$w_o$来自该上下文窗口的被认为是由下式建模概率的事件：</p>
+<p>$$<br>P(D&#x3D;1|w_c,w_o)&#x3D;\sigma(\bm u^T_o\bm v_c)<br>$$</p>
+<p>其中</p>
+<p>$$<br>\sigma(x)&#x3D;\frac{1}{1+exp(-x)}<br>$$</p>
+<p>考虑最大化联合概率</p>
+<p>$$<br>\prod^T_{t&#x3D;1}\prod_{-m\leqslant j \leqslant m,j\neq 0} P(D&#x3D;1|w_t,w_{t+j})<br>$$</p>
+<p>然而这样只考虑了正样本,当且仅当所有词向量都等于无穷大的时候,这个式子会最大化为1,因此考虑加入一些噪声词作为负样本.</p>
+<p>$$<br>\prod^T_{t&#x3D;1}\prod_{-m\leqslant j \leqslant m,j\neq 0} P(w_{t+j}|w_t)  \<br>其中<br>P(w_{t+j}|w_t)&#x3D;P(D&#x3D;1|w_t,w_{t+j})\prod^K_{k&#x3D;1,w_k\thicksim P(w)}P(D&#x3D;0|w_t,w_k)<br>$$</p>
+<p>关于条件概率的对数损失函数为:</p>
+<p><img src="1703258521309.png#pic_center" alt="1703258521309"></p>
+<h3 id="分层softmax-Hierarchical-Softmax"><a href="#分层softmax-Hierarchical-Softmax" class="headerlink" title="分层softmax Hierarchical Softmax"></a>分层softmax Hierarchical Softmax</h3><p><img src="1703258985364.png" alt="1703258985364"></p>
+<p>这是一颗二叉树,从根节点开始,每次走左节点还是右节点都是概率时间,每个叶子节点都是词,所以根据中心词向量预测上下文可以看作是从根节点到叶子节点路径的概率乘积.</p>
+<p>一种构造二叉树的方法是根据词语的出现频率构造哈夫曼树.</p>
+<p>在非叶子节点$i$走右边的概率是</p>
+<p>$$<br>\sigma(\bm x^T_w \bm \theta)&#x3D;\frac{1}{1+eps(-\bm x^T_w \bm \theta)}<br>$$</p>
+<p>根据中心词$w_t$预测上下文$w_o$的概率也很就容易得到.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<p>第一篇写的最为详细全面,包括本文各种没有提到的细节,点赞!</p>
+<p>参考资料里面第一篇和第三篇其实说的是一个东西,只不过一个是以矩阵的形式给出的.</p>
+<p>可以通过奇异值分解减少词的特征维度.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114538417">深入浅出Word2Vec原理解析 - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/v_JULY_v/article/details/102708459">如何通俗理解Word2Vec (23年修订版)-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html">14.1. 词嵌入（word2vec） — 动手学深度学习 2.0.0 documentation (d2l.ai)</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="bg51717/Hexo-Blogs-comments"
+        data-repo-id="R_kgDOKhgfLA"
+        data-category="General"
+        data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/2023/12/22/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/GloVe/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    GloVe
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2023/12/08/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%BA%90/readme/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">readme</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+    
+    
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
