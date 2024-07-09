@@ -17,20 +17,20 @@
 <meta property="og:site_name" content="Blogs">
 <meta property="og:description" content="介绍 传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构 Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703252876064.png">
-<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703253424041.png">
-<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703256300356.png#pic_center">
-<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703256961548.png#pic_center">
-<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703256988046.png#pic_center">
-<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703258521309.png#pic_center">
-<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703258985364.png">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703252876064.png">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703253424041.png">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703256300356.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703256961548.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703256988046.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703258521309.png#pic_center">
+<meta property="og:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703258985364.png">
 <meta property="article:published_time" content="2023-12-21T08:53:05.000Z">
 <meta property="article:modified_time" content="2024-07-08T14:05:55.293Z">
 <meta property="article:author" content="bg51717">
 <meta property="article:tag" content="深度学习">
 <meta property="article:tag" content="自然语言处理">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/1703252876064.png">
+<meta name="twitter:image" content="http://example.com/2023/12/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/Word2Vec/Word2Vec/1703252876064.png">
     
 
     
@@ -193,29 +193,9 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
-                            AI实战
-                        </a>
-                         <ul class="unstyled" id="tree" > 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            Kaggle
-                        </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/12/08/AI%E5%AE%9E%E6%88%98/Kaggle/%E8%A7%A3%E9%A2%98%E6%B5%81%E7%A8%8B/">解题流程</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
                             SmallProjects
                         </a>
-                         <ul class="unstyled" id="tree" >  </ul> 
-                    </li> 
-                    
+                         <ul class="unstyled" id="tree" > 
                     <li class="directory">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
@@ -223,6 +203,8 @@
                             博客搭建
                         </a>
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/18/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Hexo+Github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BAWiki%E9%A3%8E%E6%A0%BC%E5%8D%9A%E5%AE%A2/">Hexo+Github搭建个人Wiki风格博客</a></li>  </ul> 
+                    </li> 
+                     </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -286,6 +268,15 @@
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/12/24/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/%E7%9F%A9%E9%98%B5%E5%81%8F%E5%88%86/">矩阵偏分</a></li>  <li class="file"><a href="/2024/01/31/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/%E4%BF%A1%E6%81%AF%E7%86%B5/">信息熵</a></li>  </ul> 
                     </li> 
                     
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2024/07/09/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E7%A8%8B%E7%BB%86%E8%8A%82/%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%A7%8D%E5%AD%90/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
                     <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
@@ -310,7 +301,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -481,23 +472,29 @@ Softmax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-
 </ul>
 <h2 id="word2vec的网络结构"><strong>Word2Vec的网络结构</strong></h2>
 <p>Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入输出的不同，主要包括CBOW和Skip-gram模型。</p>
-<p>CBOW模型,在知道上下文的情况下预测中心词<span class="math inline">\(w_t\)</span></p>
-<p>Skip-gram模型,在知道中心词<span class="math inline">\(w_t\)</span>的情况下预测</p>
+<p>CBOW模型,在知道上下文的情况下预测中心词<span
+class="math inline">\(w_t\)</span></p>
+<p>Skip-gram模型,在知道中心词<span
+class="math inline">\(w_t\)</span>的情况下预测</p>
 <figure>
-<img src="1703252876064.png" alt="1703252876064">
+<img src="./Word2Vec/1703252876064.png" alt="1703252876064" />
 <figcaption aria-hidden="true">1703252876064</figcaption>
 </figure>
 <h2 id="网络结构基础">网络结构基础</h2>
 <p>下图是两种模型结构的基础,是输入一个词,预测一个词</p>
 <figure>
-<img src="1703253424041.png" alt="1703253424041">
+<img src="./Word2Vec/1703253424041.png" alt="1703253424041" />
 <figcaption aria-hidden="true">1703253424041</figcaption>
 </figure>
 <p>中间的运算都会使用矩阵方便加速:</p>
 <ul>
-<li>一个词语转换成对应的词向量,就会使用独热编码乘以这个<span class="math inline">\(W_{V\times
+<li>一个词语转换成对应的词向量,就会使用独热编码乘以这个<span
+class="math inline">\(W_{V\times
 N}\)</span>,(其中V为词库大小,N为词向量维度数)</li>
-<li>一个词向量和别的词的上下文向量点乘,也会乘以矩阵<span class="math inline">\(W^{&#39;}_{V\times N}\)</span>,得到<span class="math inline">\(\bm y\)</span>,也就是<span class="math inline">\(\bm u^T\cdot \bm v\)</span></li>
+<li>一个词向量和别的词的上下文向量点乘,也会乘以矩阵<span
+class="math inline">\(W^{&#39;}_{V\times N}\)</span>,得到<span
+class="math inline">\(\bm y\)</span>,也就是<span
+class="math inline">\(\bm u^T\cdot \bm v\)</span></li>
 </ul>
 <p>之后词语k的概率就是softmax:</p>
 <p><span class="math display">\[
@@ -513,22 +510,26 @@ P(w_k|w_c)=\frac{\exp(\bm u^T_k\cdot \bm v_c)}{\sum \exp(\bm u^T_i\cdot
 Loss=\sum_{o \in context}( \bm u^T_k\cdot \bm v_c-log(\sum_{i \in
 V}exp(\bm u^T_i\cdot \bm v_c)))
 \]</span></p>
-<p>通过微分，我们可以获得其相对于中心词向量<span class="math inline">\(\bm v_c\)</span>的梯度为</p>
+<p>通过微分，我们可以获得其相对于中心词向量<span
+class="math inline">\(\bm v_c\)</span>的梯度为</p>
 <figure>
-<img src="1703256300356.png#pic_center" alt="1703256300356">
+<img src="./Word2Vec/1703256300356.png#pic_center"
+alt="1703256300356" />
 <figcaption aria-hidden="true">1703256300356</figcaption>
 </figure>
 <p>其他向量的方法也是类似.这里就不给予推导.</p>
 <h2 id="cbow-词袋模型">CBOW 词袋模型</h2>
 <p>用上下文预测中心词<span class="math inline">\(w_t\)</span></p>
 <figure>
-<img src="1703256961548.png#pic_center" alt="1703256961548">
+<img src="./Word2Vec/1703256961548.png#pic_center"
+alt="1703256961548" />
 <figcaption aria-hidden="true">1703256961548</figcaption>
 </figure>
 <h2 id="skip-gram-model-跳元模型">Skip-gram Model 跳元模型</h2>
 <p>用中心词<span class="math inline">\(w_t\)</span>预测上下文</p>
 <figure>
-<img src="1703256988046.png#pic_center" alt="1703256988046">
+<img src="./Word2Vec/1703256988046.png#pic_center"
+alt="1703256988046" />
 <figcaption aria-hidden="true">1703256988046</figcaption>
 </figure>
 <h2 id="近似训练">近似训练</h2>
@@ -543,7 +544,9 @@ Sampling</strong></h3>
 <p>负采样指的是加入一些负样本来进行模型的训练.</p>
 </blockquote>
 <p>负采样修改了原目标函数来减少运算成本.</p>
-<p>给定中心词<span class="math inline">\(w_c\)</span>的上下文窗口，任意上下文词<span class="math inline">\(w_o\)</span>来自该上下文窗口的被认为是由下式建模概率的事件：</p>
+<p>给定中心词<span
+class="math inline">\(w_c\)</span>的上下文窗口，任意上下文词<span
+class="math inline">\(w_o\)</span>来自该上下文窗口的被认为是由下式建模概率的事件：</p>
 <p><span class="math display">\[
 P(D=1|w_c,w_o)=\sigma(\bm u^T_o\bm v_c)
 \]</span></p>
@@ -566,13 +569,14 @@ P(w)}P(D=0|w_t,w_k)
 \]</span></p>
 <p>关于条件概率的对数损失函数为:</p>
 <figure>
-<img src="1703258521309.png#pic_center" alt="1703258521309">
+<img src="./Word2Vec/1703258521309.png#pic_center"
+alt="1703258521309" />
 <figcaption aria-hidden="true">1703258521309</figcaption>
 </figure>
 <h3 id="分层softmax-hierarchical-softmax">分层softmax Hierarchical
 Softmax</h3>
 <figure>
-<img src="1703258985364.png" alt="1703258985364">
+<img src="./Word2Vec/1703258985364.png" alt="1703258985364" />
 <figcaption aria-hidden="true">1703258985364</figcaption>
 </figure>
 <p>这是一颗二叉树,从根节点开始,每次走左节点还是右节点都是概率时间,每个叶子节点都是词,所以根据中心词向量预测上下文可以看作是从根节点到叶子节点路径的概率乘积.</p>
@@ -581,7 +585,8 @@ Softmax</h3>
 <p><span class="math display">\[
 \sigma(\bm x^T_w \bm \theta)=\frac{1}{1+eps(-\bm x^T_w \bm \theta)}
 \]</span></p>
-<p>根据中心词<span class="math inline">\(w_t\)</span>预测上下文<span class="math inline">\(w_o\)</span>的概率也很就容易得到.</p>
+<p>根据中心词<span class="math inline">\(w_t\)</span>预测上下文<span
+class="math inline">\(w_o\)</span>的概率也很就容易得到.</p>
 <h2 id="参考资料">参考资料</h2>
 <blockquote>
 <p>第一篇写的最为详细全面,包括本文各种没有提到的细节,点赞!</p>
@@ -590,11 +595,14 @@ Softmax</h3>
 </blockquote>
 <blockquote>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114538417">深入浅出Word2Vec原理解析 -
+<li><a
+target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114538417">深入浅出Word2Vec原理解析 -
 知乎 (zhihu.com)</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/v_JULY_v/article/details/102708459">如何通俗理解Word2Vec
+<li><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/v_JULY_v/article/details/102708459">如何通俗理解Word2Vec
 (23年修订版)-CSDN博客</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html">14.1.
+<li><a
+target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html">14.1.
 词嵌入（word2vec） — 动手学深度学习 2.0.0 documentation
 (d2l.ai)</a></li>
 </ul>

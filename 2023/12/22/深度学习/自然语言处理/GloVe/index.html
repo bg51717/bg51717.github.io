@@ -185,29 +185,9 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
-                            AI实战
-                        </a>
-                         <ul class="unstyled" id="tree" > 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            Kaggle
-                        </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/12/08/AI%E5%AE%9E%E6%88%98/Kaggle/%E8%A7%A3%E9%A2%98%E6%B5%81%E7%A8%8B/">解题流程</a></li>  </ul> 
-                    </li> 
-                     </ul> 
-                    </li> 
-                    
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
                             SmallProjects
                         </a>
-                         <ul class="unstyled" id="tree" >  </ul> 
-                    </li> 
-                    
+                         <ul class="unstyled" id="tree" > 
                     <li class="directory">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
@@ -215,6 +195,8 @@
                             博客搭建
                         </a>
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/18/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Hexo+Github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BAWiki%E9%A3%8E%E6%A0%BC%E5%8D%9A%E5%AE%A2/">Hexo+Github搭建个人Wiki风格博客</a></li>  </ul> 
+                    </li> 
+                     </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -278,6 +260,15 @@
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/12/24/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/%E7%9F%A9%E9%98%B5%E5%81%8F%E5%88%86/">矩阵偏分</a></li>  <li class="file"><a href="/2024/01/31/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/%E4%BF%A1%E6%81%AF%E7%86%B5/">信息熵</a></li>  </ul> 
                     </li> 
                     
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2024/07/09/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E7%A8%8B%E7%BB%86%E8%8A%82/%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%A7%8D%E5%AD%90/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
                     <li class="directory open">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder-open"></i>
@@ -302,7 +293,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/2023/10/23/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB~BitNet-Scaling-1-bit-Transformers-for-Large-Language-Models/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -464,42 +455,64 @@
             <h2 id="介绍">介绍</h2>
 <p>相比Word2Vec的局部训练,GloVe可以使用全局的语料统计信息来训练,可以预先计算全局语料库统计数据来提高训练数据.</p>
 <h2 id="带全局语料统计的跳元模型">带全局语料统计的跳元模型</h2>
-<p>用<span class="math inline">\(q_{ij}\)</span>表示词<span class="math inline">\(w_j\)</span>的条件概率<span class="math inline">\(P(w_j|w_i)\)</span>,在跳元模型中给定词<span class="math inline">\(w_i\)</span>,我们有</p>
+<p>用<span class="math inline">\(q_{ij}\)</span>表示词<span
+class="math inline">\(w_j\)</span>的条件概率<span
+class="math inline">\(P(w_j|w_i)\)</span>,在跳元模型中给定词<span
+class="math inline">\(w_i\)</span>,我们有</p>
 <p><span class="math display">\[
 q_{ij}=\frac{exp(\bm u^T_j\bm v_i)}{\sum_{k \in V}exp(\bm u^T_k\bm v_i)}
 \]</span></p>
-<p>记录<span class="math inline">\(w_i\)</span>在所有出现地方的上下文构成一个可重集合<span class="math inline">\(C_i\)</span>,其中元素j的数目记为<span class="math inline">\(x_{ij}\)</span>,损失函数定义为</p>
+<p>记录<span
+class="math inline">\(w_i\)</span>在所有出现地方的上下文构成一个可重集合<span
+class="math inline">\(C_i\)</span>,其中元素j的数目记为<span
+class="math inline">\(x_{ij}\)</span>,损失函数定义为</p>
 <p><span class="math display">\[
 -\sum_{i\in V}\sum_{j\in V}x_{ij}log\ q_{ij}
 \]</span></p>
-<p>用<span class="math inline">\(x_i\)</span>表示<span class="math inline">\(|C_i|\)</span>,用<span class="math inline">\(p_{ij}\)</span>表示概率<span class="math inline">\(x_{ij}/x_i\)</span>,则损失函数可以改写为</p>
+<p>用<span class="math inline">\(x_i\)</span>表示<span
+class="math inline">\(|C_i|\)</span>,用<span
+class="math inline">\(p_{ij}\)</span>表示概率<span
+class="math inline">\(x_{ij}/x_i\)</span>,则损失函数可以改写为</p>
 <p><span class="math display">\[
 -\sum_{i\in V}x_i\sum_{j\in V}p_{ij}log\ q_{ij}
 \]</span></p>
 <p>我们发现<span class="math inline">\(-\sum_{j\in V}p_{ij}log\
-q_{ij}\)</span>就是计算全局语料统计的条件分布<span class="math inline">\(p_{ij}\)</span>和模型预测的条件分布<span class="math inline">\(q_{ij}\)</span>的交叉熵。</p>
+q_{ij}\)</span>就是计算全局语料统计的条件分布<span
+class="math inline">\(p_{ij}\)</span>和模型预测的条件分布<span
+class="math inline">\(q_{ij}\)</span>的交叉熵。</p>
 <h2 id="glove模型">GloVe模型</h2>
 <p>考虑到计算成本的问题,以及大量罕见事件被损失建模,GloVe模型基于平方损失对模型进行了以下修改:</p>
 <ul>
-<li>使用变量<span class="math inline">\(p^{&#39;}_{ij}=x_ij\)</span>和<span class="math inline">\(q^{&#39;}_{ij}=exp(\bm u^T_{j}\bm
-v_i)\)</span>,并取两者对数,所以平方损失为<span class="math inline">\((log\ p^{&#39;}_{ij}-log\ q^{&#39;}_{ij})^2=(\bm
+<li>使用变量<span
+class="math inline">\(p^{&#39;}_{ij}=x_ij\)</span>和<span
+class="math inline">\(q^{&#39;}_{ij}=exp(\bm u^T_{j}\bm
+v_i)\)</span>,并取两者对数,所以平方损失为<span
+class="math inline">\((log\ p^{&#39;}_{ij}-log\ q^{&#39;}_{ij})^2=(\bm
 u^T_{j}\bm v_i-log\ x_{ij})^2\)</span>.</li>
-<li>为每个词<span class="math inline">\(w_i\)</span>添加中心词偏执<span class="math inline">\(b_i\)</span>和上下文词偏置<span class="math inline">\(c_i\)</span></li>
-<li>用权重函数<span class="math inline">\(h(x)\)</span>替代损失项权重,其中<span class="math inline">\(h(x)\)</span>在[0,1]的间隔内递增.</li>
+<li>为每个词<span class="math inline">\(w_i\)</span>添加中心词偏执<span
+class="math inline">\(b_i\)</span>和上下文词偏置<span
+class="math inline">\(c_i\)</span></li>
+<li>用权重函数<span
+class="math inline">\(h(x)\)</span>替代损失项权重,其中<span
+class="math inline">\(h(x)\)</span>在[0,1]的间隔内递增.</li>
 </ul>
 <p>最后总的损失函数为:</p>
 <p><span class="math display">\[
 \sum_{i\in V}\sum_{j\in V}h(x_{ij})(\bm u^T_{j}\bm v_i+b_i+c_j-log\
 x_{ij})^2
 \]</span></p>
-<p>由于对称性,有<span class="math inline">\(x_{ij}=x_{ji}\)</span>,而Word2Vec没有拟合对称性,GloVe拟合了对称性.因此,在GloVe模型中,词的上下文向量<span class="math inline">\(u_i\)</span>和中心词向量<span class="math inline">\(v_i\)</span>应该是相等的,但在实际应用中,由于训练过程的随机化导致两个向量有轻微不同,因此GloVe将两者相加作为输出向量.</p>
+<p>由于对称性,有<span
+class="math inline">\(x_{ij}=x_{ji}\)</span>,而Word2Vec没有拟合对称性,GloVe拟合了对称性.因此,在GloVe模型中,词的上下文向量<span
+class="math inline">\(u_i\)</span>和中心词向量<span
+class="math inline">\(v_i\)</span>应该是相等的,但在实际应用中,由于训练过程的随机化导致两个向量有轻微不同,因此GloVe将两者相加作为输出向量.</p>
 <blockquote>
 <p>参考资料1也提供了另一种理解GloVe模型的思路,和cs224n里面类似.</p>
 </blockquote>
 <h2 id="参考资料">参考资料</h2>
 <blockquote>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/glove.html">14.5.
+<li><a
+target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/glove.html">14.5.
 全局向量的词嵌入（GloVe） — 动手学深度学习 2.0.0 documentation
 (d2l.ai)</a></li>
 </ul>
