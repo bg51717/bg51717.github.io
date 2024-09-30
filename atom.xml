@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-09-24T11:40:26.457Z</updated>
+  <updated>2024-09-30T03:12:56.731Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>zsh+powerlevel10K优化终端使用体验</title>
+    <link href="https://bg51717.github.io/13107/"/>
+    <id>https://bg51717.github.io/13107/</id>
+    <published>2024-09-29T13:09:00.000Z</published>
+    <updated>2024-09-30T03:12:56.731Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="工具" scheme="https://bg51717.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="终端" scheme="https://bg51717.github.io/tags/%E7%BB%88%E7%AB%AF/"/>
+    
+    <category term="oh-my-zsh" scheme="https://bg51717.github.io/tags/oh-my-zsh/"/>
+    
+    <category term="powerlevel10k" scheme="https://bg51717.github.io/tags/powerlevel10k/"/>
+    
+  </entry>
   
   <entry>
     <title>Welcome to bg51717&#39;s Wiki and Blog</title>
@@ -529,35 +558,6 @@ H(x)=-&#92;sum</summary>
   </entry>
   
   <entry>
-    <title>论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</title>
-    <link href="https://bg51717.github.io/8948/"/>
-    <id>https://bg51717.github.io/8948/</id>
-    <published>2023-10-23T12:10:11.000Z</published>
-    <updated>2024-09-24T11:40:26.460Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;论文地址:&lt;a href=&quot;https://arxiv.org/abs/2310.11453&quot;&gt;BitNet: Scaling
-1-bit Transformers for Large Language</summary>
-        
-      
-    
-    
-    
-    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
-    
-    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
-    
-    
-    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
     <title>论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</title>
     <link href="https://bg51717.github.io/62023/"/>
     <id>https://bg51717.github.io/62023/</id>
@@ -587,36 +587,31 @@ Quantization Methods for Efficient Neural Network</summary>
   </entry>
   
   <entry>
-    <title>Hexo+Github搭建个人Wiki风格博客</title>
-    <link href="https://bg51717.github.io/13640/"/>
-    <id>https://bg51717.github.io/13640/</id>
-    <published>2023-10-18T08:12:44.000Z</published>
-    <updated>2024-09-24T11:40:26.457Z</updated>
+    <title>论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</title>
+    <link href="https://bg51717.github.io/8948/"/>
+    <id>https://bg51717.github.io/8948/</id>
+    <published>2023-10-23T12:10:11.000Z</published>
+    <updated>2024-09-24T11:40:26.460Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
-&lt;p&gt;以前一直不理解更新博客的用处，后来发现记录一些学到的东西和处理问题的经验对个人还是互联网都是有促进作用的(&lt;del&gt;希望不是在生产互联网垃圾&lt;/del&gt;)。&lt;/p&gt;
-&lt;p&gt;所以本文会介绍一下个人搭建这个博客的过程。&lt;/p&gt;
-&lt;h2</summary>
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;论文地址:&lt;a href=&quot;https://arxiv.org/abs/2310.11453&quot;&gt;BitNet: Scaling
+1-bit Transformers for Large Language</summary>
         
       
     
     
     
-    <category term="SmallProjects" scheme="https://bg51717.github.io/categories/SmallProjects/"/>
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
     
-    <category term="博客搭建" scheme="https://bg51717.github.io/categories/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
     
     
-    <category term="博客" scheme="https://bg51717.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
-    
-    <category term="Hexo" scheme="https://bg51717.github.io/tags/Hexo/"/>
-    
-    <category term="Wiki" scheme="https://bg51717.github.io/tags/Wiki/"/>
+    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
     
   </entry>
   
