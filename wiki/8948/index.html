@@ -19,7 +19,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://bg51717.github.io/wiki/8948/1698064373146.png">
 <meta property="article:published_time" content="2023-10-23T12:10:11.000Z">
-<meta property="article:modified_time" content="2024-09-24T11:40:26.460Z">
+<meta property="article:modified_time" content="2024-09-30T08:29:28.241Z">
 <meta property="article:author" content="bg51717">
 <meta property="article:tag" content="量化">
 <meta name="twitter:card" content="summary">
@@ -462,10 +462,7 @@
 <h2 id="摘要">摘要</h2>
 <p>这篇论文展示了BitNet,一种为大型语言模型设计的可扩展和稳定的1-bit转换器架构。具体地说，引入了BitLinear作为nn.Linar的插入替代,以便从头开始训练1-bit的权重。在语言建模上的实验结果表明，与最先进的8-bit量化方法和FP16
 Transformer相比，BitNet在显著降低内存占用和能量消耗的同时，实现了强力的性能。此外，BitNet还展示了一种类似于全精度Transformers的缩放律，这表明它可以在保持效率和性能效益的同时有效地扩展到更大的语言模型。</p>
-<figure>
-<img src="/wiki/8948/1698064373146.png" alt="1698064373146">
-<figcaption aria-hidden="true">1698064373146</figcaption>
-</figure>
+<p><img src="/wiki/8948/1698064373146.png"></p>
 <p>图1： BitNet从头开始训练1-bit
 Transformers，以一种高效的方式获得竞争结果。BitNet明显优于最先进的量化方法。随着模型规模的扩大，成本节约变得更加显著，同时实现与FP16训练的模型的竞争性能。</p>
 <h2 id="介绍">介绍</h2>

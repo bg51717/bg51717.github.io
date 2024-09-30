@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://bg51717.github.io/wiki/13107/1727664718688.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/13107/1727665397412.png">
 <meta property="article:published_time" content="2024-09-29T13:09:00.000Z">
-<meta property="article:modified_time" content="2024-09-30T03:13:40.541Z">
+<meta property="article:modified_time" content="2024-09-30T08:29:28.211Z">
 <meta property="article:author" content="bg51717">
 <meta property="article:tag" content="终端">
 <meta property="article:tag" content="oh-my-zsh">
@@ -454,7 +454,7 @@
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
                     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zsh"><span class="toc-number">2.</span> <span class="toc-text">ZSH</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zsh%E8%AE%BE%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">ZSH设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90"><span class="toc-number">2.3.</span> <span class="toc-text">插件推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sh-completions"><span class="toc-number">2.3.1.</span> <span class="toc-text">sh-completions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-autosuggestions"><span class="toc-number">2.3.2.</span> <span class="toc-text">zsh-autosuggestions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#incremental-completion-on-zsh"><span class="toc-number">2.3.3.</span> <span class="toc-text">Incremental
-completion on zsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-syntax-highlighting"><span class="toc-number">2.3.4.</span> <span class="toc-text">zsh-syntax-highlighting</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#powerlevel10k"><span class="toc-number">3.</span> <span class="toc-text">powerlevel10K</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">3.1.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E4%BD%93"><span class="toc-number">3.1.1.</span> <span class="toc-text">字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-number">3.1.2.</span> <span class="toc-text">主题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+completion on zsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-syntax-highlighting"><span class="toc-number">2.3.4.</span> <span class="toc-text">zsh-syntax-highlighting</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#powerlevel10k"><span class="toc-number">3.</span> <span class="toc-text">powerlevel10K</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">3.1.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E4%BD%93"><span class="toc-number">3.1.1.</span> <span class="toc-text">字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-number">3.1.2.</span> <span class="toc-text">主题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
                 </div>
             
         
@@ -472,25 +472,35 @@ shell）类似Bash，是被广泛用于类Unix系统的命令行解释器。在�
 <p>Ubuntu：</p>
 <ul>
 <li><p>安装zsh</p>
-<p></p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zsh</span><br></pre></td></tr></tbody></table></figure><p></p></li>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zsh</span><br></pre></td></tr></tbody></table></figure></li>
 <li><p>设置为默认shell</p>
-<p></p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chsh -s /bin/zsh</span><br><span class="line"><span class="comment"># 为其他用户设置：sudo chsh -s /bin/zsh &lt;username&gt;</span></span><br></pre></td></tr></tbody></table></figure><p></p></li>
-<li><p>安装git </p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br></pre></td></tr></tbody></table></figure><p></p></li>
-<li><p>安装oh-my-zsh 手动安装: </p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh</span><br><span class="line"><span class="built_in">cp</span> ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></tbody></table></figure><p></p>
-<p>或 自动安装: </p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="subst">$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></tbody></table></figure><p></p></li>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chsh -s /bin/zsh</span><br><span class="line"><span class="comment"># 为其他用户设置：sudo chsh -s /bin/zsh &lt;username&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>安装git</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>安装oh-my-zsh 手动安装:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh</span><br><span class="line"><span class="built_in">cp</span> ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
+<p>或 自动安装:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="subst">$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></tbody></table></figure></li>
 </ul>
 <h2 id="zsh设置">ZSH设置</h2>
-<p>通过修改配置文件<code>~/.zshrc</code>可以修改终端设置。
-经常使用的设置应该有： * ZSH_THEME：ZSH主题。 * plugins：ZSH插件。</p>
-<p>同时一些希望终端启动时运行的命令也可以放在该文件里，比如conda的启动。
-&gt;
-也就是终端加载的时候会运行的命令，也可以<code>source ~/.zshrc</code>更新配置文件对终端的设置</p>
+<p>通过修改配置文件 <code>~/.zshrc</code>可以修改终端设置。
+经常使用的设置应该有：</p>
+<ul>
+<li>ZSH_THEME：ZSH主题。</li>
+<li>plugins：ZSH插件。</li>
+</ul>
+<p>同时一些希望终端启动时运行的命令也可以放在该文件里，比如conda的启动。</p>
+<blockquote>
+<p>也就是终端加载的时候会运行的命令，也可以
+<code>source ~/.zshrc</code>更新配置文件对终端的设置</p>
+</blockquote>
 <h2 id="插件推荐">插件推荐</h2>
 <h3 id="sh-completions"><a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-completions">sh-completions</a></h3>
 <p>这个插件提供了基础的补全功能。目前似乎已经被集成到ZSH项目中。</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/zsh-users/zsh-completions <span class="variable">${ZSH_CUSTOM:-<span class="variable">${ZSH:-~/.oh-my-zsh}</span>/custom}</span>/plugins/zsh-completions</span><br></pre></td></tr></tbody></table></figure>
 <h3 id="zsh-autosuggestions"><a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a></h3>
-<p>这个插件可以提供自动补全的功能，比如输入<code>git</code>，自动补全为<code>git status</code>。</p>
+<p>这个插件可以提供自动补全的功能，比如输入 <code>git</code>，自动补全为
+<code>git status</code>。</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git <span class="variable">${ZSH_CUSTOM:-<span class="variable">${ZSH:-~/.oh-my-zsh}</span>/custom}</span>/plugins/zsh-autosuggestions</span><br></pre></td></tr></tbody></table></figure>
 <h3 id="incremental-completion-on-zsh"><a target="_blank" rel="noopener" href="https://mimosa-pudica.net/zsh-incremental.html">Incremental
 completion on zsh</a></h3>
@@ -499,25 +509,36 @@ completion on zsh</a></h3>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">${ZSH_CUSTOM:-~/.oh-my-zsh/custom}</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="powerlevel10k">powerlevel10K</h1>
 <p>目前配置的终端可以显示当前的虚拟环境、路径、git情况，以及上个命令的执行时间等。基本需要都被涵盖。这写额外的功能和美化得归功于ZSH主题——<strong>powerlevel10K</strong>。具体效果图如下所示：
-<img src="/wiki/13107/1727664718688.png" alt="1727664718688"></p>
+<img src="/wiki/13107/1727664718688.png"></p>
 <h2 id="安装-1">安装</h2>
 <h3 id="字体">字体</h3>
-<p>由于会显示一些额外的符号，所以需要安装新的字体。 &gt;
-字体需要在显示终端的设备上安装。比如如果系统在本地，那么在本地安装。如果连接的远程，那么需要在远程上安装ZSH和主题，在本地安装字体。原理不难理解。</p>
+<p>由于会显示一些额外的符号，所以需要安装新的字体。</p>
+<blockquote>
+<p>字体需要在显示终端的设备上安装。比如如果系统在本地，那么在本地安装。如果连接的远程，那么需要在远程上安装ZSH和主题，在本地安装字体。原理不难理解。</p>
+</blockquote>
 <p>字体链接：<a target="_blank" rel="noopener" href="https://github.com/ryanoasis/nerd-fonts#font-installation">NerFont</a>
 字体链接里有完整的安装教程，可以根据自己的平台进行安装。如果是克隆源码安装的时候注意设置depth，建议从该仓库的releases里选择字体进行安装。
-根据平台情况安装然后后设置字体显示即可，一般需要在终端或者编辑器里设置字体选项。考虑到种类较多且教程丰富简单，此处不罗列详细步骤。
-&gt; Tips：如果设置的是Vscode平台，需要设置整体的字体： Editor:Font
-Family，单独设置终端字体好像无法正常工作。 &gt; <img src="/wiki/13107/1727665397412.png" alt="1727665397412"></p>
+根据平台情况安装然后后设置字体显示即可，一般需要在终端或者编辑器里设置字体选项。考虑到种类较多且教程丰富简单，此处不罗列详细步骤。</p>
+<blockquote>
+<p>Tips：如果设置的是Vscode平台，需要设置整体的字体： Editor:Font
+Family，单独设置终端字体好像无法正常工作。 <img src="/wiki/13107/1727665397412.png"></p>
+</blockquote>
 <h3 id="主题">主题</h3>
-<p>使用命令安装到<code>~/.oh-my-zsh</code>目录下： </p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/romkatv/powerlevel10k.git <span class="variable">${ZSH_CUSTOM:-<span class="variable">$HOME</span>/.oh-my-zsh/custom}</span>/themes/powerlevel10k</span><br></pre></td></tr></tbody></table></figure>
-在<code>~/.zshrc</code>下启动主题： <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSH_THEME="powerlevel10k/powerlevel10k"</span><br></pre></td></tr></tbody></table></figure> ## 配置
-重启终端或者<code>source ~/.zshrc</code>切换主题，之后会进入配置界面。（配置完成后也可以使用<code>p10k configure</code>重新进入配置向导）
-配置向导就是一些问题来判断你的字体情况和个人偏好，然后写入配置文件<code>~/.p10k.sh</code>中。
-配置向导的详细介绍可以参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7293342627814244367">我的终端环境：与众不同的
+<p>使用命令安装到 <code>~/.oh-my-zsh</code>目录下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/romkatv/powerlevel10k.git <span class="variable">${ZSH_CUSTOM:-<span class="variable">$HOME</span>/.oh-my-zsh/custom}</span>/themes/powerlevel10k</span><br></pre></td></tr></tbody></table></figure>
+<p>在 <code>~/.zshrc</code>下启动主题：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSH_THEME="powerlevel10k/powerlevel10k"</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="配置">配置</h2>
+<p>重启终端或者
+<code>source ~/.zshrc</code>切换主题，之后会进入配置界面。（配置完成后也可以使用
+<code>p10k configure</code>重新进入配置向导）
+配置向导就是一些问题来判断你的字体情况和个人偏好，然后写入配置文件
+<code>~/.p10k.sh</code>中。 配置向导的详细介绍可以参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7293342627814244367">我的终端环境：与众不同的
 zsh 主题 - powerlevel10k本文介绍 zsh 主题 powerlevel10k - 掘金</a>
-在配置向导完成后，如果需要一些额外的配置。可以修改配置文件<code>~/.p10k.sh</code>。
-比如，通过修改<code>POWERLEVEL9K_LEFT_PROMPT_ELEMENTS</code>和<code>POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS</code>可以修改两侧显示的元素以及顺序等。<p></p>
+在配置向导完成后，如果需要一些额外的配置。可以修改配置文件
+<code>~/.p10k.sh</code>。 比如，通过修改
+<code>POWERLEVEL9K_LEFT_PROMPT_ELEMENTS</code>和
+<code>POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS</code>可以修改两侧显示的元素以及顺序等。</p>
 <h1 id="参考资料">参考资料</h1>
 <blockquote>
 <ul>
@@ -526,6 +547,7 @@ zsh 主题 - powerlevel10k本文介绍 zsh 主题 powerlevel10k - 掘金</a>
 软件与技术分享</a></li>
 <li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7293342627814244367">我的终端环境：与众不同的
 zsh 主题 - powerlevel10k本文介绍 zsh 主题 powerlevel10k - 掘金</a></li>
+<li>杰哥</li>
 </ul>
 </blockquote>
 

@@ -442,21 +442,21 @@ Dependenc">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2024-09-24
+                    2024-09-30
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    541
+                    537
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -488,20 +488,11 @@ Parsing分析会得到不同语义树,进而得到不同的语句意思.</p>
 <p>总的可能的语义数目极限情况下大概是随着字符串的提示可能是指数级增加,所以有一些方法来解决这些问题.</p>
 <h2 id="dependency-structure">Dependency Structure</h2>
 <p>通过一个单向边指明依赖关系(同时这个边也会指明依赖关系的种类),进而组成一个树状结构,通常会添加一个虚拟的"ROOT"节点作为根节点</p>
-<figure>
-<img src="/26708/1703687822509.png" alt="1703687822509">
-<figcaption aria-hidden="true">1703687822509</figcaption>
-</figure>
-<figure>
-<img src="/26708/1703687931983.png" alt="1703687931983">
-<figcaption aria-hidden="true">1703687931983</figcaption>
-</figure>
+<p><img src="/26708/1703687822509.png"></p>
+<p><img src="/26708/1703687931983.png"></p>
 <h2 id="greedy-transition-based-parsing">Greedy transition-based
 parsing</h2>
-<figure>
-<img src="/26708/1703688065130.png" alt="1703688065130">
-<figcaption aria-hidden="true">1703688065130</figcaption>
-</figure>
+<p><img src="/26708/1703688065130.png"></p>
 <p>初始状态:<span class="math inline">\(\sigma=[ROOT],\beta=w_1,...,w_n,A=\empty\)</span></p>
 <p>三种操作:</p>
 <ul>
@@ -517,10 +508,7 @@ parsing</h2>
 <li>LAS:在UAS基础上,还要求边的属性得准确</li>
 </ul>
 <p>示例:</p>
-<figure>
-<img src="/26708/1703689446845.png" alt="1703689446845">
-<figcaption aria-hidden="true">1703689446845</figcaption>
-</figure>
+<p><img src="/26708/1703689446845.png"></p>
 <p>参考资料</p>
 <blockquote>
 <ul>
