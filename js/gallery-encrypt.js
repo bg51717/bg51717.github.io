@@ -77,6 +77,35 @@ function decryptAES(password) {
 
     }
 
+      // Call KaTeX to render
+    try {
+      if (typeof renderMathInElement !== 'undefined') {
+
+          try {
+              renderMathInElement(document.body, {
+                  delimiters: [
+                      {left: "$$", right: "$$", display: true},
+                      {left: "$", right: "$", display: false},
+                      {left: "\\(", right: "\\)", display: false},
+                      {left: "\\[", right: "\\]", display: true}
+                  ]
+              });
+
+          } catch (e) {
+              console.log('Can\'t render with KaTeX');
+          }
+
+      } else {
+          console.log('KaTeX is not available.');
+      }
+
+    } catch (e) {
+      alert('There was an error during rendering the math equations.');
+      console.log(e);
+      return false;
+    }
+
+
   } catch (e) {
 
     alert(decryptionError);
