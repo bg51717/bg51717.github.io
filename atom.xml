@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-09-30T08:29:28.211Z</updated>
+  <updated>2024-10-03T11:39:59.060Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -17,11 +17,72 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>hexo博客2:双主题</title>
+    <link href="https://bg51717.github.io/31680/"/>
+    <id>https://bg51717.github.io/31680/</id>
+    <published>2024-10-03T10:55:45.000Z</published>
+    <updated>2024-10-03T11:39:59.060Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;后来发现单纯的wiki风格博客可能确实有些单调了（&lt;del&gt;绝对不是因为我想弄二次元风格的&lt;/del&gt;），因此在考虑以后，决定搭建一个双主题的博客，外层是个华丽一点的主题&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="SmallProjects" scheme="https://bg51717.github.io/categories/SmallProjects/"/>
+    
+    <category term="博客搭建" scheme="https://bg51717.github.io/categories/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    
+    
+    <category term="博客" scheme="https://bg51717.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
+    
+    <category term="Hexo" scheme="https://bg51717.github.io/tags/Hexo/"/>
+    
+    <category term="Wiki" scheme="https://bg51717.github.io/tags/Wiki/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用dotbot快速同步Linux配置</title>
+    <link href="https://bg51717.github.io/13162/"/>
+    <id>https://bg51717.github.io/13162/</id>
+    <published>2024-10-03T07:37:15.000Z</published>
+    <updated>2024-10-03T11:35:06.769Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="工具" scheme="https://bg51717.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="dotfiles" scheme="https://bg51717.github.io/tags/dotfiles/"/>
+    
+    <category term="dotbot" scheme="https://bg51717.github.io/tags/dotbot/"/>
+    
+    <category term="Linux" scheme="https://bg51717.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>zsh+powerlevel10K优化终端使用体验</title>
     <link href="https://bg51717.github.io/13107/"/>
     <id>https://bg51717.github.io/13107/</id>
     <published>2024-09-29T13:09:00.000Z</published>
-    <updated>2024-09-30T08:29:28.211Z</updated>
+    <updated>2024-10-03T09:13:01.860Z</updated>
     
     
       
@@ -554,64 +615,6 @@ H(x)=-&#92;sum</summary>
     <category term="工具" scheme="https://bg51717.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
     
     <category term="文献管理" scheme="https://bg51717.github.io/tags/%E6%96%87%E7%8C%AE%E7%AE%A1%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</title>
-    <link href="https://bg51717.github.io/62023/"/>
-    <id>https://bg51717.github.io/62023/</id>
-    <published>2023-10-23T12:10:11.000Z</published>
-    <updated>2024-09-30T08:29:28.240Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;论文地址:&lt;a href=&quot;https://arxiv.org/abs/2103.13630&quot;&gt;A Survey of
-Quantization Methods for Efficient Neural Network</summary>
-        
-      
-    
-    
-    
-    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
-    
-    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
-    
-    
-    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</title>
-    <link href="https://bg51717.github.io/8948/"/>
-    <id>https://bg51717.github.io/8948/</id>
-    <published>2023-10-23T12:10:11.000Z</published>
-    <updated>2024-09-30T08:29:28.241Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;论文地址:&lt;a href=&quot;https://arxiv.org/abs/2310.11453&quot;&gt;BitNet: Scaling
-1-bit Transformers for Large Language</summary>
-        
-      
-    
-    
-    
-    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
-    
-    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
-    
-    
-    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
     
   </entry>
   
