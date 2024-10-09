@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-10-03T11:39:59.060Z</updated>
+  <updated>2024-10-09T05:54:33.515Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -15,6 +15,43 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pytorch分布式-ddp</title>
+    <link href="https://bg51717.github.io/45014/"/>
+    <id>https://bg51717.github.io/45014/</id>
+    <published>2024-10-09T05:30:13.000Z</published>
+    <updated>2024-10-09T05:54:33.515Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/categories/%E6%A8%A1%E6%9D%BF/"/>
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/tags/%E6%A8%A1%E6%9D%BF/"/>
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="PyTorch" scheme="https://bg51717.github.io/tags/PyTorch/"/>
+    
+    <category term="分布式" scheme="https://bg51717.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    <category term="ddq" scheme="https://bg51717.github.io/tags/ddq/"/>
+    
+    <category term="数据并行" scheme="https://bg51717.github.io/tags/%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%A1%8C/"/>
+    
+    <category term="Data Parallel" scheme="https://bg51717.github.io/tags/Data-Parallel/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo博客2:双主题</title>
@@ -371,9 +408,9 @@ H(x)=-&#92;sum</summary>
     
     <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
-    
     <category term="信息学" scheme="https://bg51717.github.io/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6/"/>
+    
+    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
     
   </entry>
   
@@ -496,11 +533,11 @@ H(x)=-&#92;sum</summary>
     
     <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
+    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
+    
     <category term="矩阵" scheme="https://bg51717.github.io/tags/%E7%9F%A9%E9%98%B5/"/>
     
     <category term="向量" scheme="https://bg51717.github.io/tags/%E5%90%91%E9%87%8F/"/>
-    
-    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
     
   </entry>
   
@@ -587,34 +624,6 @@ H(x)=-&#92;sum</summary>
     
     <category term="课程资源" scheme="https://bg51717.github.io/categories/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%BA%90/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>文献管理工具zotero</title>
-    <link href="https://bg51717.github.io/43151/"/>
-    <id>https://bg51717.github.io/43151/</id>
-    <published>2023-11-22T02:12:21.000Z</published>
-    <updated>2024-09-24T11:40:26.457Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;这里推荐一个文献管理工具,&lt;strong&gt;zotero&lt;/strong&gt;,很好用的文献管理工具，也能很好的辅助写论文，获取文献，免费开源且支持插件,可以参考这个b站up的视频搭建和使用这个工具。&lt;/p&gt;
-&lt;iframe</summary>
-        
-      
-    
-    
-    
-    <category term="工具" scheme="https://bg51717.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-    
-    <category term="工具" scheme="https://bg51717.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-    <category term="文献管理" scheme="https://bg51717.github.io/tags/%E6%96%87%E7%8C%AE%E7%AE%A1%E7%90%86/"/>
     
   </entry>
   
