@@ -10,21 +10,23 @@
         <meta name="keywords" content="深度学习,数学,矩阵,向量" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置（和分子行数一样）和分母转置（和分母行数一样）两种，两种结果互为转置。本篇介绍的不太一样，因为很多教程也是混杂的（太难蚌了）。  符号 标量：\(x\) 向量：\(\mathbf{x}\) （） 矩阵：\(X\) 逐点乘积：\(\odot\)（） 矩阵微分规律 矩阵里的">
+    <meta name="description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置（和分子行数一样）和分母转置（和分母行数一样）两种，两种结果互为转置。本篇介绍的不太一样，因为很多教程也是混杂的（太难蚌了）。  符号 标量：\(x\) 向量：\(\mathbf{x}\) （） 矩阵：\(X\) 逐点乘积：\(\odot\)（） 矩阵的迹：\(tr(X">
 <meta property="og:type" content="article">
 <meta property="og:title" content="矩阵偏分">
 <meta property="og:url" content="https://bg51717.github.io/wiki/45525/">
 <meta property="og:site_name" content="Blogs">
-<meta property="og:description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置（和分子行数一样）和分母转置（和分母行数一样）两种，两种结果互为转置。本篇介绍的不太一样，因为很多教程也是混杂的（太难蚌了）。  符号 标量：\(x\) 向量：\(\mathbf{x}\) （） 矩阵：\(X\) 逐点乘积：\(\odot\)（） 矩阵微分规律 矩阵里的">
+<meta property="og:description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置（和分子行数一样）和分母转置（和分母行数一样）两种，两种结果互为转置。本篇介绍的不太一样，因为很多教程也是混杂的（太难蚌了）。  符号 标量：\(x\) 向量：\(\mathbf{x}\) （） 矩阵：\(X\) 逐点乘积：\(\odot\)（） 矩阵的迹：\(tr(X">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/45525/1729755284537.png">
 <meta property="article:published_time" content="2023-12-24T07:18:43.000Z">
-<meta property="article:modified_time" content="2024-10-07T13:39:11.756Z">
+<meta property="article:modified_time" content="2024-10-24T14:58:00.136Z">
 <meta property="article:author" content="bg51717">
 <meta property="article:tag" content="深度学习">
 <meta property="article:tag" content="数学">
 <meta property="article:tag" content="矩阵">
 <meta property="article:tag" content="向量">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/45525/1729755284537.png">
     
 
     
@@ -252,7 +254,7 @@
                             &nbsp;
                             前置数学
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
                     </li> 
                     
                     <li class="directory">
@@ -297,7 +299,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -465,8 +467,21 @@
 <p>向量：<span class="math inline">\(\mathbf{x}\)</span> （）</p>
 <p>矩阵：<span class="math inline">\(X\)</span></p>
 <p>逐点乘积：<span class="math inline">\(\odot\)</span>（）</p>
+<p>矩阵的迹：<span class="math inline">\(tr(X)\)</span></p>
+<p>加入有两个矩阵<span class="math inline">\(A_{m\times n},B_{m\times
+n}\)</span>，其中一个转置乘以另一个得到矩阵<span class="math inline">\(C\)</span>，该矩阵的迹为两个矩阵<strong>对应位置的元素相乘并相加</strong>
+，可以理解为<strong>向量的点积</strong>在矩阵上的推广，即：</p>
+<p><span class="math display">\[
+\begin{align*}
+\text{tr}\left( AB^T \right) &amp;= a_{11}b_{11} + a_{12}b_{12} + \cdots
++ a_{1n}b_{1n} \\
+&amp;+ a_{21}b_{21} + a_{22}b_{22} + \cdots + a_{2n}b_{2n} \\
+&amp;+ \cdots \\
+&amp;+ a_{m1}b_{m1} + a_{m2}b_{m2} + \cdots + a_{mn}b_{mn} \\
+\end{align*}
+\]</span></p>
 <h2 id="矩阵微分规律">矩阵微分规律</h2>
-<p>矩阵里的微分：</p>
+<p>梯度矩阵里的微分：</p>
 <p>假设<span class="math inline">\(A\)</span>矩阵维度列表为<span class="math inline">\([a_1,a_2,...,a_n]\)</span></p>
 <p>假设<span class="math inline">\(B\)</span>矩阵维度列表为<span class="math inline">\([b_1,b_2,...,b_{m}]\)</span></p>
 <p><span class="math inline">\(A\)</span>矩阵对<span class="math inline">\(B\)</span>矩阵求偏导的结果<span class="math inline">\(C\)</span>,维度上相当于<span class="math inline">\(A\)</span>矩阵维度列表和<span class="math inline">\(B\)</span>矩阵维度列表连接起来</p>
@@ -488,8 +503,14 @@ x_n}]^\top
 \partial f = (\frac{\partial f}{\partial \mathbf{x}})^\top \partial
 \mathbf{x}
 \]</span></p>
-<p><strong>对于向量来说，在左边乘以其梯度的转置就可以对应得到目标的微分。</strong></p>
+<p><strong>对于标量对向量到梯度来说，在左边乘以其梯度的转置就可以对应得到目标的微分。</strong></p>
 <p><strong>对于矩阵来说，逐点乘积<span class="math inline">\(\odot\)</span>然后对应位置求和应该是更广泛的规律。但向量是特殊的，逐点乘积求和和转置相乘的结果是一样的。</strong></p>
+<blockquote>
+<p>对于函数值为标量，变量为二维矩阵的情况，函数值的微分是梯度矩阵和变量矩阵的转置乘积的迹。</p>
+<p><span class="math display">\[
+df(X)=tr((\frac{df(X)}{dX})^\top \cdot X)
+\]</span></p>
+</blockquote>
 <h2 id="雅可比矩阵">雅可比矩阵</h2>
 <p>雅可比矩阵指的是向量对于向量的微分，假如我们有：</p>
 <p><span class="math display">\[
@@ -590,8 +611,10 @@ q})^\top (\frac{\partial q}{\partial x})^\top \partial x \\
 <p>这个推导前置条件只有：<strong>向量左乘其梯度的转置就可以对应得到目标的微分。</strong></p>
 <p>别的布局的推导方式也类似。</p>
 </blockquote>
+<p>在数学公式的推导中，链式法则的记忆要点为：能乘维数对就对（可能维度信息其实就包含了部分信息）。</p>
+<p><img src="/wiki/45525/1729755284537.png"></p>
 <h2 id="行向量偏导形式">行向量偏导形式</h2>
-<p>有一种操作把矩阵变成按列堆栈向量化<span class="math inline">\(vec\)</span>，然后进行处理：</p>
+<p>有一种操作把矩阵变成按列堆栈向量化<span class="math inline">\(vec\)</span>，然后进行处理，就可以利用部分在低维中的规律进行计算：</p>
 <p><span class="math display">\[
 vec(X)=[x_{11},x_{21},..,x_{12},x_{22},...,x_{1n},x_{2n},...,x_{nm}]^T
 \]</span></p>
@@ -620,10 +643,15 @@ X}=\frac{\partial l}{\partial Y}A^T
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/263777564">矩阵求导的本质与分子布局、分母布局的本质（矩阵求导——本质篇）
 - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/273729929">矩阵求导公式的数学推导（矩阵求导——基础篇）
+- 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/288541909">矩阵求导公式的数学推导（矩阵求导——进阶篇）
+- 知乎 (zhihu.com)</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yifanrensheng/p/12639539.html#_label0">【ML-0-3】矩阵求导-链式法则
 - 忆凡人生 - 博客园 (cnblogs.com)</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/keeppractice/article/details/107231685">[机器学习-数学]
 矩阵求导(分母布局与分子布局)，以及常用的矩阵求导公式</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/nyist_yangguang/article/details/110917076">矩阵论——导数与梯度_矩阵的梯度-CSDN博客</a></li>
 </ul>
 </blockquote>
 

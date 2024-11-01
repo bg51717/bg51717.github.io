@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-10-09T05:54:33.515Z</updated>
+  <updated>2024-10-24T15:33:16.625Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -17,11 +17,101 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>拉格朗日乘数法解条件极值</title>
+    <link href="https://bg51717.github.io/49444/"/>
+    <id>https://bg51717.github.io/49444/</id>
+    <published>2024-10-24T09:10:04.000Z</published>
+    <updated>2024-10-24T15:33:16.625Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;求解最优化是一类十分常见且难以求解的问题，因此，考虑开一个博客系统性的介绍一下重要解法：拉格朗日乘数法（Lagrange
+Multiplier</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="前置数学" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/"/>
+    
+    
+    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</title>
+    <link href="https://bg51717.github.io/31769/"/>
+    <id>https://bg51717.github.io/31769/</id>
+    <published>2024-10-24T08:12:19.000Z</published>
+    <updated>2024-10-26T14:34:06.816Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
+    
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>llm.int8</title>
+    <link href="https://bg51717.github.io/21264/"/>
+    <id>https://bg51717.github.io/21264/</id>
+    <published>2024-10-24T07:39:30.000Z</published>
+    <updated>2024-10-24T14:58:03.579Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;todo：本文还在施工中.......&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
+    
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>pytorch分布式-ddp</title>
     <link href="https://bg51717.github.io/45014/"/>
     <id>https://bg51717.github.io/45014/</id>
     <published>2024-10-09T05:30:13.000Z</published>
-    <updated>2024-10-09T05:54:33.515Z</updated>
+    <updated>2024-10-09T06:39:58.063Z</updated>
     
     
       
@@ -511,7 +601,7 @@ H(x)=-&#92;sum</summary>
     <link href="https://bg51717.github.io/45525/"/>
     <id>https://bg51717.github.io/45525/</id>
     <published>2023-12-24T07:18:43.000Z</published>
-    <updated>2024-10-07T13:39:11.756Z</updated>
+    <updated>2024-10-24T14:58:00.136Z</updated>
     
     
       
@@ -538,92 +628,6 @@ H(x)=-&#92;sum</summary>
     <category term="矩阵" scheme="https://bg51717.github.io/tags/%E7%9F%A9%E9%98%B5/"/>
     
     <category term="向量" scheme="https://bg51717.github.io/tags/%E5%90%91%E9%87%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GloVe</title>
-    <link href="https://bg51717.github.io/51558/"/>
-    <id>https://bg51717.github.io/51558/</id>
-    <published>2023-12-22T08:36:28.000Z</published>
-    <updated>2024-09-24T11:40:26.460Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
-&lt;p&gt;相比Word2Vec的局部训练,GloVe可以使用全局的语料统计信息来训练,可以预先计算全局语料库统计数据来提高训练数据.&lt;/p&gt;
-&lt;h2 id=&quot;带全局语料统计的跳元模型&quot;&gt;带全局语料统计的跳元模型&lt;/h2&gt;
-&lt;p&gt;用&lt;span</summary>
-        
-      
-    
-    
-    
-    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="自然语言处理" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
-    
-    
-    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="自然语言处理" scheme="https://bg51717.github.io/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Word2Vec</title>
-    <link href="https://bg51717.github.io/5925/"/>
-    <id>https://bg51717.github.io/5925/</id>
-    <published>2023-12-21T08:53:05.000Z</published>
-    <updated>2024-10-02T04:01:40.337Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
-&lt;p&gt;传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量&lt;/p&gt;
-&lt;p&gt;Word2Vec是一种Distributed</summary>
-        
-      
-    
-    
-    
-    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="自然语言处理" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
-    
-    
-    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="自然语言处理" scheme="https://bg51717.github.io/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>readme</title>
-    <link href="https://bg51717.github.io/17140/"/>
-    <id>https://bg51717.github.io/17140/</id>
-    <published>2023-12-08T15:46:44.000Z</published>
-    <updated>2024-09-24T11:40:26.460Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="课程资源" scheme="https://bg51717.github.io/categories/%E8%AF%BE%E7%A8%8B%E8%B5%84%E6%BA%90/"/>
-    
     
   </entry>
   
