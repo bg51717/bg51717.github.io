@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://bg51717.github.io/wiki/14592/1730013299656.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/14592/1730013388948.png">
 <meta property="article:published_time" content="2024-10-27T05:35:56.000Z">
-<meta property="article:modified_time" content="2024-11-02T05:32:24.140Z">
+<meta property="article:modified_time" content="2024-11-02T06:12:26.130Z">
 <meta property="article:author" content="bg51717">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://bg51717.github.io/wiki/14592/1730525025940.png">
@@ -307,7 +307,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file active"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file active"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -478,8 +478,9 @@ Acceleration</a>提出的一种针对权重的训练后量化方法。该方法�
 <p><img src="/wiki/14592/1730010346827.png"></p>
 <h2 id="方法">方法</h2>
 <p>根据发现，只需要根据激活选择少部分权重保持为高精度即可实现优秀的量化算法，但是混合精度是硬件不友好的操作。因此，作者选择别的方法来保护这些权重：<strong>通过激活感知缩放来保护显着权重</strong>。</p>
-<p>考虑权重 <span class="math inline">\(\mathbf{w}\)</span>，线性层操作可以记为$ y = <span class="math inline">\(, 对应的量化操作（包含反量化）为\)</span>y = Q()
-<span class="math inline">\(，\)</span>N<span class="math inline">\(是量化的比特数，\)</span>$是缩放因子，量化函数为:</p>
+<p>考虑权重 <span class="math inline">\(\mathbf{w}\)</span>，线性层操作可以记为<span class="math inline">\(y = \mathbf{w} \mathbf{x}\)</span>,
+对应的量化操作（包含反量化）为<span class="math inline">\(y =
+Q(\mathbf{w}) \mathbf{x}\)</span>，<span class="math inline">\(N\)</span>是量化的比特数，<span class="math inline">\(\Delta\)</span>是缩放因子，量化函数为:</p>
 <p><span class="math display">\[
 Q(\mathbf{w}) = \Delta \cdot
 \text{Round}\left(\frac{\mathbf{w}}{\Delta}\right), \quad \Delta =
