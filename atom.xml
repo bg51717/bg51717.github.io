@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Blogs</title>
+  
+  <subtitle>Welcome to bg51717&#39;s Wiki and Blog</subtitle>
+  <link href="https://bg51717.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://bg51717.github.io/"/>
+  <updated>2024-11-02T02:55:49.874Z</updated>
+  <id>https://bg51717.github.io/</id>
+  
+  <author>
+    <name>bg51717</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Welcome to bg51717&#39;s Wiki and Blog</title>
+    <link href="https://bg51717.github.io/14261/"/>
+    <id>https://bg51717.github.io/14261/</id>
+    <published>2024-11-02T02:55:49.874Z</published>
+    <updated>2024-11-02T02:55:49.874Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;这是bg51717的个人Wiki和Blog站点，主要是把知识系统的罗列出来以及存放一些特殊bug的处理，当然也会更一些游戏或者二次元相关东西，也希望在成长的过程中可以认识许多志同道合的人。&lt;/p&gt;
+&lt;p&gt;本人一直认为互联网的开源是社会发展的重要原因之一，因为开源使得技术知识</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</title>
+    <link href="https://bg51717.github.io/14592/"/>
+    <id>https://bg51717.github.io/14592/</id>
+    <published>2024-10-27T05:35:56.000Z</published>
+    <updated>2024-11-02T05:32:24.140Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;本篇博客介绍论文&lt;a href=&quot;https://arxiv.org/abs/2306.00978&quot;&gt;[2306.00978] AWQ:
+Activation-aware Weight Quantization for LLM</summary>
+        
+      
+    
+    
+    
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
+    
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>拉格朗日乘数法解条件极值</title>
+    <link href="https://bg51717.github.io/49444/"/>
+    <id>https://bg51717.github.io/49444/</id>
+    <published>2024-10-24T09:10:04.000Z</published>
+    <updated>2024-11-02T02:55:49.880Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;求解最优化是一类十分常见且难以求解的问题，因此，考虑开一个博客系统性的介绍一下重要解法：拉格朗日乘数法（Lagrange
+Multiplier</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="前置数学" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/"/>
+    
+    
+    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</title>
+    <link href="https://bg51717.github.io/31769/"/>
+    <id>https://bg51717.github.io/31769/</id>
+    <published>2024-10-24T08:12:19.000Z</published>
+    <updated>2024-11-02T02:57:00.290Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
+    
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>llm.int8</title>
+    <link href="https://bg51717.github.io/21264/"/>
+    <id>https://bg51717.github.io/21264/</id>
+    <published>2024-10-24T07:39:30.000Z</published>
+    <updated>2024-11-02T02:57:00.281Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;todo：本文还在施工中.......&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
+    
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pytorch分布式-ddp</title>
+    <link href="https://bg51717.github.io/45014/"/>
+    <id>https://bg51717.github.io/45014/</id>
+    <published>2024-10-09T05:30:13.000Z</published>
+    <updated>2024-11-02T02:55:49.879Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/categories/%E6%A8%A1%E6%9D%BF/"/>
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/tags/%E6%A8%A1%E6%9D%BF/"/>
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="PyTorch" scheme="https://bg51717.github.io/tags/PyTorch/"/>
+    
+    <category term="分布式" scheme="https://bg51717.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+    <category term="ddq" scheme="https://bg51717.github.io/tags/ddq/"/>
+    
+    <category term="数据并行" scheme="https://bg51717.github.io/tags/%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%A1%8C/"/>
+    
+    <category term="Data Parallel" scheme="https://bg51717.github.io/tags/Data-Parallel/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hexo博客2:双主题</title>
+    <link href="https://bg51717.github.io/31680/"/>
+    <id>https://bg51717.github.io/31680/</id>
+    <published>2024-10-03T10:55:45.000Z</published>
+    <updated>2024-11-02T05:32:24.133Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;后来发现单纯的wiki风格博客可能确实有些单调了（&lt;del&gt;绝对不是因为我想弄二次元风格的&lt;/del&gt;），因此在考虑以后，决定搭建一个双主题的博客，外层是个华丽一点的主题&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="SmallProjects" scheme="https://bg51717.github.io/categories/SmallProjects/"/>
+    
+    <category term="博客搭建" scheme="https://bg51717.github.io/categories/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"/>
+    
+    
+    <category term="博客" scheme="https://bg51717.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
+    
+    <category term="Hexo" scheme="https://bg51717.github.io/tags/Hexo/"/>
+    
+    <category term="Wiki" scheme="https://bg51717.github.io/tags/Wiki/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用dotbot快速同步Linux配置</title>
+    <link href="https://bg51717.github.io/13162/"/>
+    <id>https://bg51717.github.io/13162/</id>
+    <published>2024-10-03T07:37:15.000Z</published>
+    <updated>2024-11-02T02:55:49.875Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="工具" scheme="https://bg51717.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="dotfiles" scheme="https://bg51717.github.io/tags/dotfiles/"/>
+    
+    <category term="dotbot" scheme="https://bg51717.github.io/tags/dotbot/"/>
+    
+    <category term="Linux" scheme="https://bg51717.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>zsh+powerlevel10K优化终端使用体验</title>
+    <link href="https://bg51717.github.io/13107/"/>
+    <id>https://bg51717.github.io/13107/</id>
+    <published>2024-09-29T13:09:00.000Z</published>
+    <updated>2024-11-02T02:55:49.874Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1</summary>
+        
+      
+    
+    
+    
+    <category term="工具" scheme="https://bg51717.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="终端" scheme="https://bg51717.github.io/tags/%E7%BB%88%E7%AB%AF/"/>
+    
+    <category term="oh-my-zsh" scheme="https://bg51717.github.io/tags/oh-my-zsh/"/>
+    
+    <category term="powerlevel10k" scheme="https://bg51717.github.io/tags/powerlevel10k/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安卓手机配置Google</title>
+    <link href="https://bg51717.github.io/61294/"/>
+    <id>https://bg51717.github.io/61294/</id>
+    <published>2024-08-27T10:14:49.000Z</published>
+    <updated>2024-11-02T02:55:49.875Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="工具" scheme="https://bg51717.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+    <category term="安卓" scheme="https://bg51717.github.io/tags/%E5%AE%89%E5%8D%93/"/>
+    
+    <category term="Google" scheme="https://bg51717.github.io/tags/Google/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PyTorch代码转HF</title>
+    <link href="https://bg51717.github.io/61054/"/>
+    <id>https://bg51717.github.io/61054/</id>
+    <published>2024-08-06T10:56:13.000Z</published>
+    <updated>2024-11-02T02:55:49.879Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/categories/%E6%A8%A1%E6%9D%BF/"/>
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/tags/%E6%A8%A1%E6%9D%BF/"/>
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="PyTorch" scheme="https://bg51717.github.io/tags/PyTorch/"/>
+    
+    <category term="HuggingFace" scheme="https://bg51717.github.io/tags/HuggingFace/"/>
+    
+    <category term="Trainer" scheme="https://bg51717.github.io/tags/Trainer/"/>
+    
+    <category term="config" scheme="https://bg51717.github.io/tags/config/"/>
+    
+    <category term="model" scheme="https://bg51717.github.io/tags/model/"/>
+    
+    <category term="dataset" scheme="https://bg51717.github.io/tags/dataset/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>随机数种子</title>
+    <link href="https://bg51717.github.io/7369/"/>
+    <id>https://bg51717.github.io/7369/</id>
+    <published>2024-07-09T10:02:24.000Z</published>
+    <updated>2024-11-02T02:55:49.881Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;在深度学习的实际项目中，为了减少随机性，增强项目的复现能力，设置固定随机数种子十分重要，因此这篇文章罗列了一些设置随机种子的方法和减少项目随机性的经验。&lt;/p&gt;
+&lt;h1 id=&quot;通用函数&quot;&gt;通用函数&lt;/h1&gt;
+&lt;pre</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="工程细节" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E7%A8%8B%E7%BB%86%E8%8A%82/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="随机数" scheme="https://bg51717.github.io/tags/%E9%9A%8F%E6%9C%BA%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vscode调试python</title>
+    <link href="https://bg51717.github.io/30403/"/>
+    <id>https://bg51717.github.io/30403/</id>
+    <published>2024-04-19T14:47:51.000Z</published>
+    <updated>2024-11-02T02:55:49.879Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;在学习项目的过程中，很多时候需要通过调试来高效率的了解代码的执行过程，因此这里介绍下怎么使用vscode对python程序进行调试。&lt;/p&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="杂项" scheme="https://bg51717.github.io/categories/%E6%9D%82%E9%A1%B9/"/>
+    
+    
+    <category term="vscode" scheme="https://bg51717.github.io/tags/vscode/"/>
+    
+    <category term="python" scheme="https://bg51717.github.io/tags/python/"/>
+    
+    <category term="调试" scheme="https://bg51717.github.io/tags/%E8%B0%83%E8%AF%95/"/>
+    
+    <category term="debug" scheme="https://bg51717.github.io/tags/debug/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nlp常用排行榜</title>
+    <link href="https://bg51717.github.io/63314/"/>
+    <id>https://bg51717.github.io/63314/</id>
+    <published>2024-04-05T06:56:57.000Z</published>
+    <updated>2024-11-02T02:55:49.890Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;在工作和学习的时候发现，很多时候挑选合适的模型和数据集等也是一个重要且麻烦的过程。发现有很多相关的评测的排行榜，根据这些实时更新的排行榜，可以辅助我们进行选择模型等前期工作。&lt;/p&gt;
+&lt;p&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="自然语言处理" scheme="https://bg51717.github.io/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>pytroch_tutorials杂项</title>
+    <link href="https://bg51717.github.io/20669/"/>
+    <id>https://bg51717.github.io/20669/</id>
+    <published>2024-03-23T08:23:43.000Z</published>
+    <updated>2024-11-02T02:55:49.875Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;当作快速过这个资料的笔记，一些关于别的库的介绍是不完全的，考虑在使用的时候从别的信息渠道就行信息的搜集。也可以作为后面待更博客列举？&lt;/p&gt;
+&lt;h2 id=&quot;常用方式&quot;&gt;常用方式&lt;/h2&gt;
+&lt;p&gt;可以参考&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="杂项" scheme="https://bg51717.github.io/categories/%E6%9D%82%E9%A1%B9/"/>
+    
+    <category term="huggingface" scheme="https://bg51717.github.io/categories/huggingface/"/>
+    
+    
+    <category term="transformers_tutorials" scheme="https://bg51717.github.io/tags/transformers-tutorials/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pytorch_model</title>
+    <link href="https://bg51717.github.io/42347/"/>
+    <id>https://bg51717.github.io/42347/</id>
+    <published>2024-02-24T09:54:19.000Z</published>
+    <updated>2024-11-02T02:55:49.879Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/categories/%E6%A8%A1%E6%9D%BF/"/>
+    
+    
+    <category term="模板" scheme="https://bg51717.github.io/tags/%E6%A8%A1%E6%9D%BF/"/>
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>信息熵</title>
+    <link href="https://bg51717.github.io/5656/"/>
+    <id>https://bg51717.github.io/5656/</id>
+    <published>2024-01-31T11:19:50.000Z</published>
+    <updated>2024-11-02T02:55:49.879Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;信息熵的公式&quot;&gt;&lt;strong&gt;信息熵的公式&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;计算信息熵的公式为:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;&#92;[
+H(x)=-&#92;sum</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="前置数学" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="信息学" scheme="https://bg51717.github.io/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6/"/>
+    
+    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pytroch_tutorials杂项</title>
+    <link href="https://bg51717.github.io/20668/"/>
+    <id>https://bg51717.github.io/20668/</id>
+    <published>2023-12-29T08:23:43.000Z</published>
+    <updated>2024-11-02T02:55:49.878Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;当作快速过这个资料的笔记，一些关于别的库的介绍是不完全的，考虑在使用的时候从别的信息渠道就行信息的搜集。也可以作为后面待更博客列举？&lt;/p&gt;
+&lt;h2 id=&quot;具体&quot;&gt;具体&lt;/h2&gt;
+&lt;h3</summary>
+        
+      
+    
+    
+    
+    <category term="杂项" scheme="https://bg51717.github.io/categories/%E6%9D%82%E9%A1%B9/"/>
+    
+    
+    <category term="pytroch_tutorials" scheme="https://bg51717.github.io/tags/pytroch-tutorials/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Adam Optimizer</title>
+    <link href="https://bg51717.github.io/12551/"/>
+    <id>https://bg51717.github.io/12551/</id>
+    <published>2023-12-29T08:23:43.000Z</published>
+    <updated>2024-11-02T02:55:49.881Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
+&lt;p&gt;传统的随机梯度下降算法SGD(Stochastic Gradient Descent)的式子为:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;&#92;[
+&#92;theta_{t+1} &#92;leftarrow</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="经典模块" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9D%97/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="优化算法" scheme="https://bg51717.github.io/tags/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>依赖分析Dependency Parsing</title>
+    <link href="https://bg51717.github.io/26708/"/>
+    <id>https://bg51717.github.io/26708/</id>
+    <published>2023-12-27T14:21:54.000Z</published>
+    <updated>2024-11-02T02:55:49.890Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;这里介绍两种语义结构:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Constituency</summary>
+        
+      
+    
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="自然语言处理" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
+    
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="自然语言处理" scheme="https://bg51717.github.io/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
+    
+  </entry>
+  
+</feed>

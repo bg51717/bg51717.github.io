@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>zsh+powerlevel10K优化终端使用体验 | Blogs</title>
+    
+    
+        <meta name="keywords" content="终端,oh-my-zsh,powerlevel10k" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 ZSH（Z shell）类似Bash，是被广泛用于类Unix系统的命令行解释器。在具备Bash的基本功能的同时，还扩展了很多功能，同时对插件的支持和高度定制化使其成为了很多Linux用户的最佳选择。经常使用的功能有：自动补全，历史命令，语法高亮等。 powerlevel10K是ZSH的主题之一，但是扩展了一些额外的功能，比如更多信息的显示，运行时间和当前时间的查看等。 通过灵活使用这两个工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zsh+powerlevel10K优化终端使用体验">
+<meta property="og:url" content="https://bg51717.github.io/wiki/13107/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 ZSH（Z shell）类似Bash，是被广泛用于类Unix系统的命令行解释器。在具备Bash的基本功能的同时，还扩展了很多功能，同时对插件的支持和高度定制化使其成为了很多Linux用户的最佳选择。经常使用的功能有：自动补全，历史命令，语法高亮等。 powerlevel10K是ZSH的主题之一，但是扩展了一些额外的功能，比如更多信息的显示，运行时间和当前时间的查看等。 通过灵活使用这两个工具">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/13107/1727664718688.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/13107/1727665397412.png">
+<meta property="article:published_time" content="2024-09-29T13:09:00.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:55:49.874Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="终端">
+<meta property="article:tag" content="oh-my-zsh">
+<meta property="article:tag" content="powerlevel10k">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/13107/1727664718688.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file active"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-工具/zsh-powerlevel10K优化终端使用体验" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E5%B7%A5%E5%85%B7/">工具</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/oh-my-zsh/" rel="tag">oh-my-zsh</a>, <a class="tag-link-link" href="/wiki/tags/powerlevel10k/" rel="tag">powerlevel10k</a>, <a class="tag-link-link" href="/wiki/tags/%E7%BB%88%E7%AB%AF/" rel="tag">终端</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/13107/">
+            <time datetime="2024-09-29T13:09:00.000Z" itemprop="datePublished">2024-09-29</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/工具/zsh-powerlevel10K优化终端使用体验.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/工具/zsh-powerlevel10K优化终端使用体验.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/工具/zsh-powerlevel10K优化终端使用体验.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            zsh+powerlevel10K优化终端使用体验
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zsh"><span class="toc-number">2.</span> <span class="toc-text">ZSH</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">2.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zsh%E8%AE%BE%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">ZSH设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90"><span class="toc-number">2.3.</span> <span class="toc-text">插件推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sh-completions"><span class="toc-number">2.3.1.</span> <span class="toc-text">sh-completions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-autosuggestions"><span class="toc-number">2.3.2.</span> <span class="toc-text">zsh-autosuggestions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#incremental-completion-on-zsh"><span class="toc-number">2.3.3.</span> <span class="toc-text">Incremental
+completion on zsh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsh-syntax-highlighting"><span class="toc-number">2.3.4.</span> <span class="toc-text">zsh-syntax-highlighting</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#powerlevel10k"><span class="toc-number">3.</span> <span class="toc-text">powerlevel10K</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-1"><span class="toc-number">3.1.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E4%BD%93"><span class="toc-number">3.1.1.</span> <span class="toc-text">字体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-number">3.1.2.</span> <span class="toc-text">主题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">3.2.</span> <span class="toc-text">配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">4.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="介绍">介绍</h1>
+<p><strong>ZSH</strong>（Z
+shell）类似Bash，是被广泛用于类Unix系统的命令行解释器。在具备Bash的基本功能的同时，还扩展了很多功能，同时对插件的支持和高度定制化使其成为了很多Linux用户的最佳选择。经常使用的功能有：自动补全，历史命令，语法高亮等。</p>
+<p><strong>powerlevel10K</strong>是ZSH的主题之一，但是扩展了一些额外的功能，比如更多信息的显示，运行时间和当前时间的查看等。</p>
+<p>通过灵活使用这两个工具，可以在美化你的终端页面的同时提升你的效率。</p>
+<blockquote>
+<p>以下操作默认使用的<strong>Ubuntu</strong>系统。</p>
+</blockquote>
+<h1 id="zsh">ZSH</h1>
+<h2 id="安装">安装</h2>
+<p>Ubuntu：</p>
+<ul>
+<li><p>安装zsh</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install zsh</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>设置为默认shell</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chsh -s /bin/zsh</span><br><span class="line"><span class="comment"># 为其他用户设置：sudo chsh -s /bin/zsh &lt;username&gt;</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>安装git</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>安装oh-my-zsh 手动安装:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh</span><br><span class="line"><span class="built_in">cp</span> ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
+<p>或 自动安装:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="subst">$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2 id="zsh设置">ZSH设置</h2>
+<p>通过修改配置文件 <code>~/.zshrc</code>可以修改终端设置。
+经常使用的设置应该有：</p>
+<ul>
+<li>ZSH_THEME：ZSH主题。</li>
+<li>plugins：ZSH插件。</li>
+</ul>
+<p>同时一些希望终端启动时运行的命令也可以放在该文件里，比如conda的启动。</p>
+<blockquote>
+<p>也就是终端加载的时候会运行的命令，也可以
+<code>source ~/.zshrc</code>更新配置文件对终端的设置</p>
+</blockquote>
+<h2 id="插件推荐">插件推荐</h2>
+<h3 id="sh-completions"><a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-completions">sh-completions</a></h3>
+<p>这个插件提供了基础的补全功能。目前似乎已经被集成到ZSH项目中。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/zsh-users/zsh-completions <span class="variable">${ZSH_CUSTOM:-<span class="variable">${ZSH:-~/.oh-my-zsh}</span>/custom}</span>/plugins/zsh-completions</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="zsh-autosuggestions"><a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-autosuggestions">zsh-autosuggestions</a></h3>
+<p>这个插件可以提供自动补全的功能，比如输入 <code>git</code>，自动补全为
+<code>git status</code>。</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git <span class="variable">${ZSH_CUSTOM:-<span class="variable">${ZSH:-~/.oh-my-zsh}</span>/custom}</span>/plugins/zsh-autosuggestions</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="incremental-completion-on-zsh"><a target="_blank" rel="noopener" href="https://mimosa-pudica.net/zsh-incremental.html">Incremental
+completion on zsh</a></h3>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> <span class="variable">$ZSH_CUSTOM</span>/plugins/incr</span><br><span class="line">curl -fsSL https://mimosa-pudica.net/src/incr-0.2.zsh -o <span class="variable">$ZSH_CUSTOM</span>/plugins/incr/incr.zsh</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'source $ZSH_CUSTOM/plugins/incr/incr.zsh'</span> &gt;&gt; ~/.zshrc</span><br><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="zsh-syntax-highlighting"><a target="_blank" rel="noopener" href="https://github.com/zsh-users/zsh-syntax-highlighting">zsh-syntax-highlighting</a></h3>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="variable">${ZSH_CUSTOM:-~/.oh-my-zsh/custom}</span>/plugins/zsh-syntax-highlighting</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="powerlevel10k">powerlevel10K</h1>
+<p>目前配置的终端可以显示当前的虚拟环境、路径、git情况，以及上个命令的执行时间等。基本需要都被涵盖。这写额外的功能和美化得归功于ZSH主题——<strong>powerlevel10K</strong>。具体效果图如下所示：
+<img src="/wiki/13107/1727664718688.png"></p>
+<h2 id="安装-1">安装</h2>
+<h3 id="字体">字体</h3>
+<p>由于会显示一些额外的符号，所以需要安装新的字体。</p>
+<blockquote>
+<p>字体需要在显示终端的设备上安装。比如如果系统在本地，那么在本地安装。如果连接的远程，那么需要在远程上安装ZSH和主题，在本地安装字体。原理不难理解。</p>
+</blockquote>
+<p>字体链接：<a target="_blank" rel="noopener" href="https://github.com/ryanoasis/nerd-fonts#font-installation">NerFont</a>
+字体链接里有完整的安装教程，可以根据自己的平台进行安装。如果是克隆源码安装的时候注意设置depth，建议从该仓库的releases里选择字体进行安装。
+根据平台情况安装然后后设置字体显示即可，一般需要在终端或者编辑器里设置字体选项。考虑到种类较多且教程丰富简单，此处不罗列详细步骤。</p>
+<blockquote>
+<p>Tips：如果设置的是Vscode平台，需要设置整体的字体： Editor:Font
+Family，单独设置终端字体好像无法正常工作。 <img src="/wiki/13107/1727665397412.png"></p>
+</blockquote>
+<h3 id="主题">主题</h3>
+<p>使用命令安装到 <code>~/.oh-my-zsh</code>目录下：</p>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/romkatv/powerlevel10k.git <span class="variable">${ZSH_CUSTOM:-<span class="variable">$HOME</span>/.oh-my-zsh/custom}</span>/themes/powerlevel10k</span><br></pre></td></tr></tbody></table></figure>
+<p>在 <code>~/.zshrc</code>下启动主题：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZSH_THEME="powerlevel10k/powerlevel10k"</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="配置">配置</h2>
+<p>重启终端或者
+<code>source ~/.zshrc</code>切换主题，之后会进入配置界面。（配置完成后也可以使用
+<code>p10k configure</code>重新进入配置向导）
+配置向导就是一些问题来判断你的字体情况和个人偏好，然后写入配置文件
+<code>~/.p10k.sh</code>中，大约有十几个问题。
+配置向导的详细介绍可以参考：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7293342627814244367">我的终端环境：与众不同的
+zsh 主题 - powerlevel10k本文介绍 zsh 主题 powerlevel10k - 掘金</a>
+在配置向导完成后，如果需要一些额外的配置。可以修改配置文件
+<code>~/.p10k.sh</code>。 比如，通过修改
+<code>POWERLEVEL9K_LEFT_PROMPT_ELEMENTS</code>和
+<code>POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS</code>可以修改两侧显示的元素以及顺序等。</p>
+<h1 id="参考资料">参考资料</h1>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://sysin.org/blog/linux-zsh/">Linux Zsh 使用 oh-my-zsh
+打造高效便捷的 shell 环境 - sysin | SYStem INside |
+软件与技术分享</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/7293342627814244367">我的终端环境：与众不同的
+zsh 主题 - powerlevel10k本文介绍 zsh 主题 powerlevel10k - 掘金</a></li>
+<li>杰哥</li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/13162/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    使用dotbot快速同步Linux配置
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/61294/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">安卓手机配置Google</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

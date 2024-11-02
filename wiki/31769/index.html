@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers | Blogs</title>
+    
+    
+        <meta name="keywords" content="深度学习,量化" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 GPTQ算法的原理从数学公式出发，推导出权重的量化顺序和其余参数的调整值，然后根据这些值对block里的所有参数以列为单位进行量化，每次量化可以量化多个列，同时调整其余未量化的列的参数减小量化误差。 GPTQ算法是只针对权重的量化方式。在计算的时候，对应的内核会把需要计算的权重还原回原来的数据类型（比如int4-&gt;fp16）从而保证计算的稳定。 下图是PTQ大致流程图，GPTQ算法针对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers">
+<meta property="og:url" content="https://bg51717.github.io/wiki/31769/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 GPTQ算法的原理从数学公式出发，推导出权重的量化顺序和其余参数的调整值，然后根据这些值对block里的所有参数以列为单位进行量化，每次量化可以量化多个列，同时调整其余未量化的列的参数减小量化误差。 GPTQ算法是只针对权重的量化方式。在计算的时候，对应的内核会把需要计算的权重还原回原来的数据类型（比如int4-&gt;fp16）从而保证计算的稳定。 下图是PTQ大致流程图，GPTQ算法针对">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1730268555276.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729833758876.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729836598356.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729837217525.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729841730501.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729847766438.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729848176700.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729848182654.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729922822263.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729943142457.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729943292624.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729943743510.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729944238282.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729944960522.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31769/1729945727934.png">
+<meta property="article:published_time" content="2024-10-24T08:12:19.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:57:00.290Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="量化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/31769/1730268555276.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file active"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-科研/论文阅读/大模型量化-GPTQ-Accurate-Post-Training-Quantization-for-Generative-Pre-trained-Transformers" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/">科研</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a>, <a class="tag-link-link" href="/wiki/tags/%E9%87%8F%E5%8C%96/" rel="tag">量化</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/31769/">
+            <time datetime="2024-10-24T08:12:19.000Z" itemprop="datePublished">2024-10-24</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/科研/论文阅读/大模型量化-GPTQ-Accurate-Post-Training-Quantization-for-Generative-Pre-trained-Transformers.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/科研/论文阅读/大模型量化-GPTQ-Accurate-Post-Training-Quantization-for-Generative-Pre-trained-Transformers.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/科研/论文阅读/大模型量化-GPTQ-Accurate-Post-Training-Quantization-for-Generative-Pre-trained-Transformers.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#obdoptimal-brain-damage"><span class="toc-number">2.</span> <span class="toc-text">OBD：Optimal Brain Damage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#obsoptimal-brain-surgeon"><span class="toc-number">3.</span> <span class="toc-text">OBS：Optimal Brain Surgeon</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#obc"><span class="toc-number">4.</span> <span class="toc-text">OBC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#obq"><span class="toc-number">5.</span> <span class="toc-text">OBQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gptq"><span class="toc-number">6.</span> <span class="toc-text">GPTQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E7%B4%A2%E5%BC%95%E9%A1%BA%E5%BA%8F%E9%87%8F%E5%8C%96"><span class="toc-number">6.1.</span> <span class="toc-text">按索引顺序量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cholesky-%E5%88%86%E8%A7%A3"><span class="toc-number">6.2.</span> <span class="toc-text">Cholesky 分解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%B7%E6%A3%AE%E9%80%86%E7%9F%A9%E9%98%B5%E6%9B%B4%E6%96%B0%E5%85%AC%E5%BC%8F%E8%AF%81%E6%98%8E"><span class="toc-number">7.</span> <span class="toc-text">海森逆矩阵更新公式证明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#lazy-batch-updates"><span class="toc-number">7.1.</span> <span class="toc-text">Lazy Batch-Updates</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">8.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">9.</span> <span class="toc-text">代码解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">10.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="介绍">介绍</h2>
+<p>GPTQ算法的原理从数学公式出发，推导出权重的量化顺序和其余参数的调整值，然后根据这些值对block里的所有参数以列为单位进行量化，每次量化可以量化多个列，同时调整其余未量化的列的参数减小量化误差。</p>
+<p>GPTQ算法是只针对权重的量化方式。在计算的时候，对应的内核会把需要计算的权重还原回原来的数据类型（比如int4-&gt;fp16）从而保证计算的稳定。</p>
+<p>下图是PTQ大致流程图，GPTQ算法针对的主要是量化步骤中的参数调整部分：、</p>
+<p><img src="/wiki/31769/1730268555276.png"></p>
+<p>GPTQ量化算法最早来自1990年Yann
+LeCun的OBD算法，然后按照OBS，OBC（OBQ）的顺序进行演化，最终到GPTQ算法。当然，这里的演化算法不都是量化算法，由于量化和剪枝是很像的两个技术，量化调整参数为距离最近的整数，剪枝调整参数为0，所以量化算法和剪枝算法有很多共同点。</p>
+<h2 id="obdoptimal-brain-damage">OBD：Optimal Brain Damage</h2>
+<p>OBD是一种剪枝方法，考虑目标函数为<span class="math inline">\(E\)</span>，模型参数为<span class="math inline">\(w_i\)</span>，对目标函数进行泰勒展开，有</p>
+<p><span class="math display">\[
+\Delta E = \sum_i g_i \Delta w_i + \frac{1}{2} \sum_i h_{ii} \Delta
+w_i^2 + \frac{1}{2} \sum_{i \neq j} h_{ij} \Delta w_i \Delta w_j +
+O(\Delta w^3)
+\]</span></p>
+<p>其中<span class="math inline">\(g_i = \frac{\partial E}{\partial
+w_i}\)</span>是一阶偏导，<span class="math inline">\(h_{ij} =
+\frac{\partial^2 E}{\partial w_i \partial
+w_j}\)</span>是海森矩阵元素。</p>
+<p>OBD假设：</p>
+<ul>
+<li>目标函数为二阶，不考虑高阶项<span class="math inline">\(O(\Delta
+w^3)\)</span></li>
+<li>模型训练充分收敛，一阶偏导为0，<span class="math inline">\(g_i=0,\forall i\)</span></li>
+<li>每个参数对目标函数影响是独立的，海森矩阵中的交叉项为0，即<span class="math inline">\(h_{ij} = 0, \forall i, j, i \neq j\)</span></li>
+</ul>
+<p>于是，上式可以优化为，</p>
+<p><span class="math display">\[
+\Delta E = \frac{1}{2} \sum_i h_{ii} \Delta w_i^2
+\]</span></p>
+<p>因此，OBD算法只需要根据每个参数对目标的影响从小到大进行排序，然后进行剪枝即可。</p>
+<h2 id="obsoptimal-brain-surgeon">OBS：Optimal Brain Surgeon</h2>
+<p><img src="/wiki/31769/1729833758876.png"></p>
+<p>OBS算法认为参数之间的独立性不成立，因此交叉项需要考虑，因此上式变为，</p>
+<p><span class="math display">\[
+\Delta E = \frac{1}{2} \sum_i h_{ii} \Delta w_i^2 + \frac{1}{2} \sum_{i
+\neq j} h_{ij} \Delta w_i \Delta w_j
+\]</span></p>
+<p>向量，矩阵形式为，</p>
+<p><span class="math display">\[
+\Delta E = \frac{1}{2} \Delta \mathbf{w}^\mathrm{T} \mathbf{H} \Delta
+\mathbf{w}
+\]</span></p>
+<p>剪枝删除一个权重，那么<span class="math inline">\(\Delta
+\mathbf{w}\)</span>的第 q 维固定为 <span class="math inline">\(-w_q\)</span>
+，但其他维度的值不固定，可以用于减少删除该权重带来的目标偏离。即约束条件为，</p>
+<p><span class="math display">\[
+\mathbf{e}_q^\mathrm{T} \cdot \Delta \mathbf{w} + w_q = 0
+\]</span></p>
+<p>其中，<span class="math inline">\(\mathbf{e}_q\)</span>是one-hot
+向量，第q个位置是1，其余位置为0。</p>
+<p>所以剪枝转化为最优化问题，</p>
+<p><span class="math display">\[
+\min_{\Delta \mathbf{w}, q} \frac{1}{2} \Delta \mathbf{w}^\mathrm{T}
+\mathbf{H} \Delta \mathbf{w} \quad \text{s.t.} \quad
+\mathbf{e}_q^\mathrm{T} \cdot \Delta \mathbf{w} + w_q = 0
+\]</span></p>
+<p>构造拉格朗日函数，</p>
+<p><span class="math display">\[
+L = \frac{1}{2} \Delta \mathbf{w}^\mathrm{T} \mathbf{H} \Delta
+\mathbf{w} + \lambda (\mathbf{e}_q^\mathrm{T} \cdot \Delta \mathbf{w} +
+w_q)
+\]</span></p>
+<p>求解，得</p>
+<p><span class="math display">\[
+\Delta \mathbf{w} = -\frac{w_q}{[\mathbf{H}^{-1}]_{qq}} \mathbf{H}^{-1}
+\cdot \mathbf{e}_q \quad \text{and} \quad L = \frac{1}{2}
+\frac{w_q^2}{[\mathbf{H}^{-1}]_{qq}}
+\]</span></p>
+<p>因此，我们可以根据海森矩阵求得下一个剪枝的参数和其他参数调整的值。</p>
+<blockquote>
+<p>每次更新参数都需要重新求解海森矩阵，原论文中提到了数学上的优化方法，但是较为复杂且在后续算法没有使用，此处不予列出。</p>
+</blockquote>
+<h2 id="obc">OBC</h2>
+<p>由于需要求解全参数的海森矩阵甚至逆矩阵，复杂度极高，在参数规模上去后求解是不现实的。</p>
+<p>因此假设：</p>
+<ul>
+<li>在一个矩阵中只有同一行的参数是相关的</li>
+</ul>
+<p>同时，为了更好的求解，对于一个维度为<span class="math inline">\((d_{row},d_{col})\)</span>参数矩阵设置一个优化的目标函数，<span class="math inline">\(\mathbf{W}_{i,\cdot},\hat{\mathbf{W_{i,\cdot}}}\)</span>分别是参数调整前后的权重向量</p>
+<p><span class="math display">\[
+E = \sum_{i=1}^{d_{\text{row}}} \| \mathbf{W}_{i,\cdot} \mathbf{X} -
+\hat{\mathbf{W}}_{i,\cdot} \mathbf{X} \|_2^2
+\]</span></p>
+<p>求每行的海森矩阵，</p>
+<p><span class="math display">\[
+\frac{\partial E}{\partial \hat{\mathbf{W}}_{i,\cdot}^2} = \mathbf{H}_i
+= 2 \mathbf{X} \mathbf{X}^\mathrm{T}, \quad \forall i = 1, 2, \dots,
+d_{\text{row}}
+\]</span></p>
+<p>之后就可以求得矩阵每一行的剪枝顺序。</p>
+<p>算法伪代码：</p>
+<p><img src="/wiki/31769/1729836598356.png"></p>
+<p>首先遍历每一行，然后重复k次，每次找到对目标函数影响最小的参数p，对p进行剪枝同时更新其他参数，删除海森矩阵的p行p列（不包括<span class="math inline">\(H_{pp}\)</span>），再求逆。（这里罗列的好像是降低复杂度后的数学等效。）</p>
+<blockquote>
+<p>OBC论文也罗列了一些别的性能上的优化，在后续算法没有使用，此处不予列出。</p>
+<p>此处数学等效的方法是高斯消元，海森矩阵移除k行k列但包括<span class="math inline">\(H_{kk}\)</span>，因为左乘矩阵代表对行向量线性组合对，右乘矩阵代表对列向量线性组合，因此通过高斯消元即可实现对0的操作。证明可以从GPTQ的Cholesky证明中基本无条件的迁移。</p>
+</blockquote>
+<h2 id="obq">OBQ</h2>
+<p>OBQ
+（和OBC是同一篇文章）指出，剪枝是一种特殊的量化（即剪枝的参数等价于量化到
+0 点），因此只需要修改一下 OBC 的约束条件即可：</p>
+<p><span class="math display">\[
+\mathbf{e}_p^\mathrm{T} \cdot \Delta \mathbf{w} + w_p =
+\text{quant}(w_p)
+\]</span></p>
+<p>相应的，权重的调整更新为，</p>
+<p><span class="math display">\[
+\Delta \mathbf{w} = -\frac{w_p -
+\text{quant}(w_p)}{[\mathbf{H}^{-1}]_{pp}} \mathbf{H}^{-1} \cdot
+\mathbf{e}_p
+\quad \text{and} \quad
+L = \frac{1}{2} \frac{(w_p -
+\text{quant}(w_p))^2}{[\mathbf{H}^{-1}]_{pp}}
+\]</span></p>
+<p>OBQ的算法伪代码，同OBC的很相似：</p>
+<p><img src="/wiki/31769/1729837217525.png"></p>
+<h2 id="gptq">GPTQ</h2>
+<p>OBQ的算法复杂度还是太高了，GPTQ继续进行优化。</p>
+<p>GPTQ是逐层量化的，同时做出以下假设：</p>
+<ul>
+<li>参数调整前量化网络（量化函数）是确定的，比如量化的缩放因子和零点等</li>
+<li>权重参数可以在量化网格内进行调整</li>
+</ul>
+<h3 id="按索引顺序量化">按索引顺序量化</h3>
+<p>将每一行的量化权重选择方式从贪心策略改成按索引顺序选择。</p>
+<p>修改索引顺序的好处有两个，首先多个行的量化顺序是一样的，因此可以多行并行处理；第二个是<span class="math inline">\(\mathbf{H} = 2 \mathbf{X}
+\mathbf{X}^\mathrm{T}\)</span>说明，海森矩阵只与输入相关，因此不同行可以共用一个海森矩阵。
+<img src="/wiki/31769/1729841730501.png"></p>
+<p>行里第p个权重调整公式可以为改为，</p>
+<p><span class="math display">\[
+\Delta \mathbf{w} = -\frac{w_p -
+\text{quant}(w_p)}{[\mathbf{H}_{p:,p:}^{-1}]_{0,0}} \left(
+[\mathbf{H}_{p:,p:}^{-1}]_{:,0} \right)^\top
+\]</span></p>
+<p>加入多行并行后变为，</p>
+<p><span class="math display">\[
+\Delta W_{:,p:} = -\frac{W_{:,p:} -
+\text{quant}(W_{:,p:})}{[\mathbf{H}_{p:,p:}^{-1}]_{0,0}} \left(
+[\mathbf{H}_{p:,p:}^{-1}]_{:,0} \right)^\top
+=-\frac{\left( [\mathbf{H}_{p:,p:}^{-1}]_{:,0}
+\right)^\top}{[\mathbf{H}_{p:,p:}^{-1}]_{0,0}} ( W_{:,p:} -
+\text{quant}(W_{:,p:}))
+\]</span></p>
+<p>逆矩阵的更新公式变为，</p>
+<p><span class="math display">\[
+[H_{p:,p:}]^{-1} = \left( [H_{p-1:,p-1:}]^{-1}  -
+\frac{1}{[H_{p-1:,p-1:}]^{-1}_{0,0}} [H_{p-1:,p-1:}]^{-1}_{:,0}
+[H_{p-1:,p-1:}]^{-1}_{0,:}\right)_{1:,1:}
+\]</span></p>
+<h3 id="cholesky-分解">Cholesky 分解</h3>
+<blockquote>
+<p>关于Cholesky分解的数学介绍可以看：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xbinworld/article/details/104663481">三十分钟理解：矩阵Cholesky分解，及其在求解线性方程组、矩阵逆的应用_cholesky分解法求解线性方程组-CSDN博客</a></p>
+</blockquote>
+<p>实验过程中发现：在大规模参数矩阵上重复使用海森矩阵逆矩阵的更新公式会产生非正定的海森矩阵逆矩阵，原因可能是数值误差的积累。</p>
+<p>作者对初始的<span class="math inline">\(H^{-1}\)</span>进行Cholesky
+分解，得到一个上三角矩阵<span class="math inline">\(T\)</span>，它的每一行刚好就等于使用更新公式得到的逆矩阵序列的第一行乘以一个常数，即，</p>
+<p><span class="math display">\[
+C_p T_{p,p:} = \left[ H_{p:,p:} \right]^{-1}_{0,:}
+\]</span></p>
+<p>图示，</p>
+<p><img src="/wiki/31769/1729847766438.png"></p>
+<p>所以，权重的调整更新为，</p>
+<p><span class="math display">\[
+\Delta W_{:,p:} = - \frac{W_{:,p} - \text{quant}(W_{:,p})}{C_p T_{pp}}
+C_p T_{p,p:} = - \frac{W_{:,p} - \text{quant}(W_{:,p})}{T_{pp}} T_{p,p:}
+\]</span></p>
+<p>发现很多资料都没有系统的罗列大致的推导过程，甚至论文基本也是一笔带过，因此考虑在此给出一些浅薄的证明（笔者不是数学系的。</p>
+<p>首先介绍一下教程中的Cholesky分解：给定一个<span class="math inline">\(n\times n\)</span>的实数对称正定矩阵<span class="math inline">\(A\)</span>，存在一个对角元全为正数的下三角矩阵，是的<span class="math inline">\(A=LL^\top\)</span>成立。</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathbf{A} &amp;= \begin{bmatrix} a_{11} &amp; \mathbf{A}_{21}^T \\
+\mathbf{A}_{21} &amp; \mathbf{A}_{22} \end{bmatrix}, \quad
+\mathbf{L} = \begin{bmatrix} l_{11} &amp; 0 \\ L_{21} &amp; L_{22}
+\end{bmatrix}, \quad
+\mathbf{L}^T = \begin{bmatrix} l_{11} &amp; L_{21}^T \\ 0 &amp; L_{22}^T
+\end{bmatrix}
+\end{align*}
+\]</span></p>
+<p>其中 $a_{11} $ 和 $ l_{11} $是一个标量， <span class="math inline">\(\mathbf{A}_{21}\)</span> 和 <span class="math inline">\(L_{21}\)</span> 是一个列向量，$<em>{22} $是一个 (
+n-1 ) 阶的方阵，而 $ L</em>{22} $ 是一个 ( n-1 )
+阶的下三角矩阵。我们有，</p>
+<p><span class="math display">\[
+\begin{align*}
+\begin{bmatrix} a_{11} &amp; \mathbf{A}_{21}^T \\ \mathbf{A}_{21} &amp;
+\mathbf{A}_{22} \end{bmatrix}
+&amp;= \begin{bmatrix} l_{11} &amp; 0 \\ L_{21} &amp; L_{22}
+\end{bmatrix}
+\begin{bmatrix} l_{11} &amp; L_{21}^T \\ 0 &amp; L_{22}^T \end{bmatrix}
+&amp;= \begin{bmatrix} l_{11}^2 &amp; l_{11} L_{21}^T \\
+l_{11}L_{21}  &amp; L_{21} L_{21}^T + L_{22} L_{22}^T \end{bmatrix}
+\end{align*}
+\]</span></p>
+<p>我们易得，</p>
+<p><span class="math display">\[
+\begin{align*}
+l_{11} &amp;= \sqrt{a_{11}} \\[10pt]
+L_{21} &amp;= \frac{1}{l_{11}} \mathbf{A}_{21} \\[10pt]
+L_{22} L_{22}^T &amp;= \mathbf{A}_{22} - L_{21} L_{21}^T
+\end{align*}
+\]</span></p>
+<p>其中<span class="math inline">\(l_{11}\)</span>和<span class="math inline">\(L_{21}\)</span>我们直接得到，对于<span class="math inline">\(L_{22}\)</span>，我们发现又是一个Cholesky分解的过程，递归求解即可。</p>
+<p>我们根据公式可以发现，</p>
+<p><span class="math display">\[
+(\mathbf{L}^\top)_{1,:}
+=\begin{bmatrix} l_{11} &amp; L^{\top}_{21} \end{bmatrix}
+= \frac{1}{\sqrt{a}} \begin{bmatrix} a_{11} &amp; \mathbf{A}^{\top}_{21}
+\end{bmatrix}
+= \frac{1}{\sqrt{a}}\mathbf{A}_{1,:}
+\]</span></p>
+<p>所以我们证明了两个矩阵第一列的比例关系，根据分解的递推性和矩阵的对称性，我们就完整证明了这个结论。</p>
+<h2 id="海森逆矩阵更新公式证明">海森逆矩阵更新公式证明</h2>
+<p>首先我们需要证明<strong>在海森矩阵删除p行p列参数（不包括<span class="math inline">\(H_{pp}\)</span>）的时候，在海森矩阵上会发生类似的操作。</strong></p>
+<p>首先，我们需要知道<span class="math inline">\((H^{-1})^\top=(H^T)^{-1}=H^{-1}\)</span>，即海森矩阵的逆矩阵是对称矩阵。</p>
+<p><span class="math display">\[
+\begin{align*}
+\mathbf{H}= \begin{bmatrix} a &amp; \mathbf{z}^\top \\ \mathbf{z} &amp;
+\mathbf{A} \end{bmatrix}, \quad
+构造矩阵\mathbf{B}=\begin{bmatrix} \frac{1}{a} &amp; \mathbf{z}^\top \\
+\mathbf{z} &amp; \mathbf{A}^{-1} \end{bmatrix}
+\end{align*}
+\]</span></p>
+<p>其中，<span class="math inline">\(\mathbf{H}\)</span>和<span class="math inline">\(\mathbf{B}\)</span>是n维的对称正定方阵，a<span class="math inline">\(是标量，\)</span><span class="math inline">\(z\)</span>为n-1维的零向量，那么</p>
+<p><span class="math display">\[
+\mathbf{H} \times \mathbf{B}=
+\begin{bmatrix} a &amp; \mathbf{z}^\top \\ \mathbf{z} &amp; \mathbf{A}
+\end{bmatrix} \times
+\begin{bmatrix} \frac{1}{a} &amp; \mathbf{z}^\top \\ \mathbf{z} &amp;
+\mathbf{A}^{-1} \end{bmatrix}
+=\begin{bmatrix} 1 &amp; a\mathbf{z}^\top+\mathbf{z}^\top\mathbf{A}^{-1}
+\\ \frac{1}{a}\mathbf{z}+\mathbf{A}\mathbf{z} &amp;
+\mathbf{z}\mathbf{z}^\top+\mathbf{A}\mathbf{A}^{-1} \end{bmatrix}
+=\begin{bmatrix} 1 &amp; \mathbf{z}^\top \\ \mathbf{z} &amp;
+I_{n-1\times n-1} \end{bmatrix}
+=I_{n\times n}
+\]</span></p>
+<p>说明，说明<span class="math inline">\(\mathbf{B}\)</span>就是<span class="math inline">\(\mathbf{H}\)</span>的逆矩阵，因此，得证。我们就可以直接对海森矩阵的逆矩阵进行删除参数即可。</p>
+<p>接下来，我们需要证明删除行参数和列参数的公式。为了方便，假设我们有个n维的对称正定方阵<span class="math inline">\(\mathbf{A}\)</span>，令</p>
+<p><span class="math display">\[
+\mathbf{B}=\mathbf{A}-\frac{1}{\mathbf{A}_{11}}\mathbf{A}_{:,1}\mathbf{A}_{1,:}
+\]</span></p>
+<p>那么，</p>
+<p><span class="math display">\[
+\mathbf{B}_{i,1}=\mathbf{A}_{i,1}-\frac{1}{\mathbf{A}_{11}}\mathbf{A}_{i1}\mathbf{A}_{11}=0,i
+\neq 1
+\]</span></p>
+<p>所以<span class="math inline">\(\mathbf{B}\)</span>的第一列除了第一个元素全部为0，根据对称性，第一行也全部为0，即实现了对第一行第一列元素的删除。</p>
+<blockquote>
+<p>尽管这里推导的时候是针对第一行或者第一列的，但是很容易外推到任意位置。</p>
+</blockquote>
+<p>到此，我们证明了海森逆矩阵更新公式的正确性，分为两步：首先证明删除参数后海森逆矩阵的格式，然后根据格式证明了更新公式的正确性。</p>
+<h3 id="lazy-batch-updates">Lazy Batch-Updates</h3>
+<p>在量化某个参数矩阵的情况下，每次量化一个参数，其他所有未量化的参数都要按公式全都要更新一遍。如果每行的量化并行计算，那么每次更新过程就需要
+read + write 一次参数矩阵。如果参数矩阵的维度为<span class="math inline">\(k \times
+k\)</span>，那么量化这个参数矩阵就需要读写 k 次参数，总共的 IO 量为<span class="math inline">\(k^3\)</span>个元素。当 k 比较大时（&gt;=
+4096），需要读写的元素就非常多了，运行时间大都被 IO 占据。</p>
+<p><img src="/wiki/31769/1729848176700.png"></p>
+<p><span class="math display">\[
+\Delta W_{:,p:} = -\frac{W_{:,p:} -
+\text{quant}(W_{:,p:})}{[\mathbf{H}_{p:,p:}^{-1}]_{0,0}} \left(
+[\mathbf{H}_{p:,p:}^{-1}]_{:,0} \right)^\top
+=-\frac{\left( [\mathbf{H}_{p:,p:}^{-1}]_{:,0}
+\right)^\top}{[\mathbf{H}_{p:,p:}^{-1}]_{0,0}} ( W_{:,p:} -
+\text{quant}(W_{:,p:}))
+\]</span></p>
+<p>将参数矩阵按每若干列划分为一个个 group，量化某一列时，group
+内的参数立即更新，而 group 后面的列只记录更新量，延迟更新。当一个 group
+的参数全部量化完成，再统一对后面的所有参数做一次更新。这就是 Lazy
+Batch-Updates。根据更新公式我们可以发现，这个更新可以是可以合并同类项的，把一个group的第一项提出来求和，可以一次读写后面的所有group。</p>
+<p><img src="/wiki/31769/1729848182654.png"></p>
+<p>对应的算法伪代码为</p>
+<p><img src="/wiki/31769/1729922822263.png"></p>
+<h2 id="实验">实验</h2>
+<p>1.小模型测试</p>
+<p>首先在ResNet上面进行了测试。选择AdaQuant、基于贪心策略的
+OBQ在精度上保持持平。相比量化前的模型来说，性能也没有下降太多。</p>
+<p><img src="/wiki/31769/1729943142457.png"></p>
+<p>然后在小型语言模型上（这是OBQ能使用的最大的模型之一）进行了测试。在4bit得分比之前的方法稍微差一点，在3bit要低的多一点。</p>
+<p><img src="/wiki/31769/1729943292624.png"></p>
+<p>但是量化需要时间从1h降到1min。</p>
+<p>2.测试了量化时间</p>
+<p>提供了一个参考的标准：</p>
+<p>"For reference, the straight-through based method ZeroQuant-LKD (Yao
+et al., 2022) reports a 3 hour runtime (on the same hardware) for a 1.3B
+model, which would linearly extrapolate to several hundred hours (a few
+weeks) for 175B models."</p>
+<p><img src="/wiki/31769/1729943743510.png"></p>
+<p>3.测试了量化模型在文本生成任务的表现</p>
+<p>和不进行优化的直接量化（RTN）进行了对比。</p>
+<p><img src="/wiki/31769/1729944238282.png"></p>
+<p>4.测试了OPT-175B文本生成的效率</p>
+<p>开发了相关kernel（推理时权重会反量化），量化只针对权重，激活不量化。</p>
+<p><img src="/wiki/31769/1729944960522.png"></p>
+<p>5.零样本任务评测</p>
+<p>测试了和基线相比，在零样本任务上的准确率。</p>
+<p><img src="/wiki/31769/1729945727934.png"></p>
+<p>该方法很容易和别的量化网络相结合。量化网络指的是量化的操作，是权重调整后的具体量化步骤，需要确定比如缩放因子，零点，量化的粒度等。</p>
+<h2 id="代码解析">代码解析</h2>
+<p>论文对应的代码仓库为：<a target="_blank" rel="noopener" href="https://github.com/IST-DASLab/gptq">IST-DASLab/gptq: Code for the
+ICLR 2023 paper "GPTQ: Accurate Post-training Quantization of Generative
+Pretrained Transformers".</a></p>
+<p>基于改算法开发的工具包：<a target="_blank" rel="noopener" href="https://github.com/AutoGPTQ/AutoGPTQ">AutoGPTQ/AutoGPTQ: An
+easy-to-use LLMs quantization package with user-friendly apis, based on
+GPTQ algorithm.</a></p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/646210009">QLoRA、GPTQ：模型量化概述
+- 知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/690834228">LLM 推理加速技术 ——
+GPTQ 量化技术演进 - 知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.17323">[2210.17323] GPTQ:
+Accurate Post-Training Quantization for Generative Pre-trained
+Transformers</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/AutoGPTQ/AutoGPTQ">AutoGPTQ/AutoGPTQ: An
+easy-to-use LLMs quantization package with user-friendly apis, based on
+GPTQ algorithm.</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/IST-DASLab/gptq">IST-DASLab/gptq: Code
+for the ICLR 2023 paper "GPTQ: Accurate Post-training Quantization of
+Generative Pretrained Transformers".</a></li>
+<li><a target="_blank" rel="noopener" href="https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=17c0a7de3c17d31f79589d245852b57d083d386e">Optimal
+Brain Damage</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xbinworld/article/details/104663481">三十分钟理解：矩阵Cholesky分解，及其在求解线性方程组、矩阵逆的应用_cholesky分解法求解线性方程组-CSDN博客</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/49444/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    拉格朗日乘数法解条件极值
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/21264/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">llm.int8</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

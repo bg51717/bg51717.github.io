@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>pytorch分布式-ddp | Blogs</title>
+    
+    
+        <meta name="keywords" content="模板,深度学习,PyTorch,分布式,ddq,数据并行,Data Parallel" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 这篇博客主要是关于pytorch分布式ddp（DistributedDataParallel）的介绍和大概的食用（这不是错别字）教程。 数据并行DistributedDataParallel指的是在数据集层面进行多进程的切分，对于模型参数和训练状态等其他部分切分。 首先会介绍一下通信。在pytorch分布式ddp中，各个进程的代码是单独运行的。彼此之间在没有显式通信的时候，是不知道对方的的信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pytorch分布式-ddp">
+<meta property="og:url" content="https://bg51717.github.io/wiki/45014/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 这篇博客主要是关于pytorch分布式ddp（DistributedDataParallel）的介绍和大概的食用（这不是错别字）教程。 数据并行DistributedDataParallel指的是在数据集层面进行多进程的切分，对于模型参数和训练状态等其他部分切分。 首先会介绍一下通信。在pytorch分布式ddp中，各个进程的代码是单独运行的。彼此之间在没有显式通信的时候，是不知道对方的的信">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-09T05:30:13.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:55:49.879Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="模板">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="PyTorch">
+<meta property="article:tag" content="分布式">
+<meta property="article:tag" content="ddq">
+<meta property="article:tag" content="数据并行">
+<meta property="article:tag" content="Data Parallel">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file active"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-模板/pytorch分布式-ddp" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E6%A8%A1%E6%9D%BF/">模板</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/Data-Parallel/" rel="tag">Data Parallel</a>, <a class="tag-link-link" href="/wiki/tags/PyTorch/" rel="tag">PyTorch</a>, <a class="tag-link-link" href="/wiki/tags/ddq/" rel="tag">ddq</a>, <a class="tag-link-link" href="/wiki/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">分布式</a>, <a class="tag-link-link" href="/wiki/tags/%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%A1%8C/" rel="tag">数据并行</a>, <a class="tag-link-link" href="/wiki/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a>, <a class="tag-link-link" href="/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/45014/">
+            <time datetime="2024-10-09T05:30:13.000Z" itemprop="datePublished">2024-10-09</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/模板/pytorch分布式-ddp.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/模板/pytorch分布式-ddp.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/模板/pytorch分布式-ddp.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            pytorch分布式-ddp
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1"><span class="toc-number">2.</span> <span class="toc-text">通信</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">2.1.</span> <span class="toc-text">环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5"><span class="toc-number">2.2.</span> <span class="toc-text">同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tensor%E9%80%9A%E4%BF%A1"><span class="toc-number">2.3.</span> <span class="toc-text">tensor通信</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE"><span class="toc-number">3.</span> <span class="toc-text">数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-number">5.</span> <span class="toc-text">代码执行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="介绍">介绍</h1>
+<p>这篇博客主要是关于pytorch分布式ddp（DistributedDataParallel）的介绍和大概的食用（<del>这不是错别字</del>）教程。</p>
+<p>数据并行DistributedDataParallel指的是在数据集层面进行多进程的切分，对于模型参数和训练状态等其他部分切分。</p>
+<p>首先会介绍一下通信。在pytorch分布式ddp中，各个进程的代码是单独运行的。彼此之间在没有显式通信的时候，是不知道对方的的信息的。因此分布式的重点，所以了解通信的情况，也就了解了分布式的原理和使用的方法。</p>
+<p>主要通信的方式有：</p>
+<ul>
+<li>环境变量</li>
+<li>同步</li>
+<li>tensor操作</li>
+</ul>
+<p>然后会介绍一下在数据并行下数据如何进行切分。</p>
+<p>最后介绍整体pytorch分布式大概的流程和使用方法。</p>
+<h1 id="通信">通信</h1>
+<h2 id="环境变量">环境变量</h2>
+<p>常用的环境变量有：</p>
+<ul>
+<li>WORLD_SIZE 全局进程数</li>
+<li>RANK 当前进程全局标识符</li>
+<li>LOCAL_RANK 在单个节点中的进程标识符</li>
+<li>MASTER_ADDR 主节点IP地址</li>
+<li>MASTER_PORT 主节点端口</li>
+</ul>
+<p>常用的为前三个，还有一些使用更加少的暂时没有罗列。</p>
+<p>环境变量的获取可以：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">"path"</span>]</span><br><span class="line">os.environ.get(<span class="string">'KEY_THAT_MIGHT_EXIST'</span>)</span><br><span class="line">os.getenv(<span class="string">'KEY_THAT_MIGHT_EXIST'</span>, default_value) <span class="comment"># 推荐</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="同步">同步</h2>
+<p>引入pytorch分布式包</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.distributed <span class="keyword">as</span> dist</span><br></pre></td></tr></tbody></table></figure>
+<p>同步所有进程进度</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dist.barrier()</span><br></pre></td></tr></tbody></table></figure>
+<p>在tensor通信的时候，也会起到同步进程的作用。很容易理解，不同步的话tensor的值都没有求得。</p>
+<h2 id="tensor通信">tensor通信</h2>
+<p>广播broadcast，收集gather，分发scatter，全收集all-gather，规约reduce，全规约all-reduce，全对称all-to-all，批量广播broadcast_object_list</p>
+<h1 id="数据">数据</h1>
+<p>在ddp中，只考虑的数据的剪切。那么对于某个进程，只需要计算部分数据即可。某个进程根据<strong>LOCAL_RANK</strong>获取自己所需的数据的方法有两种：</p>
+<ol type="1">
+<li>数据集定义中加入offset，根据offset获取自己只需要的数据，那么进程只能看到自己的数据，比如
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i, segment <span class="keyword">in</span> <span class="built_in">enumerate</span>(<span class="built_in">open</span>(file)):</span><br><span class="line">  <span class="keyword">if</span> i % n_gpus != offset:</span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>通过设置DataLoader中的sampler控制数据集采样实现数据切分，比如：
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader, DistributedSampler</span><br><span class="line">sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)</span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">64</span>, sampler=sampler)</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+<h1 id="使用方法">使用方法</h1>
+<p>在通信前，需要进行初始化操作（如果init_process_group不指定部分参数，也会自动从环境变量中获取）：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化分布式进程</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">setup</span>():</span><br><span class="line">    rank = <span class="built_in">int</span>(os.environ[<span class="string">"RANK"</span>])</span><br><span class="line">    world_size = <span class="built_in">int</span>(os.environ[<span class="string">"WORLD_SIZE"</span>])</span><br><span class="line">    dist.init_process_group(<span class="string">"nccl"</span>, rank=rank, world_size=world_size)</span><br></pre></td></tr></tbody></table></figure>
+<p>设置使用的GPU（可以灵活设置，比如每若干个进程共享GPU）:</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rank = <span class="built_in">int</span>(os.environ[<span class="string">"RANK"</span>])</span><br><span class="line">torch.cuda.set_device(rank) <span class="comment"># 设置默认GPU</span></span><br><span class="line">device = torch.device(<span class="string">f"cuda:<span class="subst">{rank}</span>"</span>) <span class="comment"># 显式指定设备</span></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>使用的GPU还会收到环境变量CUDA_VISIBLE_DEVICES的限制</p>
+<p>设置默认GPU可以让部分CUDA操作默认在该设备执行</p>
+</blockquote>
+<p>然后包装模型，隐式的进行
+<code>tensor</code>的同步和通信（在模型之外计算某些量（如精度、损失值等），可能需要同步）：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.nn.parallel <span class="keyword">import</span> DistributedDataParallel <span class="keyword">as</span> DDP</span><br><span class="line">model = SimpleCNN().to(device)</span><br><span class="line">model = DDP(model, device_ids=[rank])</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>当然，这里也可以切换成别的过程，比如如果不是模型的训练和推理，也可以进行tensor别的计算方法，但是需要手动的进行通信等。</p>
+</blockquote>
+<p>对于一些多个进程只需要完成一次的操作，比如保存模型或者日志记录等，只需要一个进程一般是主进程完成即可：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> dist.get_rank() == <span class="number">0</span>:</span><br><span class="line">    torch.save(model.state_dict(), <span class="string">"model_checkpoint.pth"</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>代码执行完需要进程组的销毁：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cleanup</span>():</span><br><span class="line">    dist.destroy_process_group()</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="代码执行">代码执行</h1>
+<p>如果执行代码直接使用python，那么需要使用pytorch的包启动多进程：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.multiprocessing <span class="keyword">as</span> mp</span><br><span class="line">mp.spawn(train, nprocs=world_size, join=<span class="literal">True</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>如果直接使用 <code>torchrun</code>命令执行代码，则不需要使用
+<code>torch.multiprocessing</code>，但需要在命令里添加部分参数，等于调用
+<code>torch.multiprocessing</code>的任务交给
+<code>torchrun</code>完成：</p>
+<figure class="highlight sh"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torchrun --nproc_per_node=4 your_script.py</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="参考资料">参考资料</h1>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/tutorials/distributed/home.html">Distributed
+and Parallel Training Tutorials — PyTorch Tutorials 2.4.0+cu121
+documentation</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39131062/article/details/109206804">“最全“PyTorch分布式训练教程来了！_pytorch
+训练-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40185847/article/details/115074443">Pytorch中基于NCCL多GPU训练_pytorch
+nccl-CSDN博客</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/21264/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    llm.int8
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/31680/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">hexo博客2:双主题</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

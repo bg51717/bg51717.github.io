@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>PyTorch代码转HF | Blogs</title>
+    
+    
+        <meta name="keywords" content="模板,深度学习,PyTorch,HuggingFace,Trainer,config,model,dataset" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 这篇博客主要介绍了怎么把一个已有的Pytorch代码转变成HF支持的格式，然后可以方便的放入HF代码流程中，并且使用一些HF的函数。代码转换主要涉及到以下几个方面：  Config Model Trainer Dataset  因为ckpt里面的代码使用的会是相对导入，所以在转换的过程中，建议把 configuration_xxx.py和 modeling_xxx.py文件放在同一个目录下，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyTorch代码转HF">
+<meta property="og:url" content="https://bg51717.github.io/wiki/61054/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 这篇博客主要介绍了怎么把一个已有的Pytorch代码转变成HF支持的格式，然后可以方便的放入HF代码流程中，并且使用一些HF的函数。代码转换主要涉及到以下几个方面：  Config Model Trainer Dataset  因为ckpt里面的代码使用的会是相对导入，所以在转换的过程中，建议把 configuration_xxx.py和 modeling_xxx.py文件放在同一个目录下，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-06T10:56:13.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:55:49.879Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="模板">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="PyTorch">
+<meta property="article:tag" content="HuggingFace">
+<meta property="article:tag" content="Trainer">
+<meta property="article:tag" content="config">
+<meta property="article:tag" content="model">
+<meta property="article:tag" content="dataset">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file active"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-模板/PyTorch代码转HF" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E6%A8%A1%E6%9D%BF/">模板</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/HuggingFace/" rel="tag">HuggingFace</a>, <a class="tag-link-link" href="/wiki/tags/PyTorch/" rel="tag">PyTorch</a>, <a class="tag-link-link" href="/wiki/tags/Trainer/" rel="tag">Trainer</a>, <a class="tag-link-link" href="/wiki/tags/config/" rel="tag">config</a>, <a class="tag-link-link" href="/wiki/tags/dataset/" rel="tag">dataset</a>, <a class="tag-link-link" href="/wiki/tags/model/" rel="tag">model</a>, <a class="tag-link-link" href="/wiki/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a>, <a class="tag-link-link" href="/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/61054/">
+            <time datetime="2024-08-06T10:56:13.000Z" itemprop="datePublished">2024-08-06</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/模板/PyTorch代码转HF.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/模板/PyTorch代码转HF.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/模板/PyTorch代码转HF.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            PyTorch代码转HF
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#config"><span class="toc-number">2.</span> <span class="toc-text">Config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#model"><span class="toc-number">3.</span> <span class="toc-text">Model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C"><span class="toc-number">4.</span> <span class="toc-text">注册</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#trainer"><span class="toc-number">5.</span> <span class="toc-text">Trainer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dataset"><span class="toc-number">6.</span> <span class="toc-text">Dataset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="介绍">介绍</h2>
+<p>这篇博客主要介绍了怎么把一个已有的Pytorch代码转变成HF支持的格式，然后可以方便的放入HF代码流程中，并且使用一些HF的函数。代码转换主要涉及到以下几个方面：</p>
+<ul>
+<li>Config</li>
+<li>Model</li>
+<li>Trainer</li>
+<li>Dataset</li>
+</ul>
+<p>因为ckpt里面的代码使用的会是相对导入，所以在转换的过程中，建议把
+<code>configuration_xxx.py</code>和
+<code>modeling_xxx.py</code>文件放在同一个目录下，并且添加
+<code>__init__.py</code>文件。</p>
+<h2 id="config">Config</h2>
+<p>参考：<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/custom_models#building-custom-models">Building
+custom models (huggingface.co)</a></p>
+<p>示例：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> PretrainedConfig</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LtgBertConfig</span>(<span class="title class_ inherited__">PretrainedConfig</span>):</span><br><span class="line">    model_type = <span class="string">"LtgBert"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"""Configuration class to store the configuration of a `LtgBertModel`.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,</span></span><br><span class="line"><span class="params">                 vocab_size_or_config_json_file=<span class="number">16384</span>,</span></span><br><span class="line"><span class="params">                 hidden_size=<span class="number">768</span>,</span></span><br><span class="line"><span class="params">                 num_hidden_layers=<span class="number">12</span>,</span></span><br><span class="line"><span class="params">                 num_attention_heads=<span class="number">12</span>,</span></span><br><span class="line"><span class="params">                 intermediate_size=<span class="number">3072</span>,</span></span><br><span class="line"><span class="params">                 hidden_act=<span class="string">"gelu"</span>,</span></span><br><span class="line"><span class="params">                 hidden_dropout_prob=<span class="number">0.1</span>,</span></span><br><span class="line"><span class="params">                 attention_probs_dropout_prob=<span class="number">0.1</span>,</span></span><br><span class="line"><span class="params">                 max_position_embeddings=<span class="number">512</span>,</span></span><br><span class="line"><span class="params">                 type_vocab_size=<span class="number">2</span>,</span></span><br><span class="line"><span class="params">                 initializer_range=<span class="number">0.02</span>,</span></span><br><span class="line"><span class="params">                 output_all_encoded_layers=<span class="literal">False</span>,</span></span><br><span class="line"><span class="params">                 require_all_hidden_states=<span class="literal">True</span>,</span></span><br><span class="line"><span class="params">                 batch_first=<span class="literal">True</span>,</span></span><br><span class="line"><span class="params">                 **kwargs</span>):</span><br><span class="line">        self.hidden_size = hidden_size</span><br><span class="line">        self.num_hidden_layers = num_hidden_layers</span><br><span class="line">        self.num_attention_heads = num_attention_heads</span><br><span class="line">        self.hidden_act = hidden_act</span><br><span class="line">        self.intermediate_size = intermediate_size</span><br><span class="line">        self.hidden_dropout_prob = hidden_dropout_prob</span><br><span class="line">        self.attention_probs_dropout_prob = attention_probs_dropout_prob</span><br><span class="line">        self.max_position_embeddings = max_position_embeddings</span><br><span class="line">        self.type_vocab_size = type_vocab_size</span><br><span class="line">        self.initializer_range = initializer_range</span><br><span class="line">        self.output_all_encoded_layers = output_all_encoded_layers</span><br><span class="line">        self.require_all_hidden_states = require_all_hidden_states</span><br><span class="line">        self.batch_first=batch_first</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(vocab_size_or_config_json_file, <span class="built_in">str</span>) <span class="keyword">or</span> (sys.version_info[<span class="number">0</span>] == <span class="number">2</span></span><br><span class="line">                        <span class="keyword">and</span> <span class="built_in">isinstance</span>(vocab_size_or_config_json_file, unicode)):</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(vocab_size_or_config_json_file, <span class="string">"r"</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> reader:</span><br><span class="line">                json_config = json.loads(reader.read())</span><br><span class="line">            <span class="keyword">for</span> key, value <span class="keyword">in</span> json_config.items():</span><br><span class="line">                self.__dict__[key] = value</span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">isinstance</span>(vocab_size_or_config_json_file, <span class="built_in">int</span>):</span><br><span class="line">            self.vocab_size = vocab_size_or_config_json_file</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"First argument must be either a vocabulary size (int)"</span></span><br><span class="line">                             <span class="string">"or the path to a pretrained model config file (str)"</span>)</span><br><span class="line">        <span class="built_in">super</span>(LtgBertConfig, self).__init__(**kwargs)</span><br></pre></td></tr></tbody></table></figure>
+<p>必须满足：</p>
+<ul>
+<li>继承自 <code>PretrainedConfig</code></li>
+<li><code>__init__</code>函数接受 <code>kwargs</code>，并且使用
+<code>super()).__init__</code>传递这些参数</li>
+</ul>
+<p><code>model_type</code>的作用是把模型注册到
+<code>AutoClass</code>中，建议设置。</p>
+<h2 id="model">Model</h2>
+<p>参考：<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/custom_models#building-custom-models">Building
+custom models (huggingface.co)</a></p>
+<p>示例：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LtgBertForMaskedLM</span>(<span class="title class_ inherited__">PreTrainedModel</span>):</span><br><span class="line">    config_class=LtgBertConfig</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,config,activation_checkpointing=<span class="literal">False</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(config)</span><br><span class="line">	<span class="comment"># 这里可以把成员变成类的继承LtgBertForMaskedLM(Bert):</span></span><br><span class="line">        self.model=Bert(</span><br><span class="line">            config=config,</span><br><span class="line">            activation_checkpointing=activation_checkpointing</span><br><span class="line">        )</span><br><span class="line">        self.require_all_hidden_states=config.require_all_hidden_states</span><br><span class="line">        self.batch_first=config.batch_first</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, input_ids, attention_mask, masked_lm_labels=<span class="literal">None</span></span>):</span><br><span class="line">        <span class="keyword">if</span> self.batch_first:</span><br><span class="line">            <span class="comment"># 模型把batch放在第二个维度</span></span><br><span class="line">            input_ids=input_ids.transpose(<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">if</span> masked_lm_labels <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                masked_lm_labels=masked_lm_labels.transpose(<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">        subword_prediction=self.model(input_ids, attention_mask, masked_lm_labels=masked_lm_labels)</span><br><span class="line">        loss=<span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> masked_lm_labels <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            target_ids = masked_lm_labels.flatten()</span><br><span class="line">            target_ids = target_ids[target_ids != -<span class="number">100</span>]</span><br><span class="line">            loss = F.cross_entropy(subword_prediction, target_ids)</span><br><span class="line">        all_hidden_states=<span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> self.require_all_hidden_states:</span><br><span class="line">            all_hidden_states=self.model.get_contextualized(input_ids=input_ids,attention_mask=attention_mask)</span><br><span class="line">        <span class="keyword">if</span> self.batch_first:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(subword_prediction.size())&gt;<span class="number">2</span>:</span><br><span class="line">                subword_prediction=subword_prediction.transpose(<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">if</span> all_hidden_states <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                all_hidden_states=[it.transpose(<span class="number">0</span>,<span class="number">1</span>) <span class="keyword">for</span> it <span class="keyword">in</span> all_hidden_states]</span><br><span class="line">        <span class="keyword">return</span> MaskedLMOutput(</span><br><span class="line">            loss=loss,</span><br><span class="line">            logits=subword_prediction,</span><br><span class="line">            hidden_states=all_hidden_states,</span><br><span class="line">            attentions=<span class="literal">None</span></span><br><span class="line">        )</span><br></pre></td></tr></tbody></table></figure>
+<p>对于自定义模型，往往每个
+<code>AutoClass</code>上都会注册一个模型，因此往往要写多个自定义模型。</p>
+<p><code>config_type</code>的作用是把模型注册到
+<code>AutoClass</code>中，建议设置。</p>
+<p>由于简约性原则，官方要求
+<code>self.model</code>对应原来的模型，比如用Pytorch定义的模型。</p>
+<p><code>forward</code>函数需要注意结果格式，<code>transformers.modeling_outputs</code>里定义了每种模型forward的结果格式。</p>
+<p>其中对于每个特定的子任务都有个类似的模型，对于部分函数比如forward建议参考已有的代码进行操作，因为hf框架在使用特定子任务的模型的时候，可能会添加特殊的参数。比如，对于序列分类任务SequenceClassification，其中相关模型的forward为：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">def forward(</span><br><span class="line">        self,</span><br><span class="line">        input_ids: Optional[torch.Tensor] = None,</span><br><span class="line">        attention_mask: Optional[torch.Tensor] = None,</span><br><span class="line">        output_attentions: Optional[bool] = None,</span><br><span class="line">        output_hidden_states: Optional[bool] = None,</span><br><span class="line">        inputs_embeds: Optional[torch.Tensor] = None,</span><br><span class="line">        return_dict: Optional[bool] = None,</span><br><span class="line">        labels: Optional[torch.LongTensor] = None,</span><br><span class="line">    ) -&gt; Union[Tuple[torch.Tensor], SequenceClassifierOutput]:</span><br><span class="line">        if self.batch_first:</span><br><span class="line">            # 模型把batch放在第二个维度</span><br><span class="line">            input_ids=input_ids.transpose(0,1)</span><br><span class="line">        contextualized_embeddings=self.model.get_contextualized(input_ids, attention_mask)</span><br><span class="line">        if self.batch_first:</span><br><span class="line">            contextualized_embeddings=contextualized_embeddings.transpose(0,1)</span><br><span class="line">        logits = self.head(contextualized_embeddings[:, 0, :])</span><br><span class="line">        if labels is not None:</span><br><span class="line">            if self.config.problem_type is None:</span><br><span class="line">                if self.num_labels == 1:</span><br><span class="line">                    self.config.problem_type = "regression"</span><br><span class="line">                elif self.num_labels &gt; 1 and (labels.dtype == torch.long or labels.dtype == torch.int):</span><br><span class="line">                    self.config.problem_type = "single_label_classification"</span><br><span class="line">                else:</span><br><span class="line">                    self.config.problem_type = "multi_label_classification"</span><br><span class="line"></span><br><span class="line">    if self.config.problem_type == "regression":</span><br><span class="line">                loss_fct = nn.MSELoss()</span><br><span class="line">                if self.num_labels == 1:</span><br><span class="line">                    loss = loss_fct(logits.squeeze(), labels.squeeze())</span><br><span class="line">                else:</span><br><span class="line">                    loss = loss_fct(logits, labels)</span><br><span class="line">            elif self.config.problem_type == "single_label_classification":</span><br><span class="line">                loss_fct = nn.CrossEntropyLoss()</span><br><span class="line">                loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))</span><br><span class="line">            elif self.config.problem_type == "multi_label_classification":</span><br><span class="line">                loss_fct = nn.BCEWithLogitsLoss()</span><br><span class="line">                loss = loss_fct(logits, labels)</span><br><span class="line"></span><br><span class="line">    assert output_attentions is None</span><br><span class="line">        assert output_hidden_states is None</span><br><span class="line">        return SequenceClassifierOutput(</span><br><span class="line">            loss=loss,</span><br><span class="line">            logits=logits,</span><br><span class="line">            hidden_states=contextualized_embeddings if output_hidden_states else None,</span><br><span class="line">            attentions=None</span><br><span class="line">        )</span><br></pre></td></tr></tbody></table></figure>
+<p>这里hf框架会在配置中添加problem_type等内容。</p>
+<h2 id="注册">注册</h2>
+<p>如果在ckpt文件夹的 <code>config.json</code>里没有
+<code>auto_map</code>指明 <code>AutoClass</code>的注册：</p>
+<figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">"auto_map"</span><span class="punctuation">:</span> <span class="punctuation">{</span></span><br><span class="line">  <span class="attr">"AutoConfig"</span><span class="punctuation">:</span> <span class="string">"configuration_ltgbert.LtgBertConfig"</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">"AutoModelForMaskedLM"</span><span class="punctuation">:</span> <span class="string">"modeling_ltgbert.LtgBertForMaskedLM"</span></span><br><span class="line"><span class="punctuation">}</span></span><br></pre></td></tr></tbody></table></figure>
+<p>那么需要手动添加，在读取ckpt的代码里添加：</p>
+<figure class="highlight python-repl"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AutoConfig.register("LtgBert", LtgBertConfig)</span><br><span class="line">AutoModelForMaskedLM.register(LtgBertConfig, LtgBertForMaskedLM)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>如果希望在保存模型的时候 <code>config.json</code>文件中自动包含
+<code>auto_map</code>，可以添加以下代码（如果模型是从ckpt里加载的就不需要添加）：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LtgBertConfig.register_for_auto_class()</span><br><span class="line">LtgBertForMaskedLM.register_for_auto_class(<span class="string">"AutoModelForMaskedLM"</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>后来发现只有注册可能会存在 <code>config.json</code>里
+<code>auto_map</code>不完整的情况（原因暂时没有调查），可以考虑直接在
+<code>config.__init__</code>里强制指定：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def __init__(self,....):</span><br><span class="line">   ...</span><br><span class="line">   self.auto_map={</span><br><span class="line">    "AutoConfig": "configuration_ltgbert.LtgBertConfig",</span><br><span class="line">    "AutoModelForMaskedLM": "modeling_ltgbert.LtgBertForMaskedLM"</span><br><span class="line">   }</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="trainer">Trainer</h2>
+<p>训练流程的转换主要设计HF的 <code>Trainer</code>类，可以参考<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/main/zh/main_classes/trainer">Trainer
+(huggingface.co)</a>和<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments">Trainer
+(huggingface.co)</a>。</p>
+<p><code>Trainer</code>把训练的流程分为几个过程，通过继承以及重写相关函数即可完成流程的定制，通过参数即可实现超参数的设置，细节阅读参考资料。</p>
+<h2 id="dataset">Dataset</h2>
+<p><code>dataset</code>可以继承自
+<code>torch.utils.data.dataset</code>，但是需要注意
+<code>__getitem__</code>，默认情况该函数返回的需要满足
+<code>dict</code>格式，从而实现参数的设置。</p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/custom_models#building-custom-models">Building
+custom models (huggingface.co)</a></li>
+<li><a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/main/zh/main_classes/trainer">Trainer
+(huggingface.co)</a></li>
+<li><a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments">Trainer
+(huggingface.co)</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/61294/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    安卓手机配置Google
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/7369/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">随机数种子</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

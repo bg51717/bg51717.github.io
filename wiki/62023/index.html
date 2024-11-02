@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference | Blogs</title>
+    
+    
+        <meta name="keywords" content="量化" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="论文地址:A Survey of Quantization Methods for Efficient Neural Network Inference  摘要 这篇论文是关于模型量化方向的综述，介绍了量化相关领域的研究，同时也介绍了一些重要的论文。 提到了量化的好处：  加快模型的推理过程 减少模型的存储开销 可以部署到特定设备（比如有的设备只能进行整型运算）  介绍 过去模型的能力有了巨大的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference">
+<meta property="og:url" content="https://bg51717.github.io/wiki/62023/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="论文地址:A Survey of Quantization Methods for Efficient Neural Network Inference  摘要 这篇论文是关于模型量化方向的综述，介绍了量化相关领域的研究，同时也介绍了一些重要的论文。 提到了量化的好处：  加快模型的推理过程 减少模型的存储开销 可以部署到特定设备（比如有的设备只能进行整型运算）  介绍 过去模型的能力有了巨大的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1699360183609.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1699360947746.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1700397462765.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1700397965758.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1712407532667.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1712407640141.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1712408451748.png">
+<meta property="article:published_time" content="2023-10-23T12:10:11.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:55:49.922Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="量化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/62023/1699360183609.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file active"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-科研/论文阅读/论文阅读~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/">科研</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/%E9%87%8F%E5%8C%96/" rel="tag">量化</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/62023/">
+            <time datetime="2023-10-23T12:10:11.000Z" itemprop="datePublished">2023-10-23</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/科研/论文阅读/论文阅读~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/科研/论文阅读/论文阅读~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/科研/论文阅读/论文阅读~A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E5%8E%86%E5%8F%B2"><span class="toc-number">3.</span> <span class="toc-text">量化历史</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">4.</span> <span class="toc-text">量化的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%AE%BE%E7%BD%AE%E5%92%8C%E7%AC%A6%E5%8F%B7"><span class="toc-number">4.1.</span> <span class="toc-text">问题设置和符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9D%87%E5%8C%80%E9%87%8F%E5%8C%96"><span class="toc-number">4.2.</span> <span class="toc-text">均匀量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E7%A7%B0%E5%92%8C%E9%9D%9E%E5%AF%B9%E7%A7%B0%E9%87%8F%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">对称和非对称量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E6%A0%A1%E5%87%86%E7%AE%97%E6%B3%95%E9%9D%99%E6%80%81%E4%B8%8E%E5%8A%A8%E6%80%81%E9%87%8F%E5%8C%96"><span class="toc-number">4.4.</span> <span class="toc-text">范围校准算法：静态与动态量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E7%B2%92%E5%BA%A6"><span class="toc-number">4.5.</span> <span class="toc-text">量化粒度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%9E%E5%9D%87%E5%8C%80%E9%87%8F%E5%8C%96"><span class="toc-number">4.6.</span> <span class="toc-text">非均匀量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E8%B0%83%E6%96%B9%E6%B3%95"><span class="toc-number">4.7.</span> <span class="toc-text">微调方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#qat"><span class="toc-number">4.7.1.</span> <span class="toc-text">QAT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ptq"><span class="toc-number">4.7.2.</span> <span class="toc-text">PTQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#zero-shot-quantizationzsq"><span class="toc-number">4.7.3.</span> <span class="toc-text">Zero-shot Quantization（ZSQ）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E9%87%8F%E5%8C%96"><span class="toc-number">4.8.</span> <span class="toc-text">随机量化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#advanced-concepts-quantization-below-8-bits"><span class="toc-number">5.</span> <span class="toc-text">ADVANCED CONCEPTS:
+QUANTIZATION BELOW 8 BITS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E5%92%8C%E7%BA%AF%E6%95%B4%E6%95%B0%E9%87%8F%E5%8C%96"><span class="toc-number">5.1.</span> <span class="toc-text">模拟和纯整数量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E7%B2%BE%E5%BA%A6%E9%87%8F%E5%8C%96"><span class="toc-number">5.2.</span> <span class="toc-text">混合精度量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%84%9F%E7%9F%A5%E9%87%8F%E5%8C%96"><span class="toc-number">5.3.</span> <span class="toc-text">硬件感知量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%92%B8%E9%A6%8F%E8%BE%85%E5%8A%A9%E9%87%8F%E5%8C%96"><span class="toc-number">5.4.</span> <span class="toc-text">蒸馏辅助量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%81%E8%87%B4%E9%87%8F%E5%8C%96"><span class="toc-number">5.5.</span> <span class="toc-text">极致量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A2%E9%87%8F%E9%87%8F%E5%8C%96"><span class="toc-number">5.6.</span> <span class="toc-text">矢量量化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E5%92%8C%E7%A1%AC%E4%BB%B6%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">量化和硬件处理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E7%9A%84%E6%9C%AA%E6%9D%A5%E7%A0%94%E7%A9%B6"><span class="toc-number">7.</span> <span class="toc-text">量化的未来研究</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E5%92%8C%E7%BB%93%E8%AE%BA"><span class="toc-number">8.</span> <span class="toc-text">总结和结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">9.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <blockquote>
+<p>论文地址:<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.13630">A Survey of
+Quantization Methods for Efficient Neural Network Inference</a></p>
+</blockquote>
+<h2 id="摘要">摘要</h2>
+<p>这篇论文是关于模型量化方向的综述，介绍了量化相关领域的研究，同时也介绍了一些重要的论文。</p>
+<p>提到了量化的好处：</p>
+<ul>
+<li>加快模型的推理过程</li>
+<li>减少模型的存储开销</li>
+<li>可以部署到特定设备（比如有的设备只能进行整型运算）</li>
+</ul>
+<h2 id="介绍">介绍</h2>
+<p>过去模型的能力有了巨大的提升，其中一个原因就是模型参数的增加，但这也为模型的部署提升了难度。</p>
+<p>过去几年关于这方面的尝试有如下几种：</p>
+<ul>
+<li>设计高效的神经网络模型架构，包括微观结构和宏观结构</li>
+<li>神经网络软件和硬件协同设计</li>
+<li>剪枝，减去对模型影响小的参数，分为结构化剪枝（删去部分参数）和非结构化剪枝（删去部分结构，相当于参数按组删去），两个方法各有优劣</li>
+<li>知识蒸馏，用“教师”模型训练“学生”模型，可与前面方法结合</li>
+<li>量化：分为训练中量化和推理量化</li>
+<li>量化和神经科学的发展</li>
+</ul>
+<blockquote>
+<p>这里很多次提到了AutoML和NAS技术调整网络结构</p>
+</blockquote>
+<h2 id="量化历史">量化历史</h2>
+<p>量化，作为一种从大的（通常是连续的）集合中的输入值映射到小的（通常是有限的）集合中的输出值的方法，具有很长的历史。早在1897年就有微积分相关工作从事量化研究，同时，量化在信号处理中也非常重要。</p>
+<p>香农在信息学和信号处理的研究过程中也针对量化进行过研究。同时，量化在连续数学量的数值求解中研究过。一些问题的良好解法可能由于数字量化会导致巨大误差，从而引出了算法数值稳定性的概念。</p>
+<p>神经网络的发展给量化带来了机遇。神经网络的计算是计算密集型任务且目前很多模型都过度参数化。很多问题的解决都是基于一个某种误差度量，因此量化可能会增大误差，但同时也会增加模型的鲁棒性。</p>
+<h2 id="量化的基本概念">量化的基本概念</h2>
+<h3 id="问题设置和符号">问题设置和符号</h3>
+<p>在不失一般性的情况下，让我们关注监督学习问题，即最小化下面所示的损失函数。</p>
+<p><span class="math display">\[
+L(\theta)=\frac{1}{N} \sum^{N}_{i=1}l(x_i,y_i;\theta)
+\]</span></p>
+<p>(x,y)是输入数据和对应的标签,$ l(x_i,y_i;)$是损失函数,N是数据数目</p>
+<p>同时让我们把第<span class="math inline">\(i\)</span>层的输入隐藏激活表示为<span class="math inline">\(h_i\)</span>,输出隐藏激活表示为<span class="math inline">\(a_i\)</span>,我们假设浮点格式存储的模型参数为<span class="math inline">\(\theta\)</span>.</p>
+<h3 id="均匀量化">均匀量化</h3>
+<blockquote>
+<p>均匀量化和非均匀量化</p>
+<p><img src="/wiki/62023/1699360183609.png" title="均匀量化和非均匀量化"></p>
+</blockquote>
+<p>均匀量化的一个常用的函数是</p>
+<p><span class="math display">\[
+Q(r)=Int(\frac{r}{S})-Z
+\]</span></p>
+<p><span class="math inline">\(Q\)</span>是压缩函数,<span class="math inline">\(r\)</span>是实数类型的输入,<span class="math inline">\(S\)</span>是实数类型的比例因子,<span class="math inline">\(Z\)</span>是整数零点,<span class="math inline">\(Int\)</span>函数通过舍入操作把实数映射到整数</p>
+<p>去量化操作</p>
+<p><span class="math display">\[
+Q(\tilde{r})=S(Q(r)+Z)
+\]</span></p>
+<p>由于舍入操作<span class="math inline">\(\tilde{r}\)</span>和<span class="math inline">\(r\)</span>不会严格相等</p>
+<h3 id="对称和非对称量化">对称和非对称量化</h3>
+<blockquote>
+<p>对称和非对称量化（观察量化前后零点位置</p>
+<p><img src="/wiki/62023/1699360947746.png"></p>
+</blockquote>
+<p>确定放缩因子<span class="math inline">\(S\)</span>的式子为</p>
+<p><span class="math display">\[
+S=\frac{\beta-\alpha}{2^{b}-1}
+\]</span></p>
+<p><span class="math inline">\([\alpha,\beta]\)</span>代表剪切范围,<span class="math inline">\(b\)</span>代表量化位宽.</p>
+<p>确定<span class="math inline">\([\alpha,\beta]\)</span>的两个方式:</p>
+<ul>
+<li><span class="math inline">\(\alpha=r_{min},\beta=r_{max}\)</span></li>
+<li><span class="math inline">\(-\alpha=\beta=max(|r_{min}|,|r_{max}|)\)</span></li>
+</ul>
+<p>利用实数的最大最小位选定裁剪范围可能会容易被异常数据影响,从而增加不必要的范围.解决这个问题的一种方法是使用百分位数,另一种方法是选择<span class="math inline">\(α\)</span>和<span class="math inline">\(β\)</span>，以最小化真实值和量化值之间的KL散度（即信息损失）.也有学者对不同的量化范围选取范围方法进行了评估.</p>
+<p>确定<span class="math inline">\(S\)</span>的两个方式:</p>
+<ul>
+<li><span class="math inline">\(\frac{2max(|r|)}{2^n-1}\)</span></li>
+<li><span class="math inline">\(\frac{max(|r|)}{2^{n-1}-1}\)</span></li>
+</ul>
+<p>对称量化使用广泛,因为可以把零点降为0,减少计算成本并且实现更加简单;非对称量化对于范围可能是倾斜的和不对称的情况表现会更加优秀.</p>
+<p>非对称激活中的偏移而占据的交叉项是一个静态数据独立项并且可以被偏差吸收(或用于初始化累加器).</p>
+<h3 id="范围校准算法静态与动态量化">范围校准算法：静态与动态量化</h3>
+<ul>
+<li>动态量化：运行期间计算量化参数，高精度，高开销</li>
+<li>静态量化：量化参数预先确定，推理期间为静态，低开销，低精度</li>
+</ul>
+<h3 id="量化粒度">量化粒度</h3>
+<ul>
+<li>分层量化：通过一整个层的数值来计算量化参数，实现简单，精度次优</li>
+<li>分组量化：把每一层的多个通道进行分组量化，有助于解决单个通道、激活分布离散的情况，但是计算开销会增加</li>
+<li>分通道量化：每一层的每个通道进行量化，更好的精度，更高的计算成本</li>
+<li>分卷积核（滤波器）量化：输入通道为<span class="math inline">\(n\)</span>，输出通道为<span class="math inline">\(m\)</span>，那么应该会有<span class="math inline">\(n*m\)</span>个卷积核，根据卷积核量化会有更高的精度</li>
+</ul>
+<p>总结（量化粒度）。通道量化是目前用于量化卷积核的标准方法。它使从业者能够以可忽略不计的开销来调整每个单独的内核的剪切范围。相比之下，子信道量化可能会导致巨大的开销，而且目前还不是标准的选择。</p>
+<h3 id="非均匀量化">非均匀量化</h3>
+<p>量化步骤和量化水平被允许是非均匀间隔的</p>
+<p><span class="math display">\[
+Q(r)=X_i, \quad if\quad r \in [r_i,r_{i+1}]
+\]</span></p>
+<p>非均匀量化对于固定的位宽，可以获得更高的精度 典型的有</p>
+<ul>
+<li>钟型分布</li>
+<li>对数分布</li>
+<li>二进制码,把一个向量拆成多个基向量的和,每个基向量的每个维度的值的绝对值为1</li>
+</ul>
+<p>很多把量化问题转化为优化问题,减少原始张量r和量化后张量Q(r)的差异</p>
+<p><span class="math display">\[
+\underset{Q}{min}||Q(r)-r||
+\]</span></p>
+<p>此外,量化器本身也可以和模型参数一起学习,称之为可学习的量化器
+还有一些工作使用<strong>聚类</strong>来减少量化损失</p>
+<p>非均匀量化能更好的捕获信息,但是计算成本更高,因此目前主流的还是均匀量化</p>
+<h3 id="微调方法">微调方法</h3>
+<p>量化可能需要对参数进行微调,有两种方式:</p>
+<ul>
+<li>量化感知训练QAT</li>
+<li>训练后量化PTQ</li>
+</ul>
+<p>左边是QAT,右边是PTQ <img src="/wiki/62023/1700397462765.png"></p>
+<h4 id="qat">QAT</h4>
+<p>QAT一种方法展示 <img src="/wiki/62023/1700397965758.png">
+反向传播方法有:</p>
+<ul>
+<li>STE</li>
+<li>随机神经元</li>
+<li>组合优化</li>
+<li>目标传播</li>
+<li>Gumbelsoftmax</li>
+<li>正则化算子来强制执行要量化的权重(量化过程没有不可微分算符)</li>
+</ul>
+<p>也可以考虑量化感知训练的过程种学习量化参数</p>
+<h4 id="ptq">PTQ</h4>
+<p>由于PTQ不需要训练，所以对数据集的依赖比较低，当然，精度也会下降</p>
+<p>因此，PTQ的研究重点都在于减轻PTQ的精度下降：</p>
+<ul>
+<li>ACIQ 解析地计算了PTQ的最佳剪切范围和通道级位宽设置</li>
+<li>OMSE方法在激活时去除信道级量化，并提出通过优化量化张量与相应的浮点张量之间的L2距离来进行PTQ</li>
+<li>一种离群值信道分裂（OCS）方法，该方法将包含离群值的信道重复和减半，缓解离群值对PTQ的不利影响</li>
+<li>AdaRound表明，简单的圆到最近的量化方法（round-to-nearest）可以反直觉地得到次优解，并且提出了一种自适应四舍五入的方法</li>
+<li>AdaQuant提出了一种更通用的方法，允许量化权值根据需要进行变化。</li>
+</ul>
+<p>在PTQ中，所有的权值和激活量化参数都是不需要再训练而确定的。因此，PTQ是一种非常快速的神经网络模型量化方法。然而，与QAT相比，这往往以较低的准确性为代价。</p>
+<h4 id="zero-shot-quantizationzsq">Zero-shot Quantization（ZSQ）</h4>
+<p>PTQ的极端场景，量化过程中不使用数据</p>
+<ul>
+<li>Level 1: 没有数据且没有微调 (ZSQ + PTQ).</li>
+<li>Level 2: 没有数据但需要微调 (ZSQ +QAT).</li>
+</ul>
+<p>ZSQ中一个流行的研究分支是生成与类似于真实数据的合成数据，从中训练目标预先训练的模型。</p>
+<h3 id="随机量化">随机量化</h3>
+<p>在推理过程中，量化方案总是确定的，小的权重更新可能不会导致任何权重变化，因为舍入操作可能总是返回相同的权重。然而，启用一个随机舍入可能为神经网络提供一个随机的机会，从而更新其参数。</p>
+<p>比如，在有的论文里面，INT操作定义为</p>
+<p><span class="math display">\[
+INT(x)=\begin{cases}
+\lfloor x \rfloor ,with \quad probability \quad \lceil x \rceil-x\\
+\lceil x \rceil ,with \quad probability \quad x-\lfloor x \rfloor\\
+\end{cases}
+\]</span></p>
+<p>有的会选择在量化的适合选择随机从量化参数权重子集里选一个进行量化运算</p>
+<h2 id="advanced-concepts-quantization-below-8-bits">ADVANCED CONCEPTS:
+QUANTIZATION BELOW 8 BITS</h2>
+<h3 id="模拟和纯整数量化">模拟和纯整数量化</h3>
+<p>部署量化神经网络模型有两种常见方法：</p>
+<ul>
+<li>模拟量化（又名假量化）：模拟量化中，量化后的模型参数以低精度存储，但运算（例如矩阵乘法和卷积）是用浮点运算进行的，运算之前需要对量化参数进行反量化</li>
+<li>纯整数量化（又名定点量化）：所有运算都是使用低精度整数算术执行</li>
+</ul>
+<p><img src="/wiki/62023/1712407532667.png"></p>
+<p>如下图所示，硬件对低精度的处理会更好，并且低精度能量和面积方面的效率明显更高。</p>
+<p><img src="/wiki/62023/1712407640141.png"></p>
+<p>（这里稍微介绍了对于各种激活函数的量化方法，可以留意一下？</p>
+<p>二进量化（Dyadic
+quantization）是一种特殊的量化方法，通过把权重量化为二元数（二元数是分子中具有整数值、分母中具有
+2 的幂的有理数），从而把运算转化为加减与位移从而提高效率。</p>
+<p>两种量化种纯整数量化应用较多，但是假量化在通信成本高于计算成本的时候也有一定的应用前景。</p>
+<h3 id="混合精度量化">混合精度量化</h3>
+<p>使用较低精度的量化时，硬件性能会提高。然而，将模型统一量化为超低精度可能会导致精度显着下降，可以通过混合精度量化来解决这个问题。</p>
+<p>每一层都以不同的位精度进行量化，如下图所示。这种方法的一个挑战是，用于选择此位设置的搜索空间与层数成指数关系。人们提出了不同的方法来解决这个巨大的搜索空间。</p>
+<p><img src="/wiki/62023/1712408451748.png"></p>
+<p>搜索方法有：</p>
+<ul>
+<li>强化学习</li>
+<li>转化为神经架构搜索NAS使用DNAS解决</li>
+</ul>
+<p>另一类混合精度方法使用周期函数正则化来训练混合精度模型，方法是在学习各自的位宽时自动区分不同的层及其在准确性方面的不同重要性。</p>
+<p>HAWQ引入了一种基于模型二阶灵敏度自动查找混合精度设置的方法。</p>
+<h3 id="硬件感知量化">硬件感知量化</h3>
+<p>量化带来的性能提升和硬件有着密切关系，比如带宽设置、缓存结构等。因此，通过硬件感知量化实现最佳效益十分重要。</p>
+<h3 id="蒸馏辅助量化">蒸馏辅助量化</h3>
+<p>量化领域的一个有趣的工作是结合模型蒸馏来提高量化精度。在学生模型的训练过程中，模型蒸馏建议利用教师产生的软概率，而不是仅使用真实类别标签，其中可能包含更多的输入信息。</p>
+<p><span class="math display">\[
+\mathcal{L}=\alpha\mathcal{H}(y,\sigma(\mathcal{z}_{s}))+\beta\mathcal{H}(\sigma(\mathcal{z}_{t},T),\sigma(\mathcal{z}_{s},T))
+\]</span></p>
+<p>α 和 β 是调整学生模型损失量和蒸馏损失的加权系数，y 是真实类别标签，
+<span class="math inline">\(\mathcal{H}\)</span>是交叉熵损失函数，<span class="math inline">\({\mathcal{z}}_{s}/{\mathcal{z}}_{t}\)</span>是学生/教师模型生成的概率，T是温度。</p>
+<p><span class="math display">\[
+p_{i}=\frac{\exp\frac{z_{i}}{T}}{\sum_{j}\exp\frac{z_{j}}{T}}
+\]</span></p>
+<p>然后有许多关于蒸馏过程的尝试，比如使用软概率、中间层数据、多教师模型等。</p>
+<h3 id="极致量化">极致量化</h3>
+<p>这里提到了一些极端的量化方法，比如二值化和三值化等，但是极致的量化也会带来巨大的精度损失。因此有许多工作是关于极值量化的。目前大致有三个分支：</p>
+<ul>
+<li>量化误差最小化</li>
+<li>改进损失函数</li>
+<li>改进训练方法</li>
+</ul>
+<h3 id="矢量量化">矢量量化</h3>
+<p>量化的目标是保持精度，而不是单个值的差异。因此有相关工作是把权重聚类分组然后使用中心作为量化值。还可以扩展为矩阵的乘积量化，把矩阵按照子矩阵分组。</p>
+<h2 id="量化和硬件处理器">量化和硬件处理器</h2>
+<p>这里罗列了一些处理器，并且介绍了他们的特点。</p>
+<h2 id="量化的未来研究">量化的未来研究</h2>
+<p>介绍了未来可以研究的几个东西：</p>
+<ul>
+<li>量化软件</li>
+<li>硬件和神经网络架构协同设计</li>
+<li>耦合压缩方法</li>
+<li>量化训练</li>
+</ul>
+<h2 id="总结和结论">总结和结论</h2>
+<p>...</p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.13630">A Survey of Quantization
+Methods for Efficient Neural Network Inference</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/8948/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/13640/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Hexo+Github搭建个人Wiki风格博客</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

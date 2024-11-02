@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>llm.int8 | Blogs</title>
+    
+    
+        <meta name="keywords" content="深度学习,量化" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="todo：本文还在施工中.......  介绍 llm.int8是第一批针对大模型进行量化的算法，并且其算法也被集成在 bitsandbytes库中，该库也已经被 huggingface集成到代码库当中作为最基本的量化算法之一。 论文地址为：[2208.07339] LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale">
+<meta property="og:type" content="article">
+<meta property="og:title" content="llm.int8">
+<meta property="og:url" content="https://bg51717.github.io/wiki/21264/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="todo：本文还在施工中.......  介绍 llm.int8是第一批针对大模型进行量化的算法，并且其算法也被集成在 bitsandbytes库中，该库也已经被 huggingface集成到代码库当中作为最基本的量化算法之一。 论文地址为：[2208.07339] LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/21264/1729756835272.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/21264/1729962190147.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/21264/1729961938672.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/21264/1729962553598.png">
+<meta property="article:published_time" content="2024-10-24T07:39:30.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:57:00.281Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="量化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/21264/1729756835272.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file active"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-科研/论文阅读/llm-int8" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/">科研</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a>, <a class="tag-link-link" href="/wiki/tags/%E9%87%8F%E5%8C%96/" rel="tag">量化</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/21264/">
+            <time datetime="2024-10-24T07:39:30.000Z" itemprop="datePublished">2024-10-24</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/科研/论文阅读/llm-int8.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/科研/论文阅读/llm-int8.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/科研/论文阅读/llm-int8.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            llm.int8
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">2.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D-1"><span class="toc-number">3.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8F%E5%8C%96%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-number">4.</span> <span class="toc-text">量化前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E7%A7%B0%E9%87%8F%E5%8C%96"><span class="toc-number">4.1.</span> <span class="toc-text">对称量化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.</span> <span class="toc-text">原理介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="toc-number">6.</span> <span class="toc-text">原理分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">7.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bitsandbytes%E4%BB%8B%E7%BB%8D"><span class="toc-number">8.</span> <span class="toc-text">bitsandbytes介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">9.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <blockquote>
+<p>todo：本文还在施工中.......</p>
+</blockquote>
+<h2 id="介绍">介绍</h2>
+<p><code>llm.int8</code>是第一批针对大模型进行量化的算法，并且其算法也被集成在
+<code>bitsandbytes</code>库中，该库也已经被
+<code>huggingface</code>集成到代码库当中作为最基本的量化算法之一。</p>
+<p>论文地址为：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2208.07339">[2208.07339]
+LLM.int8(): 8-bit Matrix Multiplication for Transformers at
+Scale</a></p>
+<p>对应的源码为：<a target="_blank" rel="noopener" href="https://github.com/bitsandbytes-foundation/bitsandbytes">bitsandbytes-foundation/bitsandbytes:
+Accessible large language models via k-bit quantization for
+PyTorch.</a></p>
+<h2 id="摘要">摘要</h2>
+<p>LLM.in8()量化针对的是transformer的FNN模块和Attn模块的矩阵乘法。</p>
+<p>该量化方法把矩阵中的异常值抽出来保持16位精度，对于其余值量化为8位精度，计算的时候恢复16精度。量化常数的选择是在向量维度进行的（矩阵最后维度）。</p>
+<h2 id="介绍-1">介绍</h2>
+<p>FFN和Attn的矩阵参数在模型总参数占比较高，且矩阵乘法占据了较多的计算资源。以往的量化方法降低了模型的表现并且需要量化后训练。同时没有对超过350M参数进行量化研究。这篇论文第一次提出针对百万级参数量的模型的量化方法且模型性能下降有限。应该也是第一篇把大模型量化到8比特的论文。</p>
+<h2 id="量化前置知识">量化前置知识</h2>
+<p>论文这里简单说明了非对称量化理论上能提供更高的精度，但是由于实际限制，用的最多的还是对称量化。</p>
+<h3 id="对称量化">对称量化</h3>
+<p>对于fp16格式的输入<span class="math inline">\(\mathbf{X}_{f16} \in
+\mathbb{R}^{s \times h}\)</span>，8比特的量化为：</p>
+<p><span class="math display">\[
+\mathbf{X}_{i8} = \left\lfloor \frac{127 \cdot
+\mathbf{X}_{f16}}{\max_{ij} \left( |\mathbf{X}_{f16_{ij}}| \right)}
+\right\rceil
+= \left\lfloor \frac{127}{\|\mathbf{X}_{f16}\|_{\infty}}
+\mathbf{X}_{f16} \right\rceil
+= \left\lfloor s_{x_{f16}} \mathbf{X}_{f16} \right\rceil
+\]</span></p>
+<p>其中<span class="math inline">\(\left\lfloor  \right\rceil\)</span>，代表四舍五入取整，即距离最近的整数。</p>
+<h2 id="原理介绍">原理介绍</h2>
+<p>这个量化的方法原理很简单，该方案先做了一个矩阵分解，对绝大部分权重和激活用8bit量化（<strong>vector</strong>-wise）。对离群特征的几个维度保留16bit，对其做高精度的矩阵乘法。</p>
+<p><img src="/wiki/21264/1729756835272.png"></p>
+<p>LLM.int8() 通过三个步骤完成矩阵乘法计算:</p>
+<ol type="1">
+<li>从输入的隐含状态中，按列提取异常维度
+(离群特征，即大于某个阈值的值)。</li>
+<li>对离群特征进行 FP16 矩阵运算，对非离群特征进行量化，做 INT8
+矩阵运算；</li>
+<li>反量化非离群值的矩阵乘结果，并与离群值矩阵乘结果相加，获得最终的
+FP16 结果。</li>
+</ol>
+<h2 id="原理分析">原理分析</h2>
+<p>这个方法能成功的一个重要原因是作者发现<strong>同一个序列的不同token异常维度集中在部分维度且异常维度数目较少</strong>。</p>
+<p>首先，论文定义异常值的标准为：</p>
+<ul>
+<li>值需要大于等于6</li>
+<li>影响25%的层</li>
+<li>至少出现一个序列在6%的token中</li>
+</ul>
+<p>作者对此进行了解释：</p>
+<ul>
+<li>实验发现把大于等于6的值设置为异常值，困惑度退化就会停止</li>
+<li>异常值特征是在大模型中系统出现的，要么出现在大多数层中，要么不出现；在小模型中概率出现。设置该阈值保证125M的最小模型中异常值只有一个（小模型中第二个出现最多的异常值仅仅出现2%的层）</li>
+<li>使用和第二点相同的过程来选择异常值在序列维度的最小出现比例</li>
+</ul>
+<p>作者进行了实验，将满足条件的维度设置为0，比较最高可能性输出类别所分配的Softmax概率值。对比是随机选择相同数目的维度进行对比。</p>
+<p><img src="/wiki/21264/1729962190147.png"></p>
+<h2 id="实验">实验</h2>
+<p>todo：量化效果</p>
+<p><img src="/wiki/21264/1729961938672.png"></p>
+<p>todo：加速效果</p>
+<p>由于多余的反量化操作，在小模型上推理速度有所下降。</p>
+<p><img src="/wiki/21264/1729962553598.png"></p>
+<h2 id="bitsandbytes介绍">bitsandbytes介绍</h2>
+<p>todo：介绍库的大致使用方法和部分疑点。</p>
+<p><code>bitsandbytes</code>库在量化模型的时候，不需要数据首先直接把权重量化为8bit。在推理的时候，根据输入确定异常维度。输入的异常维度保持fp16，别的维度量化为int8。而量化后的权重，会把异常维度进行反量化为fp16（可能会有轻微损失），别的保持int8。之后的计算就和原理图保持一致。</p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2208.07339">[2208.07339] LLM.int8():
+8-bit Matrix Multiplication for Transformers at Scale</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/scgaliguodong123_/article/details/136176382">大模型量化技术原理-LLM.int8()、GPTQ-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bitsandbytes-foundation/bitsandbytes">bitsandbytes-foundation/bitsandbytes:
+Accessible large language models via k-bit quantization for
+PyTorch.</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/31769/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/45014/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">pytorch分布式-ddp</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

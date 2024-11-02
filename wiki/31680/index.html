@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>hexo博客2:双主题 | Blogs</title>
+    
+    
+        <meta name="keywords" content="博客,Hexo,Wiki" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 后来发现单纯的wiki风格博客可能确实有些单调了（绝对不是因为我想弄二次元风格的），因此在考虑以后，决定搭建一个双主题的博客，外层是个华丽一点的主题matery，内层是个wiki风格主题Wikitten。  同时可以通过外层的wiki标志点击进入内层的wiki主题。   双主题安装 参考文章：Hexo 同时使用两种主题（博客与 wiki 页面实现统一管理） | 别院牧志 (masantu.c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo博客2:双主题">
+<meta property="og:url" content="https://bg51717.github.io/wiki/31680/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 后来发现单纯的wiki风格博客可能确实有些单调了（绝对不是因为我想弄二次元风格的），因此在考虑以后，决定搭建一个双主题的博客，外层是个华丽一点的主题matery，内层是个wiki风格主题Wikitten。  同时可以通过外层的wiki标志点击进入内层的wiki主题。   双主题安装 参考文章：Hexo 同时使用两种主题（博客与 wiki 页面实现统一管理） | 别院牧志 (masantu.c">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31680/1727953154709.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31680/1727953220606.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31680/1727953171329.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/31680/1730525332224.png">
+<meta property="article:published_time" content="2024-10-03T10:55:45.000Z">
+<meta property="article:modified_time" content="2024-11-02T05:32:24.133Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Wiki">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/31680/1727953154709.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file active"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-SmallProjects/博客搭建/hexo博客2-双主题" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/SmallProjects/">SmallProjects</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/Hexo/" rel="tag">Hexo</a>, <a class="tag-link-link" href="/wiki/tags/Wiki/" rel="tag">Wiki</a>, <a class="tag-link-link" href="/wiki/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/31680/">
+            <time datetime="2024-10-03T10:55:45.000Z" itemprop="datePublished">2024-10-03</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/SmallProjects/博客搭建/hexo博客2-双主题.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/SmallProjects/博客搭建/hexo博客2-双主题.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/SmallProjects/博客搭建/hexo博客2-双主题.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            hexo博客2:双主题
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8C%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">双主题安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E8%A1%8C%E9%AB%98%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">代码块行高问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#wiki%E5%9B%BE%E7%89%87%E9%93%BE%E6%8E%A5%E9%97%AE%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">wiki图片链接问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BE%E5%BA%93api%E8%AE%BE%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">图库APi设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E9%93%BE%E6%8E%A5%E8%B7%B3%E8%BD%AC%E9%94%99%E8%AF%AF"><span class="toc-number">6.</span> <span class="toc-text">搜索链接跳转错误</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2"><span class="toc-number">7.</span> <span class="toc-text">渲染页面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="介绍">介绍</h1>
+<p>后来发现单纯的wiki风格博客可能确实有些单调了（<del>绝对不是因为我想弄二次元风格的</del>），因此在考虑以后，决定搭建一个双主题的博客，外层是个华丽一点的主题<a target="_blank" rel="noopener" href="https://github.com/blinkfox/hexo-theme-matery">matery</a>，内层是个wiki风格主题<a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">Wikitten</a>。</p>
+<p><img src="/wiki/31680/1727953154709.png"></p>
+<p>同时可以通过外层的wiki标志点击进入内层的wiki主题。</p>
+<p><img src="/wiki/31680/1727953220606.png"></p>
+<p><img src="/wiki/31680/1727953171329.png"></p>
+<h1 id="双主题安装">双主题安装</h1>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://masantu.com/blog/2020-05-23/hello-hexo-wiki/">Hexo
+同时使用两种主题（博客与 wiki 页面实现统一管理） | 别院牧志
+(masantu.com)</a></p>
+<ol type="1">
+<li><p>把原来wiki主题的 <code>_config.yml</code>复制并重命名为
+<code>_config_wiki.yml</code>（wiki主题下的站点文件</p></li>
+<li><p>安装 <code>hexo-theme-matery</code>主题</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> your<span class="literal">-hexo-directory</span>/themes</span><br><span class="line">git clone https://github.com/blinkfox/hexo<span class="literal">-theme-matery</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>按照 <code>matery</code>教程配置新的
+<code>_config_wiki.yml</code>文件</p></li>
+<li><p>修改 <code>_config_wiki.yml</code>文件：</p>
+<figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://bg51717.github.io/wiki/</span></span><br><span class="line"><span class="attr">root:</span> <span class="string">/wiki/</span></span><br><span class="line"><span class="comment"># permalink: :year/:month/:day/:title/</span></span><br><span class="line"><span class="comment"># permalink_defaults:</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">/:abbrlink/</span></span><br><span class="line"><span class="attr">abbrlink:</span></span><br><span class="line">    <span class="attr">alg:</span> <span class="string">crc16</span>   <span class="comment">#算法： crc16(default) and crc32</span></span><br><span class="line">    <span class="attr">rep:</span> <span class="string">dec</span>     <span class="comment">#进制： dec(default) and hex</span></span><br><span class="line"></span><br><span class="line"><span class="attr">permalink_defaults:</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># Directory</span></span><br><span class="line"><span class="attr">source_dir:</span> <span class="string">source</span></span><br><span class="line"><span class="attr">public_dir:</span> <span class="string">public/wiki/</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+<h1 id="代码块行高问题">代码块行高问题</h1>
+<p>在使用
+<code>prismjs</code>渲染代码块的时候，可能会遇到图示问题，行高不匹配，其实主要是位置没有对准：
+<img src="/wiki/31680/1730525332224.png"></p>
+<p>可以参考：<a target="_blank" rel="noopener" href="https://github.com/blinkfox/hexo-theme-matery/issues/928">hexo 7.3
+代码块显示问题 · Issue #928 · blinkfox/hexo-theme-matery</a></p>
+<p>解决办法是把
+<code>themes\hexo-theme-matery\source\libs\prism\prism.min.css</code>文件里的：</p>
+<figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[class*=language-]</span><span class="selector-class">.line-numbers</span>&gt;<span class="selector-tag">code</span>{<span class="attribute">position</span>:relative;<span class="attribute">white-space</span>:inherit}</span><br></pre></td></tr></tbody></table></figure>
+<p>修改为：</p>
+<figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[class*=language-]</span><span class="selector-class">.line-numbers</span>&gt;<span class="selector-tag">code</span>{<span class="attribute">position</span>:sticky;<span class="attribute">white-space</span>:inherit}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="wiki图片链接问题">wiki图片链接问题</h1>
+<p>由于渲染的站点 <code>url</code>和 <code>root</code>里都有
+<code>wiki</code>，因此会导致渲染出来的图片出现两次
+<code>/wiki</code>，因此需要代码进行处理，核心函数如下所示：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">post_html_file</span>(<span class="params">file_path</span>):</span><br><span class="line">    <span class="string">"""处理html文件，只修改图片链接中的重复/wiki/"""</span></span><br><span class="line">    <span class="comment"># 如果不是html文件, 返回</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> file_path.endswith(<span class="string">".html"</span>):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 读取文件内容</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">"r"</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> file:</span><br><span class="line">        content = file.read()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义正则表达式来匹配图片链接，处理 &lt;img&gt; 标签中的 src 属性</span></span><br><span class="line">    img_pattern = <span class="string">r'&lt;img[^&gt;]+src="([^"]+)"'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 查找所有匹配的图片链接</span></span><br><span class="line">    matches = re.findall(img_pattern, content)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 遍历所有匹配的图片链接，替换掉重复的 /wiki/</span></span><br><span class="line">    modified_content = content</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">match</span> <span class="keyword">in</span> matches:</span><br><span class="line">        <span class="comment"># 如果链接中有重复的 /wiki/，替换为单一的 /wiki/</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">"/wiki/wiki/"</span> <span class="keyword">in</span> <span class="keyword">match</span>:</span><br><span class="line">            corrected_url = <span class="keyword">match</span>.replace(<span class="string">"/wiki/wiki/"</span>, <span class="string">"/wiki/"</span>)</span><br><span class="line">            <span class="comment"># 替换内容中的旧链接为新的链接</span></span><br><span class="line">            modified_content = modified_content.replace(<span class="keyword">match</span>, corrected_url)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将修改后的内容写回文件</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">"w"</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> file:</span><br><span class="line">        file.write(modified_content)</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="图库api设置">图库APi设置</h1>
+<p>对于外层主题，需要自己设置相关的图片，笔者从<a target="_blank" rel="noopener" href="https://t.alcy.cc/">栗次元API-举个栗子
+图库API</a>爬取部分图片作为图片。
+也有别的食用方法可以参考该网站具体的教程。</p>
+<h1 id="搜索链接跳转错误">搜索链接跳转错误</h1>
+<p>由于把每篇博客链接到了一个数字，从而起到了缩短博客网址长度和增加搜索引擎爬取的概率，但是可能会导致原有的搜索跳转到随机IP。
+原因是：网址返回的是纯数字相对链接，比如
+<code>/7369</code>，完整的链接为
+<code>https://bg51717.github.io/7369/</code>，但是浏览器可能会把链接解析为ip地址，变成
+<code>0.0.28.201</code>，等同于256进制下的
+<code>7369</code>，从而导致跳转错误。
+因此需要调整搜索代码，每次返回完整链接，具体如下：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (data_url.indexOf('http') !== 0) {</span><br><span class="line">    // 生成绝对路径，确保基于网站根目录</span><br><span class="line">    data_url =  window.location.host +'/'+root+'/'+ data_url;</span><br><span class="line">    data_url = data_url.replace(/\/+/g, '/'); // 去掉连续的斜杠</span><br><span class="line">    data_url = data_url.replace(/^\//, '');   // 去掉开头的斜杠</span><br><span class="line">    data_url = window.location.protocol + '//' + data_url;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="渲染页面">渲染页面</h1>
+<p>渲染部分的参考主要来自：<a target="_blank" rel="noopener" href="https://masantu.com/blog/2020-05-23/hello-hexo-wiki/">Hexo
+同时使用两种主题（博客与 wiki 页面实现统一管理） | 别院牧志</a></p>
+<ol type="1">
+<li><p>渲染主页面，生成到/public/</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>删除 db.json 及旧的 public/wiki</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo --config _config_wiki.yml clean</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>渲染wiki页面</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo --config _config_wiki.yml g</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>删除db.json</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm db.json</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+<p>如果每次执行上述步骤都会稍显复杂，因此考虑整理脚本文件
+<code>run.py</code>，执行渲染时 <code>python run.py</code>即可：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> platform</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">run_command</span>(<span class="params">command</span>):</span><br><span class="line">    <span class="string">"""实时执行命令并将输出打印到控制台"""</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 使用 Popen 来执行命令并实时读取输出</span></span><br><span class="line">        process = subprocess.Popen(command, shell=<span class="literal">True</span>, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=<span class="literal">True</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 实时读取 stdout 和 stderr</span></span><br><span class="line">        <span class="keyword">for</span> stdout_line <span class="keyword">in</span> <span class="built_in">iter</span>(process.stdout.readline, <span class="string">""</span>):</span><br><span class="line">            <span class="built_in">print</span>(stdout_line, end=<span class="string">''</span>)  <span class="comment"># 实时输出 stdout</span></span><br><span class="line"></span><br><span class="line">        process.stdout.close()</span><br><span class="line">        return_code = process.wait()  <span class="comment"># 等待命令执行结束</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 输出 stderr（如果有）</span></span><br><span class="line">        <span class="keyword">if</span> return_code != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">for</span> stderr_line <span class="keyword">in</span> <span class="built_in">iter</span>(process.stderr.readline, <span class="string">""</span>):</span><br><span class="line">                <span class="built_in">print</span>(stderr_line, end=<span class="string">''</span>)  <span class="comment"># 实时输出 stderr</span></span><br><span class="line">        process.stderr.close()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> subprocess.CalledProcessError <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f"命令 '<span class="subst">{command}</span>' 执行失败，错误信息: <span class="subst">{e.stderr}</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">clean_generate_hexo</span>():</span><br><span class="line">    <span class="string">"""执行 hexo clean 和 hexo g 命令，以及相关的配置命令"""</span></span><br><span class="line">    os_type = platform.system()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据操作系统选择 rm 或 del</span></span><br><span class="line">    remove_command = <span class="string">"rm db.json"</span> <span class="keyword">if</span> os_type != <span class="string">"Windows"</span> <span class="keyword">else</span> <span class="string">"del db.json"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义需要执行的命令列表</span></span><br><span class="line">    commands = [</span><br><span class="line">        <span class="string">"python -m process.run_before"</span>,</span><br><span class="line">        <span class="string">"hexo clean"</span>,</span><br><span class="line">        <span class="string">"hexo g"</span>,</span><br><span class="line">        <span class="string">"hexo --config _config_wiki.yml clean"</span>,</span><br><span class="line">        <span class="string">"hexo --config _config_wiki.yml g"</span>,</span><br><span class="line">        remove_command,</span><br><span class="line">        <span class="string">"python -m process.run_post"</span>,</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 逐一执行命令</span></span><br><span class="line">    <span class="keyword">for</span> command <span class="keyword">in</span> commands:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f"\n正在执行命令: <span class="subst">{command}</span>"</span>)</span><br><span class="line">        run_command(command)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    clean_generate_hexo()</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="参考资料">参考资料</h1>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/blinkfox/hexo-theme-matery">blinkfox/hexo-theme-matery:
+A beautiful hexo blog theme with material design and responsive
+design.一个基于材料设计和响应式设计而成的全面、美观的Hexo主题。国内访问：http://blinkfox.com
+(github.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">zthxxx/hexo-theme-Wikitten:
+A theme of Hexo for personal wiki which seems like Wikitten style.
+(github.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://masantu.com/blog/2020-05-23/hello-hexo-wiki/">Hexo
+同时使用两种主题（博客与 wiki 页面实现统一管理） | 别院牧志
+(masantu.com)</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/45014/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    pytorch分布式-ddp
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/13162/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">使用dotbot快速同步Linux配置</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

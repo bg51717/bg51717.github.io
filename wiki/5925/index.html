@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>Word2Vec | Blogs</title>
+    
+    
+        <meta name="keywords" content="深度学习,自然语言处理" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构 Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Word2Vec">
+<meta property="og:url" content="https://bg51717.github.io/wiki/5925/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量 Word2Vec是一种Distributed Representation,相比独热编码有以下优点:  维度远小于独热编码 能更好的反馈向量间的关系 每个维度都被充分利用  Word2Vec的网络结构 Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/5925/1703252876064.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/5925/1703253424041.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/5925/1703256300356.png#pic_center">
+<meta property="og:image" content="https://bg51717.github.io/wiki/5925/1703256961548.png#pic_center">
+<meta property="og:image" content="https://bg51717.github.io/wiki/5925/1703256988046.png#pic_center">
+<meta property="og:image" content="https://bg51717.github.io/wiki/5925/1703258521309.png#pic_center">
+<meta property="og:image" content="https://bg51717.github.io/wiki/5925/1703258985364.png">
+<meta property="article:published_time" content="2023-12-21T08:53:05.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:55:49.882Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="自然语言处理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/5925/1703252876064.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-深度学习/自然语言处理/Word2Vec" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a>, <a class="tag-link-link" href="/wiki/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" rel="tag">自然语言处理</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/5925/">
+            <time datetime="2023-12-21T08:53:05.000Z" itemprop="datePublished">2023-12-21</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/深度学习/自然语言处理/Word2Vec.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/深度学习/自然语言处理/Word2Vec.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/深度学习/自然语言处理/Word2Vec.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Word2Vec
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word2vec%E7%9A%84%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">Word2Vec的网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84%E5%9F%BA%E7%A1%80"><span class="toc-number">3.</span> <span class="toc-text">网络结构基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cbow-%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.</span> <span class="toc-text">CBOW 词袋模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#skip-gram-model-%E8%B7%B3%E5%85%83%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">Skip-gram Model 跳元模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%91%E4%BC%BC%E8%AE%AD%E7%BB%83"><span class="toc-number">6.</span> <span class="toc-text">近似训练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E9%87%87%E6%A0%B7negative-sampling"><span class="toc-number">6.1.</span> <span class="toc-text">负采样Negative
+Sampling</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B1%82softmax-hierarchical-softmax"><span class="toc-number">6.2.</span> <span class="toc-text">分层softmax Hierarchical
+Softmax</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="介绍">介绍</h2>
+<p>传统的词向量是独热编码One-Hot,每个词语对应的向量只有一位为1,其余为0,通过这个1的位置区分向量</p>
+<p>Word2Vec是一种Distributed Representation,相比独热编码有以下优点:</p>
+<ul>
+<li>维度远小于独热编码</li>
+<li>能更好的反馈向量间的关系</li>
+<li>每个维度都被充分利用</li>
+</ul>
+<h2 id="word2vec的网络结构"><strong>Word2Vec的网络结构</strong></h2>
+<p>Word2Vec是轻量级的神经网络，其模型仅仅包括输入层、隐藏层和输出层，模型框架根据输入输出的不同，主要包括CBOW和Skip-gram模型。</p>
+<p>CBOW模型,在知道上下文的情况下预测中心词<span class="math inline">\(w_t\)</span></p>
+<p>Skip-gram模型,在知道中心词<span class="math inline">\(w_t\)</span>的情况下预测</p>
+<p><img src="/wiki/5925/1703252876064.png"></p>
+<h2 id="网络结构基础">网络结构基础</h2>
+<p>下图是两种模型结构的基础,是输入一个词,预测一个词</p>
+<p><img src="/wiki/5925/1703253424041.png"></p>
+<p>中间的运算都会使用矩阵方便加速:</p>
+<ul>
+<li>一个词语转换成对应的词向量,就会使用独热编码乘以这个<span class="math inline">\(W_{V\times
+N}\)</span>,(其中V为词库大小,N为词向量维度数)</li>
+<li>一个词向量和别的词的上下文向量点乘,也会乘以矩阵<span class="math inline">\(W^{'}_{V\times N}\)</span>,得到<span class="math inline">\(\bm y\)</span>,也就是<span class="math inline">\(\bm u^T\cdot \bm v\)</span></li>
+</ul>
+<p>之后词语k的概率就是softmax:</p>
+<p><span class="math display">\[
+P(w_k|w_c)=\frac{\exp(\bm u^T_k\cdot \bm v_c)}{\sum \exp(\bm u^T_i\cdot
+\bm v_c)}=\frac{\exp(\bm y_k)}{\sum \exp(\bm y_i)}
+\]</span></p>
+<p>之后就是追求句子概率最大化:</p>
+<p><span class="math display">\[
+\prod P(w_k|w_c)
+\]</span></p>
+<p>对数化后取负数就得到了损失函数:</p>
+<p><span class="math display">\[
+Loss=\sum_{o \in context}( \bm u^T_k\cdot \bm v_c-log(\sum_{i \in
+V}exp(\bm u^T_i\cdot \bm v_c)))
+\]</span></p>
+<p>通过微分，我们可以获得其相对于中心词向量<span class="math inline">\(\bm v_c\)</span>的梯度为</p>
+<p><img src="/wiki/5925/1703256300356.png#pic_center"></p>
+<p>其他向量的方法也是类似.这里就不给予推导.</p>
+<h2 id="cbow-词袋模型">CBOW 词袋模型</h2>
+<p>用上下文预测中心词<span class="math inline">\(w_t\)</span></p>
+<p><img src="/wiki/5925/1703256961548.png#pic_center"></p>
+<h2 id="skip-gram-model-跳元模型">Skip-gram Model 跳元模型</h2>
+<p>用中心词<span class="math inline">\(w_t\)</span>预测上下文</p>
+<p><img src="/wiki/5925/1703256988046.png#pic_center"></p>
+<h2 id="近似训练">近似训练</h2>
+<p>由于softmax操作的性质，上下文词可以是词表V中的任意项，式子包含与整个词表大小一样多的项的求
+和。因此，跳元模型的梯度计算和连续词袋模型的梯度计算都包含求和。不幸的是，
+在一个词典上（通常有几十万或数百万个单词）求和的梯度的计算成本是巨大的！</p>
+<p>为了降低上述计算复杂度，引入两种近似训练方法：负采样和分层softmax。由于跳元模型和连续词袋
+模型的相似性，将以跳元模型为例来描述这两种近似训练方法。</p>
+<h3 id="负采样negative-sampling">负采样<strong>Negative
+Sampling</strong></h3>
+<blockquote>
+<p>负采样指的是加入一些负样本来进行模型的训练.</p>
+</blockquote>
+<p>负采样修改了原目标函数来减少运算成本.</p>
+<p>给定中心词<span class="math inline">\(w_c\)</span>的上下文窗口，任意上下文词<span class="math inline">\(w_o\)</span>来自该上下文窗口的被认为是由下式建模概率的事件：</p>
+<p><span class="math display">\[
+P(D=1|w_c,w_o)=\sigma(\bm u^T_o\bm v_c)
+\]</span></p>
+<p>其中</p>
+<p><span class="math display">\[
+\sigma(x)=\frac{1}{1+exp(-x)}
+\]</span></p>
+<p>考虑最大化联合概率</p>
+<p><span class="math display">\[
+\prod^T_{t=1}\prod_{-m\leqslant j \leqslant m,j\neq 0}
+P(D=1|w_t,w_{t+j})
+\]</span></p>
+<p>然而这样只考虑了正样本,当且仅当所有词向量都等于无穷大的时候,这个式子会最大化为1,因此考虑加入一些噪声词作为负样本.</p>
+<p><span class="math display">\[
+\prod^T_{t=1}\prod_{-m\leqslant j \leqslant m,j\neq 0}
+P(w_{t+j}|w_t)  \\
+其中
+P(w_{t+j}|w_t)=P(D=1|w_t,w_{t+j})\prod^K_{k=1,w_k\thicksim
+P(w)}P(D=0|w_t,w_k)
+\]</span></p>
+<p>关于条件概率的对数损失函数为:</p>
+<p><img src="/wiki/5925/1703258521309.png#pic_center"></p>
+<h3 id="分层softmax-hierarchical-softmax">分层softmax Hierarchical
+Softmax</h3>
+<p><img src="/wiki/5925/1703258985364.png"></p>
+<p>这是一颗二叉树,从根节点开始,每次走左节点还是右节点都是概率时间,每个叶子节点都是词,所以根据中心词向量预测上下文可以看作是从根节点到叶子节点路径的概率乘积.</p>
+<p>一种构造二叉树的方法是根据词语的出现频率构造哈夫曼树.</p>
+<p>在非叶子节点<span class="math inline">\(i\)</span>走右边的概率是</p>
+<p><span class="math display">\[
+\sigma(\bm x^T_w \bm \theta)=\frac{1}{1+eps(-\bm x^T_w \bm \theta)}
+\]</span></p>
+<p>根据中心词<span class="math inline">\(w_t\)</span>预测上下文<span class="math inline">\(w_o\)</span>的概率也很就容易得到.</p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<p>第一篇写的最为详细全面,包括本文各种没有提到的细节,点赞!</p>
+<p>参考资料里面第一篇和第三篇其实说的是一个东西,只不过一个是以矩阵的形式给出的.</p>
+<p>可以通过奇异值分解减少词的特征维度.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/114538417">深入浅出Word2Vec原理解析 -
+知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/v_JULY_v/article/details/102708459">如何通俗理解Word2Vec
+(23年修订版)-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing-pretraining/word2vec.html">14.1.
+词嵌入（word2vec） — 动手学深度学习 2.0.0 documentation
+(d2l.ai)</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/51558/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    GloVe
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/17140/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">readme</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

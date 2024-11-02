@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>矩阵偏分 | Blogs</title>
+    
+    
+        <meta name="keywords" content="深度学习,数学,矩阵,向量" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置（和分子行数一样）和分母转置（和分母行数一样）两种，两种结果互为转置。本篇介绍的不太一样，因为很多教程也是混杂的（太难蚌了）。  符号 标量：\(x\) 向量：\(\mathbf{x}\) （） 矩阵：\(X\) 逐点乘积：\(\odot\)（） 矩阵的迹：\(tr(X">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵偏分">
+<meta property="og:url" content="https://bg51717.github.io/wiki/45525/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.  （矩阵求导有分子转置（和分子行数一样）和分母转置（和分母行数一样）两种，两种结果互为转置。本篇介绍的不太一样，因为很多教程也是混杂的（太难蚌了）。  符号 标量：\(x\) 向量：\(\mathbf{x}\) （） 矩阵：\(X\) 逐点乘积：\(\odot\)（） 矩阵的迹：\(tr(X">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/45525/1729755284537.png">
+<meta property="article:published_time" content="2023-12-24T07:18:43.000Z">
+<meta property="article:modified_time" content="2024-11-02T02:55:49.880Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="数学">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="向量">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/45525/1729755284537.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-深度学习/前置数学/矩阵偏分" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/">前置数学</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/%E5%90%91%E9%87%8F/" rel="tag">向量</a>, <a class="tag-link-link" href="/wiki/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a>, <a class="tag-link-link" href="/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag">深度学习</a>, <a class="tag-link-link" href="/wiki/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/45525/">
+            <time datetime="2023-12-24T07:18:43.000Z" itemprop="datePublished">2023-12-24</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/深度学习/前置数学/矩阵偏分.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/深度学习/前置数学/矩阵偏分.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/深度学习/前置数学/矩阵偏分.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            矩阵偏分
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7"><span class="toc-number">1.</span> <span class="toc-text">符号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E5%BE%AE%E5%88%86%E8%A7%84%E5%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">矩阵微分规律</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%85%E5%8F%AF%E6%AF%94%E7%9F%A9%E9%98%B5"><span class="toc-number">3.</span> <span class="toc-text">雅可比矩阵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hessian"><span class="toc-number">4.</span> <span class="toc-text">Hessian</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E5%BC%8F%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">链式表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E5%90%91%E9%87%8F%E5%81%8F%E5%AF%BC%E5%BD%A2%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">行向量偏导形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%88%E9%80%82%E5%81%9A%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">合适做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <p>在学习深度学习的过程中,很多次遇到了矩阵求导的问题,发现网上很多教程写的不是很好理解,记录自己的浅薄认知.</p>
+<blockquote>
+<p>（矩阵求导有分子转置（和分子行数一样）和分母转置（和分母行数一样）两种，两种结果互为转置。本篇介绍的不太一样，因为很多教程也是混杂的（太难蚌了）。</p>
+</blockquote>
+<h2 id="符号">符号</h2>
+<p>标量：<span class="math inline">\(x\)</span></p>
+<p>向量：<span class="math inline">\(\mathbf{x}\)</span> （）</p>
+<p>矩阵：<span class="math inline">\(X\)</span></p>
+<p>逐点乘积：<span class="math inline">\(\odot\)</span>（）</p>
+<p>矩阵的迹：<span class="math inline">\(tr(X)\)</span></p>
+<p>加入有两个矩阵<span class="math inline">\(A_{m\times n},B_{m\times
+n}\)</span>，其中一个转置乘以另一个得到矩阵<span class="math inline">\(C\)</span>，该矩阵的迹为两个矩阵<strong>对应位置的元素相乘并相加</strong>
+，可以理解为<strong>向量的点积</strong>在矩阵上的推广，即：</p>
+<p><span class="math display">\[
+\begin{align*}
+\text{tr}\left( AB^T \right) &amp;= a_{11}b_{11} + a_{12}b_{12} + \cdots
++ a_{1n}b_{1n} \\
+&amp;+ a_{21}b_{21} + a_{22}b_{22} + \cdots + a_{2n}b_{2n} \\
+&amp;+ \cdots \\
+&amp;+ a_{m1}b_{m1} + a_{m2}b_{m2} + \cdots + a_{mn}b_{mn} \\
+\end{align*}
+\]</span></p>
+<h2 id="矩阵微分规律">矩阵微分规律</h2>
+<p>梯度矩阵里的微分：</p>
+<p>假设<span class="math inline">\(A\)</span>矩阵维度列表为<span class="math inline">\([a_1,a_2,...,a_n]\)</span></p>
+<p>假设<span class="math inline">\(B\)</span>矩阵维度列表为<span class="math inline">\([b_1,b_2,...,b_{m}]\)</span></p>
+<p><span class="math inline">\(A\)</span>矩阵对<span class="math inline">\(B\)</span>矩阵求偏导的结果<span class="math inline">\(C\)</span>,维度上相当于<span class="math inline">\(A\)</span>矩阵维度列表和<span class="math inline">\(B\)</span>矩阵维度列表连接起来</p>
+<p>即<span class="math inline">\(C\)</span>矩阵维度列表为<span class="math inline">\([a_1,a_2,...,a_n,b_1,b_2,...,b_{m}]\)</span></p>
+<p>根据维度信息也能很方便的推导各个元素的含义,即为<span class="math inline">\(A\)</span>矩阵的每个元素对<span class="math inline">\(B\)</span>矩阵的每个元素求一个偏导。</p>
+<blockquote>
+<p>当然，高维的矩阵微分应用场景有限，我们很少需要求一个矩阵关于另一个矩阵的偏导。因此这个规律可能因为博主实践较少有误。</p>
+</blockquote>
+<p>在深度学习的场景中，一般是标量对矩阵求导，因此主要介绍标量对矩阵微分的情况。</p>
+<p>一般对于向量，默认为列向量，<span class="math inline">\(\mathbf{x}=[x_1,x_2,...,x_n]^{T}\)</span>，我们有标量函数<span class="math inline">\(f(\mathbf{x})\)</span>，那么对应的梯度为</p>
+<p><span class="math display">\[
+\frac{\partial f}{\partial \mathbf{x}}=[\frac{\partial f}{\partial
+x_1},\frac{\partial f}{\partial x_2},..\frac{\partial f}{\partial
+x_n}]^\top
+\]</span></p>
+<p>根据这个公式我们可以发现，这个梯度向量的每个元素都是函数对该元素的偏导。</p>
+<p>因此，我们有，</p>
+<p><span class="math display">\[
+\partial f = (\frac{\partial f}{\partial \mathbf{x}})^\top \partial
+\mathbf{x}
+\]</span></p>
+<p><strong>对于标量对向量到梯度来说，在左边乘以其梯度的转置就可以对应得到目标的微分。</strong></p>
+<p><strong>对于矩阵来说，逐点乘积<span class="math inline">\(\odot\)</span>然后对应位置求和应该是更广泛的规律。但向量是特殊的，逐点乘积求和和转置相乘的结果是一样的。</strong></p>
+<blockquote>
+<p>对于函数值为标量，变量为二维矩阵的情况，函数值的微分是梯度矩阵和变量矩阵的转置乘积的迹。</p>
+<p><span class="math display">\[
+df(X)=tr((\frac{df(X)}{dX})^\top \cdot X)
+\]</span></p>
+</blockquote>
+<h2 id="雅可比矩阵">雅可比矩阵</h2>
+<p>雅可比矩阵指的是向量对于向量的微分，假如我们有：</p>
+<p><span class="math display">\[
+F:R^{N}\to R^{M} ,\mathbf{y}=F(\mathbf{x})
+\]</span></p>
+<p>那么雅克比矩阵为，</p>
+<p><span class="math display">\[
+J_{F:\mathrm{x\to y}}=
+\left[
+\begin
+{array}{c c c}
+\frac{\partial y_1}{\partial
+x_1}&amp;&amp;\frac{\partial y_1}{\partial x_N}\\
+&amp;&amp;\\
+\frac{\partial y_M}{\partial
+x_1}&amp;&amp;\frac{\partial y_M}{\partial x_N}\\
+\end{array}
+\right]
+\]</span></p>
+<p>其中第<span class="math inline">\(i\)</span>行是<span class="math inline">\(y_i\)</span>关于<span class="math inline">\(\mathbf{x}\)</span>的微分的转置。</p>
+<p>我们有一阶泰勒展开式：</p>
+<p><span class="math display">\[
+F({\bf{x}}+d{\bf{x}})=F({\bf{x}})+J_{F:x \to
+y}d{\bf{x}}+o(\|d{\bf{x}}\,\|).
+\]</span></p>
+<h2 id="hessian">Hessian</h2>
+<p>在向量微积分中，Hessian 矩阵用于表示标量关于向量的二阶偏导数。</p>
+<p>假如我们有</p>
+<p><span class="math display">\[
+f(\mathbf{x}) : \mathbb{R}^N \to \mathbb{R}
+\]</span></p>
+<p>那么我们有，</p>
+<p><span class="math display">\[
+H_{x \to f} = \frac{d^2 f}{dx \, dx^\top} = \left[ \frac{\partial
+f}{\partial x_i \partial x_j} \right]
+\]</span></p>
+<p>通过定义也可以看出，Hessian
+矩阵可以写成一阶导数构成的向量关于自变量的雅可比矩阵。</p>
+<p>令<span class="math inline">\(f\)</span>关于变量的一阶梯度为，</p>
+<p><span class="math display">\[
+\mathbf{a}(\mathbf{x}) = \left[ \frac{\partial f}{\partial x_i} \right]
+\]</span></p>
+<p>那么hessian矩阵还可以写为，</p>
+<p><span class="math display">\[
+H_{x \to f} = \frac{d\mathbf{a}}{d\mathbf{x}} = \left[ \frac{d a_i}{d
+x_j} \right] = \left[ \frac{\partial f}{\partial x_i \partial x_j}
+\right]
+\]</span></p>
+<p>对应的，我们也能得到二阶泰勒展开式，</p>
+<p><span class="math display">\[
+f(\mathbf{x} + d\mathbf{x}) = f(\mathbf{x}) + \mathbf{a}^\top
+d\mathbf{x} + \frac{1}{2} d\mathbf{x}^\top H_{x \to f} \, d\mathbf{x} +
+o(\|d\mathbf{x}\|^2)
+\]</span></p>
+<blockquote>
+<p>这里的二次项的推导方式为：</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\frac{1}{2}(\partial \mathbf{a})^\top\partial \mathbf{x} \\
+=&amp;\frac{1}{2}((\frac{\partial \mathbf{a}}{\partial \mathbf{x}})^\top
+\partial \mathbf{x})^\top\partial \mathbf{x} \\
+=&amp;\frac{1}{2} d\mathbf{x}^\top \frac{\partial \mathbf{a}}{\partial
+\mathbf{x}} \ d\mathbf{x} \\
+=&amp;\frac{1}{2} d\mathbf{x}^\top H_{x \to f} d\mathbf{x} \\
+\end{align*}
+\]</span></p>
+<p>根据这个例子我们也能很容易总结规律并且推广到更多公式。（从定义出发推导式子，向量乘以自己的梯度转置获得目标的微分）</p>
+</blockquote>
+<h2 id="链式表达式">链式表达式</h2>
+<p>假设我们有，</p>
+<p><span class="math display">\[
+\begin{align*}
+y &amp;= f(g(h(x))) \\
+q &amp;= h(x) \\
+k &amp;= g(q) \\
+y &amp;= f(k)
+\end{align*}
+\]</span></p>
+<p>我们希望得到</p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;\partial y \\
+=&amp; (\frac{\partial y}{\partial k})^\top \partial k \\
+=&amp; (\frac{\partial y}{\partial k})^\top (\frac{\partial k}{\partial
+q})^\top \partial q \\
+=&amp; (\frac{\partial y}{\partial k})^\top (\frac{\partial k}{\partial
+q})^\top (\frac{\partial q}{\partial x})^\top \partial x \\
+=&amp; (\frac{\partial q}{\partial x} \frac{\partial k}{\partial q}
+\frac{\partial y}{\partial k})^\top \partial x \\
+\end{align*}
+\]</span></p>
+<p>所以我们有</p>
+<p><span class="math display">\[
+\frac{\partial y}{\partial x} = \frac{\partial q}{\partial x}
+\frac{\partial k}{\partial q} \frac{\partial y}{\partial k}
+\]</span></p>
+<blockquote>
+<p>这个推导前置条件只有：<strong>向量左乘其梯度的转置就可以对应得到目标的微分。</strong></p>
+<p>别的布局的推导方式也类似。</p>
+</blockquote>
+<p>在数学公式的推导中，链式法则的记忆要点为：能乘维数对就对（可能维度信息其实就包含了部分信息）。</p>
+<p><img src="/wiki/45525/1729755284537.png"></p>
+<h2 id="行向量偏导形式">行向量偏导形式</h2>
+<p>有一种操作把矩阵变成按列堆栈向量化<span class="math inline">\(vec\)</span>，然后进行处理，就可以利用部分在低维中的规律进行计算：</p>
+<p><span class="math display">\[
+vec(X)=[x_{11},x_{21},..,x_{12},x_{22},...,x_{1n},x_{2n},...,x_{nm}]^T
+\]</span></p>
+<blockquote>
+<p>更多介绍阅读矩阵论、弗罗贝尼乌斯内积、克罗内克积等相关资料。</p>
+<p><del>因为博主也不会，只是计算机系的，在深度学习里不会用到所有的数学知识。</del></p>
+</blockquote>
+<h2 id="合适做法">合适做法</h2>
+<p>合适的做法还是对于矩阵的每个元素单独看梯度和贡献，然后根据指标的变化来总结公式。</p>
+<p>比如，计算<span class="math inline">\(x_{ij}\)</span>是如何影响<span class="math inline">\(y_{ik}\)</span>的，然后总结梯度公式。</p>
+<p>示例1：</p>
+<p><span class="math display">\[
+Y=X*A,而X \in R^{n \times p}, A \in R^{p \times m},Y \in R^{n \times
+m},l为标量 \\
+已知\frac{\partial l}{\partial Y},求\frac{\partial l}{\partial X}  \\
+计算x_{ik}的贡献,有 \frac{\partial l}{\partial
+x_{ik}}=\sum_{j}a_{kj}\frac{\partial l}{\partial y_{ij}} \\
+根据维度信息(i在左侧,k在右侧)总结,得到\frac{\partial l}{\partial
+X}=\frac{\partial l}{\partial Y}A^T
+\]</span></p>
+<blockquote>
+<p>tip:由于一维向量很多时候会被写为列向量,所以有的教程理解不是很方便,但如果接触过pytorch框架,会方便理解很多.</p>
+</blockquote>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/263777564">矩阵求导的本质与分子布局、分母布局的本质（矩阵求导——本质篇）
+- 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/273729929">矩阵求导公式的数学推导（矩阵求导——基础篇）
+- 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/288541909">矩阵求导公式的数学推导（矩阵求导——进阶篇）
+- 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yifanrensheng/p/12639539.html#_label0">【ML-0-3】矩阵求导-链式法则
+- 忆凡人生 - 博客园 (cnblogs.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/keeppractice/article/details/107231685">[机器学习-数学]
+矩阵求导(分母布局与分子布局)，以及常用的矩阵求导公式</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/nyist_yangguang/article/details/110917076">矩阵论——导数与梯度_矩阵的梯度-CSDN博客</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/26708/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    依赖分析Dependency Parsing
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/51558/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">GloVe</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

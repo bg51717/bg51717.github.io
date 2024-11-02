@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>Hexo+Github搭建个人Wiki风格博客 | Blogs</title>
+    
+    
+        <meta name="keywords" content="博客,Hexo,Wiki" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 以前一直不理解更新博客的用处，后来发现记录一些学到的东西和处理问题的经验对个人还是互联网都是有促进作用的(希望不是在生产互联网垃圾)。 所以本文会介绍一下个人搭建这个博客的过程。  后面博客有添加双主题的教程。  博客风格  简洁（本来想弄点二次元风格的，但是博客还是减少点无用东西吧）（后来还是加了二次元主题来使用双主题） 多级分类：多级分类可以帮助来快速浏览学过的知识点 标签：标签还是比较">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo+Github搭建个人Wiki风格博客">
+<meta property="og:url" content="https://bg51717.github.io/wiki/13640/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 以前一直不理解更新博客的用处，后来发现记录一些学到的东西和处理问题的经验对个人还是互联网都是有促进作用的(希望不是在生产互联网垃圾)。 所以本文会介绍一下个人搭建这个博客的过程。  后面博客有添加双主题的教程。  博客风格  简洁（本来想弄点二次元风格的，但是博客还是减少点无用东西吧）（后来还是加了二次元主题来使用双主题） 多级分类：多级分类可以帮助来快速浏览学过的知识点 标签：标签还是比较">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-18T08:12:44.000Z">
+<meta property="article:modified_time" content="2024-11-02T05:27:08.469Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="博客">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Wiki">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            前置数学
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-SmallProjects/博客搭建/Hexo+Github搭建个人Wiki风格博客" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/SmallProjects/">SmallProjects</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/SmallProjects/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/Hexo/" rel="tag">Hexo</a>, <a class="tag-link-link" href="/wiki/tags/Wiki/" rel="tag">Wiki</a>, <a class="tag-link-link" href="/wiki/tags/%E5%8D%9A%E5%AE%A2/" rel="tag">博客</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/13640/">
+            <time datetime="2023-10-18T08:12:44.000Z" itemprop="datePublished">2023-10-18</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/SmallProjects/博客搭建/Hexo+Github搭建个人Wiki风格博客.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/SmallProjects/博客搭建/Hexo+Github搭建个人Wiki风格博客.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/SmallProjects/博客搭建/Hexo+Github搭建个人Wiki风格博客.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Hexo+Github搭建个人Wiki风格博客
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E9%A3%8E%E6%A0%BC"><span class="toc-number">2.</span> <span class="toc-text">博客风格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E9%80%89%E6%8B%A9"><span class="toc-number">3.</span> <span class="toc-text">主题选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">公式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mathjax"><span class="toc-number">5.1.</span> <span class="toc-text">Mathjax</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#katex"><span class="toc-number">5.2.</span> <span class="toc-text">Katex</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%89%87"><span class="toc-number">6.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">7.</span> <span class="toc-text">Hexo常用命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo%E5%B8%B8%E7%94%A8%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">8.</span> <span class="toc-text">Hexo常用文件夹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85"><span class="toc-number">9.</span> <span class="toc-text">主题安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9Fgiscus"><span class="toc-number">10.</span> <span class="toc-text">评论系统giscus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81qa"><span class="toc-number">11.</span> <span class="toc-text">常见QA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">12.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="介绍">介绍</h2>
+<p>以前一直不理解更新博客的用处，后来发现记录一些学到的东西和处理问题的经验对个人还是互联网都是有促进作用的(<del>希望不是在生产互联网垃圾</del>)。</p>
+<p>所以本文会介绍一下个人搭建这个博客的过程。</p>
+<blockquote>
+<p>后面博客有添加双主题的教程。</p>
+</blockquote>
+<h2 id="博客风格">博客风格</h2>
+<ul>
+<li>简洁（<del>本来想弄点二次元风格的，但是博客还是减少点无用东西吧</del>）（<del>后来还是加了二次元主题来使用双主题</del>）</li>
+<li>多级分类：多级分类可以帮助来快速浏览学过的知识点</li>
+<li>标签：标签还是比较重要的，可以实习对相关博客的快速定位</li>
+</ul>
+<h2 id="主题选择">主题选择</h2>
+<p>基于上述的需求，最终选择了<a target="_blank" rel="noopener" href="https://blog.zthxxx.me/post/personal-wiki-system-theme-for-hexo/#%E7%94%A8-hexo-%E5%81%9A%E4%B8%AA%E4%BA%BA-wiki-%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F">Wikitten</a>作为自己的博客主题</p>
+<p>顺便放一下这个大佬的相关链接：</p>
+<ul>
+<li>Wiki地址：<a target="_blank" rel="noopener" href="http://wiki.zthxxx.me/">http://wiki.zthxxx.me/</a></li>
+<li>Wikitten主题地址：<a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten/">https://github.com/zthxxx/hexo-theme-Wikitten/</a></li>
+</ul>
+<h2 id="环境搭建">环境搭建</h2>
+<p>参考地址:<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/60578464">使用
+Hexo+GitHub 搭建个人免费博客教程（小白向） - 知乎 (zhihu.com)</a></p>
+<ol type="1">
+<li><p>Github创建项目并取名为 <code>用户名.github.io</code></p></li>
+<li><p>使用 npm 一键安装 Hexo 博客程序</p>
+<p></p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></tbody></table></figure><p></p></li>
+<li><p>准备一个空文件，进行hexo初始化：</p>
+<p></p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init      <span class="comment"># 初始化</span></span><br></pre></td></tr></tbody></table></figure><p></p></li>
+<li><p>使用npm安装package.json里面的依赖</p>
+<p></p><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></tbody></table></figure><p></p></li>
+<li><p>安装用于部署的包<strong>hexo-deployer-git</strong></p>
+<p></p><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></tbody></table></figure><p></p></li>
+<li><p>修改_config.yml文件末尾的Deployment部分</p>
+<p></p><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repository: git@github.com:用户名/用户名.github.io.git</span><br><span class="line">branch: master</span><br></pre></td></tr></tbody></table></figure><p></p></li>
+</ol>
+<h2 id="公式">公式</h2>
+<p>公式引擎有 <code>mathjax</code>和
+<code>katex</code>两种，前者的功能多一点，后者则更加轻量化。可以根据自己的需要进行选择或者尝试后再做选择。</p>
+<h3 id="mathjax">Mathjax</h3>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_52466006/article/details/126924064">Hexo显示Latex公式最新解决方案_hexo
+latex-CSDN博客</a></p>
+<ol type="1">
+<li><p>卸载部分插件</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm un hexo-math</span><br><span class="line">npm un hexo-renderer-marked</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>安装hexo-renderer-pandoc渲染器</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-renderer-pandoc</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>配置主题配置下的mathjax设置(文件位置在
+<code>\themes\{主题名}\ _config.yml</code></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># MathJax</span><br><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: true</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>安装Pandoc</p>
+<p>去Pandoc官网下载<strong>最新版本</strong>pandoc：<a target="_blank" rel="noopener" href="https://pandoc.org/index.html" title="Pandoc - About pandoc">Pandoc - About pandoc</a> （参考文章说
+<code>Anaconda</code>自带的
+<code>pandoc</code>可能会引起问题并且提供了解决方案，但是笔者使用的是
+<code>miniconda</code>，没有遇到任何问题</p></li>
+</ol>
+<h3 id="katex">Katex</h3>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://proton.lat/2024/06/19/Mathjax/">如何在
+Butterfly 主题中使用 KaTeX 数学公式 | Proton's Blog</a></p>
+<ol type="1">
+<li><p>卸载部分插件（如果还装了什么其他的旧渲染器，也要一并卸载</p>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm un hexo<span class="literal">-renderer-marked</span> <span class="literal">--save</span></span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>安装 <code>hexo-renderer-markdown-it-katex</code></p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i hexo-renderer-markdown-it-katex</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>然后在hexo的博客文件 <code>_config.yml</code>里添加</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">markdown:</span><br><span class="line">  render:</span><br><span class="line">    html: true</span><br><span class="line">    xhtmlOut: false</span><br><span class="line">    breaks: true</span><br><span class="line">    linkify: true</span><br><span class="line">    typographer: true</span><br><span class="line">  plugins:</span><br><span class="line">  anchors:</span><br><span class="line">    level: 1</span><br><span class="line">    collisionSuffix: ''</span><br></pre></td></tr></tbody></table></figure></li>
+</ol>
+<h2 id="图片">图片</h2>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://leay.net/2019/12/25/hexo/">Hexo
+引用本地图片以及引用本地任意位置图片的一点思路 | 养恐龙
+(leay.net)</a></p>
+<p>对于图片显示，<code>hexo</code>的原生设置较为冷门，<code>hexo-asset-image</code>等插件也提供了一定的解决方法，在博客文件同目录下设置个同名文件夹存放图片。但是笔者习惯使用
+<code>vscode</code>编辑
+<code>markdown</code>文章，而vscode默认在同目录下的
+<code>/image/{文件名}</code>下存放图片文件。</p>
+<p>笔者最后没有找到已有的较好的解决方案，于是写了个脚本文件进行处理（仅供参考）。</p>
+<p>首先安装 <code>hexo-asset-image</code>插件，然后在
+<code>_config.yml</code>里设置：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: true  # 注意这个不能简单设置为false，否则插件hexo-asset-image会直接跳过（可以看看源码</span><br><span class="line">marked:</span><br><span class="line">  prependRoot: true</span><br><span class="line">  postAsset: true</span><br></pre></td></tr></tbody></table></figure>
+<p>然后构建一个脚本文件在每次更新完后进行预处理，其中重要函数为</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import shutil</span><br><span class="line">import re</span><br><span class="line">from functools import partial</span><br><span class="line"></span><br><span class="line">def move_directory(src, dst):</span><br><span class="line">    """把src下所有内容复制到dst下，并删除src"""</span><br><span class="line">    # 确保目标目录存在</span><br><span class="line">    if not os.path.exists(dst):</span><br><span class="line">        os.makedirs(dst)</span><br><span class="line"></span><br><span class="line">    # 遍历源目录中的所有文件和子目录</span><br><span class="line">    for item in os.listdir(src):</span><br><span class="line">        s = os.path.join(src, item)</span><br><span class="line">        d = os.path.join(dst, item)</span><br><span class="line"></span><br><span class="line">        # 如果是目录，递归移动子目录</span><br><span class="line">        if os.path.isdir(s):</span><br><span class="line">            move_directory(s, d)</span><br><span class="line">        else:</span><br><span class="line">            # 移动文件，如果目标文件已存在，则跳过</span><br><span class="line">            if not os.path.exists(d):</span><br><span class="line">                shutil.copy(s, d)</span><br><span class="line"></span><br><span class="line">    # 最后，删除空的源目录</span><br><span class="line">    os.rmdir(src)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def img_url_replace(match, file_name):</span><br><span class="line">    pattern = r"!\[(.*?)\]\((.*?)\)"</span><br><span class="line">    name, old_link = re.findall(pattern, match.group(0))[0]</span><br><span class="line">    if old_link.startswith("./{file_name}"):</span><br><span class="line">        # 如果格式正确</span><br><span class="line">        return match.group(0)</span><br><span class="line">    if old_link.startswith("./"):</span><br><span class="line">        old_link = old_link[2:]</span><br><span class="line">    if old_link.startswith("image/"):</span><br><span class="line">        old_link = old_link[6:]</span><br><span class="line">    return f"![{name}](./{old_link})"</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def remedy_image_path(md_file_path):</span><br><span class="line">    """修改md文件中的图片路径"""</span><br><span class="line">    with open(md_file_path, "r", encoding="utf-8") as f:</span><br><span class="line">        text = f.read()</span><br><span class="line">    img_patten = r"!\[.*?\]\((.*?)\)"</span><br><span class="line">    file_name = os.path.basename(md_file_path).split(".")[0]</span><br><span class="line">    # img_patten = r'!\[.*?\]\((.*?)\)|&lt;img.*?src=[\'\"](.*?)[\'\"].*?&gt;'</span><br><span class="line">    updated_text, changed_num = re.subn(</span><br><span class="line">        img_patten, partial(img_url_replace, file_name=file_name), text</span><br><span class="line">    )</span><br><span class="line">    if changed_num&gt;0:</span><br><span class="line">        with open(md_file_path, 'w', encoding='utf-8') as f:</span><br><span class="line">            f.write(updated_text)</span><br><span class="line"></span><br><span class="line">def process_md_file(file_path):</span><br><span class="line">    """处理md文件"""</span><br><span class="line">    # 如果不是md文件,返回</span><br><span class="line">    if not file_path.endswith(".md"):</span><br><span class="line">        return</span><br><span class="line">    file_dir, file_name = os.path.split(file_path)</span><br><span class="line">    # 如果没有需要处理的文件</span><br><span class="line">    if not os.path.exists(os.path.join(file_dir, "image", file_name.split(".")[0])):</span><br><span class="line">        return</span><br><span class="line">    # 移动图片文件</span><br><span class="line">    move_directory(</span><br><span class="line">        src=os.path.join(file_dir,'image',file_name.split('.')[0]),</span><br><span class="line">        dst=os.path.join(file_dir,file_name.split('.')[0])</span><br><span class="line">    )</span><br><span class="line">    # 修改连接</span><br><span class="line">    remedy_image_path(file_path)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def dfs(dir):</span><br><span class="line">    """dfs处理所有文件"""</span><br><span class="line">    for root, dirs, files in os.walk(dir):</span><br><span class="line">        for file in files:</span><br><span class="line">            file = os.path.join(root, file)</span><br><span class="line">            process_md_file(file)</span><br><span class="line">        for sub_dir in dirs:</span><br><span class="line">            sub_dir = os.path.join(root, sub_dir)</span><br><span class="line">            dfs(sub_dir)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="hexo常用命令">Hexo常用命令</h2>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean #清除生成的网页文件</span><br><span class="line">hexo g     #生成静态网页</span><br><span class="line">hexo s     #本地运行博客</span><br><span class="line">hexo d     #将网页文件推送至远程服务器</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="hexo常用文件夹">Hexo常用文件夹</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">文件夹</th>
+<th style="text-align: center;">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">node_modules</td>
+<td style="text-align: center;">依赖文件</td>
+</tr>
+<tr>
+<td style="text-align: center;">.deploy_git</td>
+<td style="text-align: center;">推送到远程的文件</td>
+</tr>
+<tr>
+<td style="text-align: center;">public</td>
+<td style="text-align: center;">生成的网页文件</td>
+</tr>
+<tr>
+<td style="text-align: center;">themes</td>
+<td style="text-align: center;">主题文件夹</td>
+</tr>
+<tr>
+<td style="text-align: center;">scaffolds</td>
+<td style="text-align: center;">博客模板文件夹</td>
+</tr>
+<tr>
+<td style="text-align: center;">source</td>
+<td style="text-align: center;">博客源文件</td>
+</tr>
+</tbody>
+</table>
+<h2 id="主题安装">主题安装</h2>
+<p>Wikitten主题地址：<a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten/">https://github.com/zthxxx/hexo-theme-Wikitten/</a>
+里面提供了双语详细的安装步骤,笔者使用的版本是 <code>5b0d493</code></p>
+<blockquote>
+<p><strong>注意</strong>:里面有个可选步骤
+<strong>配置mathjax渲染</strong>，笔者发现进行这个步骤后会出现生成网页文件失败的情况，跳过即可，并且暂时没发现有什么问题</p>
+</blockquote>
+<h2 id="评论系统giscus">评论系统giscus</h2>
+<p>由于不知名的原因，Gitment和Gitalk无法使用，选择了<a target="_blank" rel="noopener" href="https://giscus.app/zh-CN#category">giscus</a>来替代,参考<a target="_blank" rel="noopener" href="https://blog.webrelay.cn/giscus/">Hexo静态博客使用giscus评论系统教程</a></p>
+<p><strong>1.打开自己的GitHub，选择博客所在仓库或可新建一个仓库</strong></p>
+<ul>
+<li>确保仓库是公开的(新建的时候选择 <code>private</code>或者在仓库的
+<code>Settings - General</code>，选择
+<code>change visibility - change to public</code>)</li>
+<li>确保仓库开启了 <code>Discussions</code>(在仓库的
+<code>Settings - General</code>，勾选 <code>Discussions</code>)</li>
+<li>确保安装了 <a target="_blank" rel="noopener" href="https://github.com/apps/giscus">giscus
+app</a></li>
+</ul>
+<p><strong>2.打开官方配置页面<a target="_blank" rel="noopener" href="https://giscus.app/zh-CN#category">giscus</a>，生成代码</strong></p>
+<ul>
+<li>语言</li>
+<li>仓库：填写格式：你的用户名/你的仓库名</li>
+<li>页面 与 discussion
+映射关系：由于本博客会分级，所以选择路径pathname</li>
+<li>Discussion分类：General</li>
+<li>特性:按个人喜好即可，本博客加载了：<code>启用主贴上的反应</code>,<code>将评论框放在评论上方</code>,<code>懒加载评论</code></li>
+<li>主题：选择与博客风格一致的主题</li>
+</ul>
+<p><strong>3.修改主题 <code>_config.yml</code></strong>
+在文件末尾添加</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">giscus:</span><br><span class="line">  enable: true</span><br></pre></td></tr></tbody></table></figure>
+<p>方便以后直接从配置文件开关评论区</p>
+<p><strong>4.粘贴代码</strong>
+网页会自动生成代码,复制粘贴到网页模板文件即可
+不同主题的模板文件位置可能不同，wiki主题在
+<code>themes/Wikitten/layout/comment/giscus.ejs</code>下添加代码
+(然后检查同目录的引入giscus的文件：<code>counter.ejs</code>，<code>index.ejs</code>，<code>scripts.ejs</code>，仿照之前代码添加引入)</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.comment.giscus.enable) { %&gt;</span><br><span class="line">    &lt;div id="giscus-container"&gt;&lt;/div&gt;</span><br><span class="line">    &lt;script src="https://giscus.app/client.js"</span><br><span class="line">            data-repo="&lt;%= theme.comment.giscus.repo %&gt;"</span><br><span class="line">            data-repo-id="&lt;%= theme.comment.giscus.repo_id %&gt;"</span><br><span class="line">            data-category="&lt;%= theme.comment.giscus.category %&gt;"</span><br><span class="line">            data-category-id="&lt;%= theme.comment.giscus.category_id %&gt;"</span><br><span class="line">            data-mapping="title"</span><br><span class="line">            data-strict="0"</span><br><span class="line">            data-reactions-enabled="1"</span><br><span class="line">            data-emit-metadata="0"</span><br><span class="line">            data-input-position="top"</span><br><span class="line">            data-theme="&lt;%= theme.comment.giscus.theme || 'light' %&gt;"</span><br><span class="line">            data-lang="&lt;%= theme.comment.giscus.lang || 'zh-CN' %&gt;"</span><br><span class="line">            data-loading="lazy"</span><br><span class="line">            crossorigin="anonymous"</span><br><span class="line">            async&gt;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    &lt;noscript&gt;请启用 JavaScript 以查看评论。&lt;/noscript&gt;</span><br><span class="line">    &lt;% } %&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>然后修改
+<code>themes/Wikitten/layout/common/article.ejs</code>文件，把</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (!index) { %&gt;</span><br><span class="line">    &lt;%- partial('comment/index') %&gt;</span><br><span class="line">&lt;% } %&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>移动到</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;footer class="article-footer"&gt;</span><br><span class="line">&lt;/footer&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>前面，两个代码块在同一个 <code>div</code>内。</p>
+<p>然后在 <code>themes/Wikitten/_config.yml</code>内修改：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">comment:</span><br><span class="line">    disqus: # enter disqus shortname here</span><br><span class="line">    duoshuo: # enter duoshuo shortname here</span><br><span class="line">    youyan: # enter youyan uid here</span><br><span class="line">    giscus:</span><br><span class="line">        enable: true</span><br><span class="line">        repo: ''  # 添加</span><br><span class="line">        repo_id: ''  # 添加</span><br><span class="line">        category: 'General'</span><br><span class="line">        category_id: ''  # 添加</span><br><span class="line">        theme: 'light'</span><br><span class="line">        lang: 'zh-CN'</span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>对于不同的主题添加的方式可能不同</p>
+</blockquote>
+<h2 id="常见qa">常见QA</h2>
+<ol type="1">
+<li><p><strong>修改配置文件应该修改站点的 <code>_config.yml</code>
+还是主题的 <code>_config.yml</code>?</strong></p>
+<p>具体使用哪个，要看主题的源代码，如果是
+<code>config.xxx</code>那就是用的根目录配置文件，如果是
+<code>theme.xxx</code>那就用的是主题目录的配置文件。</p></li>
+<li><p><strong>怎么让自己的博客可以被常用搜索引擎搜索到?</strong></p>
+<p>很多搜索引擎可以在搜索框里用 <code>site:网址</code>来判断是否被收录
+<strong>Google</strong></p>
+<ol type="1">
+<li>打开Google搜索，搜索“Google Search Console”</li>
+<li>根据提示登录你的Google账号</li>
+<li>选择资源类型</li>
+<li>选择验证方式(本博客用的是<strong>HTML标记</strong>,把对应代码添加到主题文件里面,本主题是
+<code>themes/Wikitten/layout/common/head.ejs</code>)</li>
+<li>在Google Search Console后台添加站点地图</li>
+</ol></li>
+</ol>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/60578464">使用 Hexo+GitHub
+搭建个人免费博客教程（小白向）</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.zthxxx.me/post/personal-wiki-system-theme-for-hexo/#%E7%94%A8-hexo-%E5%81%9A%E4%B8%AA%E4%BA%BA-wiki-%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F">Hexo
+的个人 Wiki 主题 - Wikitten</a></li>
+<li><a target="_blank" rel="noopener" href="https://godweiyang.com/2018/04/13/hexo-blog/#toc-heading-14">超详细Hexo+Github博客搭建小白教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_52466006/article/details/126924064">Hexo显示Latex公式最新解决方案_hexo
+latex-CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://proton.lat/2024/06/19/Mathjax/">如何在 Butterfly
+主题中使用 KaTeX 数学公式 | Proton's Blog</a></li>
+<li><a target="_blank" rel="noopener" href="https://leay.net/2019/12/25/hexo/">Hexo
+引用本地图片以及引用本地任意位置图片的一点思路 | 养恐龙
+(leay.net)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.webrelay.cn/giscus/">Hexo静态博客使用giscus评论系统教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo官方文档</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+         </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/62023/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/44392/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">快速启动工具——utools</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <div id="giscus-container"></div>
+    <script src="https://giscus.app/client.js"
+            data-repo="bg51717/Hexo-Blogs-comments"
+            data-repo-id="R_kgDOKhgfLA"
+            data-category="General"
+            data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+            data-mapping="title"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>请启用 JavaScript 以查看评论。</noscript>
+        
+
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
