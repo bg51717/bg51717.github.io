@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/wiki/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/wiki/"/>
-  <updated>2024-11-04T12:38:00.220Z</updated>
+  <updated>2024-11-04T12:53:21.660Z</updated>
   <id>https://bg51717.github.io/wiki/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://bg51717.github.io/wiki/13277/"/>
     <id>https://bg51717.github.io/wiki/13277/</id>
     <published>2024-11-04T12:15:47.000Z</published>
-    <updated>2024-11-04T12:38:00.220Z</updated>
+    <updated>2024-11-04T12:53:21.660Z</updated>
     
     <content type="html"><![CDATA[<h2 id="背景">背景</h2><p>反向传播是现在训练模型的重要方法，但是在部分场景下，会遇到不可微分的函数，从而导致梯度传播失败。比如量化里的取整函数。因此，需要对梯度进行估计然后反向传播。</p><p><strong>STE(Straight-Through Estimator)</strong>是2013年YoshuaBengio等人针对梯度估计进行了研究，那篇论文提出了几种梯度估计的方法，并推导出了一些理论性质，然后通过实验证明，STE是效果最好的方法。</p><blockquote><p>由于那篇论文很多篇幅在介绍较为复杂的估计方法，且理论推导也极为复杂，效果没有简洁的STE好，因此不对其进行详细介绍。</p></blockquote><h2 id="应用">应用</h2><h3 id="恒等函数">恒等函数</h3><p>STE在反向传播理论推导的时候，把不可微的原子函数（比如量化函数里有放缩和取整两部分，其中取整是不可微的原子函数）替换为恒等函数。</p><p>这种应用可以大大减少理论推导的难度，但是在代码里应用反向传播的时候不太方便，以pytorch框架为例，可能需要自己手写函数类<code>torch.autograd.Function</code>，具体文档可以查看：<a href="https://pytorch.org/tutorials/beginner/examples_autograd/two_layer_net_custom_function.html">PyTorch:Defining New autograd Functions — PyTorch Tutorials 2.5.0+cu124documentation</a> 。</p><h3 id="sg函数">SG函数</h3><p>苏神在他的博客（<a href="https://spaces.ac.cn/archives/6760">VQ-VAE的简明介绍：量子化自编码器- 科学空间|Scientific Spaces</a>）中提出了一个函数<code>sg(stop gradient)</code>，代表梯度反向传播终止的恒等函数。</p><p>所以原来的不可微的原子函数可以写为<span class="math inline">\(f(x)=x+sg(x'-x)\)</span>，在前向传播的时候和x'相同，在反向传播的时候梯度等于直接对<code>x</code>反向传播梯度。</p><p>这个式子也能用于理论推导，但是不如视为恒等函数麻烦，但是在代码方面容易完成，可以使用pytorch的默认反向传播函数，不需要自定义<code>torch.autograd.Function</code>（当然自定义也可以完成任务）。</p><p><a href="https://github.com/kyegomez/BitNet/blob/main/bitnet/bitlinear.py">BitNet/bitnet/bitlinear.pyat main · kyegomez/BitNet</a> 代码示例：</p><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># w_quant 是 w 量化（不可微）后的值</span></span><br><span class="line"><span class="comment"># STE using detach</span></span><br><span class="line">w_quant = w + (weight_quant(w) - w).detach()</span><br></pre></td></tr></tbody></table></figure><h2 id="参考资料">参考资料</h2><blockquote><ul><li><a href="https://arxiv.org/abs/1308.3432">[1308.3432] Estimating orPropagating Gradients Through Stochastic Neurons for ConditionalComputation</a></li><li><a href="https://pytorch.org/tutorials/beginner/examples_autograd/two_layer_net_custom_function.html">PyTorch:Defining New autograd Functions — PyTorch Tutorials 2.5.0+cu124documentation</a></li><li><a href="https://spaces.ac.cn/archives/6760">VQ-VAE的简明介绍：量子化自编码器- 科学空间|Scientific Spaces</a></li><li><a href="https://github.com/kyegomez/BitNet">kyegomez/BitNet:Implementation of "BitNet: Scaling 1-bit Transformers for Large LanguageModels" in pytorch</a></li></ul></blockquote>]]></content>
     
@@ -39,6 +39,10 @@
     
     <category term="经典模块" scheme="https://bg51717.github.io/wiki/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9D%97/"/>
     
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="梯度估计" scheme="https://bg51717.github.io/wiki/tags/%E6%A2%AF%E5%BA%A6%E4%BC%B0%E8%AE%A1/"/>
     
   </entry>
   
@@ -558,9 +562,9 @@ H(x)=-&#92;sum p(x_i)logp(x_i)
     
     <category term="深度学习" scheme="https://bg51717.github.io/wiki/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="信息学" scheme="https://bg51717.github.io/wiki/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6/"/>
-    
     <category term="数学" scheme="https://bg51717.github.io/wiki/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+    <category term="信息学" scheme="https://bg51717.github.io/wiki/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6/"/>
     
   </entry>
   
