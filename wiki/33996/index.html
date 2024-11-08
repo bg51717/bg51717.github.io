@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>矩阵奇异值分解SVD | Blogs</title>
+    
+    
+        <meta name="keywords" content="矩阵,SVD" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="定理陈述 对于任意 \(m \times n\) 的矩阵 \(A\)，存在一个分解： \[ A &#x3D; U \Sigma V^T \] 其中：  r&#x3D;rank(A)是矩阵A的秩 \(U\) 是一个 \(m \times m\) 的正交矩阵（即 \(U^T U &#x3D; I\)），前r列是矩阵\(A A^\top\)的非零特征值的特征向量。 \(V\) 是一个 \(n \times n\) 的正交矩阵（即 \">
+<meta property="og:type" content="article">
+<meta property="og:title" content="矩阵奇异值分解SVD">
+<meta property="og:url" content="https://bg51717.github.io/wiki/33996/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="定理陈述 对于任意 \(m \times n\) 的矩阵 \(A\)，存在一个分解： \[ A &#x3D; U \Sigma V^T \] 其中：  r&#x3D;rank(A)是矩阵A的秩 \(U\) 是一个 \(m \times m\) 的正交矩阵（即 \(U^T U &#x3D; I\)），前r列是矩阵\(A A^\top\)的非零特征值的特征向量。 \(V\) 是一个 \(n \times n\) 的正交矩阵（即 \">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-11-08T05:26:13.000Z">
+<meta property="article:modified_time" content="2024-11-08T15:37:26.007Z">
+<meta property="article:author" content="bg51717">
+<meta property="article:tag" content="矩阵">
+<meta property="article:tag" content="SVD">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            数学
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            微积分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            概率论
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            线性代数
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file active"><a href="/wiki/33996/">矩阵奇异值分解SVD</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  <li class="file"><a href="/wiki/13277/">梯度估计STE</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-数学/线性代数/矩阵奇异值分解SVD" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E6%95%B0%E5%AD%A6/">数学</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/">线性代数</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/wiki/tags/SVD/" rel="tag">SVD</a>, <a class="tag-link-link" href="/wiki/tags/%E7%9F%A9%E9%98%B5/" rel="tag">矩阵</a>
+    </div>
+
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/33996/">
+            <time datetime="2024-11-08T05:26:13.000Z" itemprop="datePublished">2024-11-08</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/数学/线性代数/矩阵奇异值分解SVD.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/数学/线性代数/矩阵奇异值分解SVD.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/数学/线性代数/矩阵奇异值分解SVD.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            矩阵奇异值分解SVD
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E7%90%86%E9%99%88%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">定理陈述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%81%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">证明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E7%90%86%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">几何理解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">6.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h1 id="定理陈述">定理陈述</h1>
+<p>对于任意 <span class="math inline">\(m \times n\)</span> 的矩阵 <span class="math inline">\(A\)</span>，存在一个分解：</p>
+<p><span class="math display">\[
+A = U \Sigma V^T
+\]</span></p>
+<p>其中：</p>
+<ul>
+<li>r=rank(A)是矩阵A的秩</li>
+<li><span class="math inline">\(U\)</span> 是一个 <span class="math inline">\(m \times m\)</span> 的正交矩阵（即 <span class="math inline">\(U^T U = I\)</span>），前r列是矩阵<span class="math inline">\(A A^\top\)</span>的非零特征值的特征向量。</li>
+<li><span class="math inline">\(V\)</span> 是一个 <span class="math inline">\(n \times n\)</span> 的正交矩阵（即 <span class="math inline">\(V^T V = I\)</span>），前r列是矩阵$ A^A$
+的非零特征值的特征向量。</li>
+<li><span class="math inline">\(\Sigma\)</span> 是一个 <span class="math inline">\(m \times n\)</span>
+的对角矩阵，其对角线元素是非负实数，前r个非负实数称为A的奇异值。</li>
+</ul>
+<p>分解结果不是唯一的，不同分解的区别主要在于特征向量和奇异值的顺序。</p>
+<h1 id="证明">证明</h1>
+<blockquote>
+<p>参考自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/THUChina/article/details/102576718">奇异值分解（SVD）推导证明与应用_简述奇异值分解定理,并进行推导与证明(公式以及矩阵可以写在纸上照下来)-CSDN博客</a></p>
+</blockquote>
+<p>因为<span class="math inline">\(AA^\top\)</span>是半正定矩阵，所以存在正交矩阵<span class="math inline">\(V_{n\times n}\)</span>，</p>
+<p>$$ V^T (A^T A) V = (_1, _2, , _n)</p>
+<p>$$</p>
+<p>其中<span class="math inline">\(\lambda_1 &gt; \lambda_2 &gt; \cdots
+&gt; \lambda_r &gt; 0 = \lambda_{r+1} = \cdots =
+\lambda_n\)</span>为<span class="math inline">\(AA^\top\)</span>的n个非负特征根。</p>
+<p>令<span class="math inline">\(\Sigma_1 =
+\operatorname{diag}(\sigma_1, \sigma_2, \dots, \sigma_r) =
+\operatorname{diag}(\sqrt{\lambda_1}, \sqrt{\lambda_2}, \dots,
+\sqrt{\lambda_r}), \quad V_1 = [\mathbf{v}_1, \mathbf{v}_2, \dots,
+\mathbf{v}_r], \quad V_2 = [\mathbf{v}_{r+1}, \mathbf{v}_{r+2}, \dots,
+\mathbf{v}_n],V=[V_1,V_2]\)</span>，所以根据<span class="math inline">\(V\)</span>定义，两个式子左边乘以<span class="math inline">\(V\)</span>，得到</p>
+<p><span class="math display">\[
+A^\top A V=V\Sigma_1
+\]</span></p>
+<p>取其中的r个列向量，有</p>
+<p><span class="math display">\[
+A^\top A V_1=V_1\Sigma_1
+\]</span></p>
+<p>进一步，我们可以得到</p>
+<p><span class="math display">\[
+\Sigma_1^{-1} V_1^\top A^\top A V_1 \Sigma_1^{-1} = I
+\]</span></p>
+<p>令 <span class="math inline">\(U_1 = A V_1
+\Sigma_1^{-1}\)</span>，则有 <span class="math inline">\(U_1^\top U_1 =
+I\)</span>。此时，我们可以选择 <span class="math inline">\(m -
+r\)</span> 组标准正交向量与 <span class="math inline">\(U_1\)</span>
+的列向量组成一组标准正交基，也即 <span class="math inline">\([U_1,
+U_2]\)</span> 是一个 <span class="math inline">\(m \times m\)</span>
+阶正交矩阵，且 <span class="math inline">\(U_1^\top U_2 =
+0\)</span>。</p>
+<p>另一方面，容易得到：</p>
+<p><span class="math display">\[
+A^\top A V_2 = V_2 0 \Rightarrow V_2^\top A^\top A V_2 = 0
+\]</span></p>
+<p>根据矩阵性质<span class="math inline">\(A = 0 \Leftrightarrow A^\top
+A = 0\)</span>，我们可以得到<span class="math inline">\(AV_2=0\)</span>。</p>
+<p><span class="math display">\[
+U^\top A V = \begin{bmatrix} U_1^\top A V_1 &amp; U_1^\top A V_2 \\
+U_2^\top A V_1 &amp; U_2^\top A V_2 \end{bmatrix}
+= \begin{bmatrix} \Sigma_1 &amp; 0 \\ U_2^T U_1 \Sigma_1 &amp; 0
+\end{bmatrix}
+= \begin{bmatrix} \Sigma_1 &amp; 0 \\ 0 &amp; 0 \end{bmatrix}
+= \Sigma
+\]</span></p>
+<p>即，</p>
+<p><span class="math display">\[
+U A V^\top=\Sigma
+\]</span></p>
+<h1 id="几何理解">几何理解</h1>
+<p>如果几何变换的方法为<span class="math inline">\(XA\)</span>，那么SVD将矩阵的线性变换拆解为三步：旋转（或方向调整）<span class="math inline">\(U\)</span>- 缩放 <span class="math inline">\(\Sigma\)</span> - 再旋转 <span class="math inline">\(V\)</span>，其中的缩放操作可以理解为，首先奇异值会对向量进行缩放：</p>
+<ul>
+<li>如果m&lt;n，会额外增加一些为0的维度</li>
+<li>如果m&gt;n，会删去一些维度</li>
+</ul>
+<h1 id="应用">应用</h1>
+<p>在机器学习的PCA中使用较多，作为特征工程降低数据维度的一个重要方法。</p>
+<p>在一些信号领域也可以用于去噪或者图像领域的数据压缩。</p>
+<h1 id="代码">代码</h1>
+<p>Pytorch:</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例矩阵</span></span><br><span class="line">A = torch.tensor([[<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>], [<span class="number">4.0</span>, <span class="number">5.0</span>, <span class="number">6.0</span>], [<span class="number">7.0</span>, <span class="number">8.0</span>, <span class="number">9.0</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算 SVD</span></span><br><span class="line">U, S, V = torch.svd(A)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"U:"</span>, U)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"S:"</span>, S)  <span class="comment"># 奇异值向量</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"V:"</span>, V)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>numpy：</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例矩阵</span></span><br><span class="line">A = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算 SVD</span></span><br><span class="line">U, sigma, VT = np.linalg.svd(A)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"U:"</span>, U)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Sigma:"</span>, sigma)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"V^T:"</span>, VT)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>scikit-learn:</p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> TruncatedSVD</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例矩阵</span></span><br><span class="line">A = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例化 TruncatedSVD，指定保留的奇异值数量</span></span><br><span class="line">svd = TruncatedSVD(n_components=<span class="number">2</span>)</span><br><span class="line">A_reduced = svd.fit_transform(A)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Reduced Matrix (A_reduced):"</span>)</span><br><span class="line"><span class="built_in">print</span>(A_reduced)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Explained Variance Ratio:"</span>, svd.explained_variance_ratio_)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="参考资料">参考资料</h1>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/THUChina/article/details/102576718">奇异值分解（SVD）推导证明与应用_简述奇异值分解定理,并进行推导与证明(公式以及矩阵可以写在纸上照下来)-CSDN博客</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+        <!-- 公告区域 -->
+        <div id="announcement" style="background-color: #f8d7da; color: #721c24; padding: 10px; text-align: center; font-weight: bold; border-radius: 15px;">
+            由于评论系统依托于Github的Discuss存在，因此默认评论者会收到所有通知。可以在邮件里点击"unsubscribe"停止接受，后续也可以点击下列仓库进行通知管理：
+            <a href="https://github.com/bg51717/Hexo-Blogs-comments" target="_blank" style="color: #0056b3; text-decoration: underline; white-space: nowrap;">
+                bg51717/Hexo-Blogs-comments
+            </a>
+            <br>
+            Since the comment system relies on GitHub's Discussions feature, by default, commentators will receive all notifications. You can click "unsubscribe" in the email to stop receiving them, and you can also manage your notifications by clicking on the following repositories:
+            <a href="https://github.com/bg51717/Hexo-Blogs-comments" target="_blank" style="color: #0056b3; text-decoration: underline; white-space: nowrap;">
+                bg51717/Hexo-Blogs-comments
+            </a>
+        </div>
+        
+        <!-- Giscus 评论组件 -->
+        <div id="giscus-container"></div>
+        <script src="https://giscus.app/client.js"
+                data-repo="bg51717/Hexo-Blogs-comments"
+                data-repo-id="R_kgDOKhgfLA"
+                data-category="General"
+                data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+                data-mapping="title"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="zh-CN"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+        </script>
+        <noscript>请启用 JavaScript 以查看评论。</noscript>
+     </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+        <a href="/wiki/341/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    OneBit: Towards Extremely Low-bit Large Language Models
+                
+            </div>
+        </a>
+    
+    
+        <a href="/wiki/13277/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">梯度估计STE</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -21,11 +21,12 @@
 <meta property="og:image" content="https://bg51717.github.io/wiki/62023/1699360947746.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/62023/1700397462765.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/62023/1700397965758.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/62023/1730970627502.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/62023/1712407532667.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/62023/1712407640141.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/62023/1712408451748.png">
 <meta property="article:published_time" content="2023-10-23T12:10:11.000Z">
-<meta property="article:modified_time" content="2024-11-02T02:55:49.922Z">
+<meta property="article:modified_time" content="2024-11-08T15:37:17.484Z">
 <meta property="article:author" content="bg51717">
 <meta property="article:tag" content="量化">
 <meta name="twitter:card" content="summary">
@@ -230,6 +231,42 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
+                            数学
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            微积分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            概率论
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            线性代数
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/33996/">矩阵奇异值分解SVD</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
                             杂项
                         </a>
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
@@ -251,15 +288,6 @@
                             深度学习
                         </a>
                          <ul class="unstyled" id="tree" > 
-                    <li class="directory">
-                        <a href="#" data-role="directory">
-                            <i class="fa fa-folder"></i>
-                            &nbsp;
-                            前置数学
-                        </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
-                    </li> 
-                    
                     <li class="directory">
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
@@ -302,7 +330,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file active"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file active"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -589,6 +617,8 @@ Q(r)=X_i, \quad if\quad r \in [r_i,r_{i+1}]
 </ul>
 <p>也可以考虑量化感知训练的过程种学习量化参数</p>
 <h4 id="ptq">PTQ</h4>
+<p>PTQ的流程：</p>
+<p><img src="/wiki/62023/1730970627502.png"></p>
 <p>由于PTQ不需要训练，所以对数据集的依赖比较低，当然，精度也会下降</p>
 <p>因此，PTQ的研究重点都在于减轻PTQ的精度下降：</p>
 <ul>
@@ -737,19 +767,19 @@ Methods for Efficient Neural Network Inference</a></li>
     
 <nav id="article-nav">
     
-        <a href="/wiki/43151/" id="article-nav-newer" class="article-nav-link-wrap">
+        <a href="/wiki/8948/" id="article-nav-newer" class="article-nav-link-wrap">
             <strong class="article-nav-caption">上一篇</strong>
             <div class="article-nav-title">
                 
-                    文献管理工具zotero
+                    论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models
                 
             </div>
         </a>
     
     
-        <a href="/wiki/8948/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/wiki/13640/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
-            <div class="article-nav-title">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</div>
+            <div class="article-nav-title">Hexo+Github搭建个人Wiki风格博客</div>
         </a>
     
 </nav>

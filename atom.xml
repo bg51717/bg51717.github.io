@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-11-04T12:53:21.660Z</updated>
+  <updated>2024-11-08T15:40:22.864Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -17,11 +17,68 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>OneBit: Towards Extremely Low-bit Large Language Models</title>
+    <link href="https://bg51717.github.io/341/"/>
+    <id>https://bg51717.github.io/341/</id>
+    <published>2024-11-08T12:33:02.000Z</published>
+    <updated>2024-11-08T15:40:22.864Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;OneBit属于量化方法中的量化感知训练QAT。基于BitNet的OneBit将LLM的权重矩阵量化为1位，用一种新颖的
+1</summary>
+        
+      
+    
+    
+    
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
+    
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>矩阵奇异值分解SVD</title>
+    <link href="https://bg51717.github.io/33996/"/>
+    <id>https://bg51717.github.io/33996/</id>
+    <published>2024-11-08T05:26:13.000Z</published>
+    <updated>2024-11-08T15:37:26.007Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;定理陈述&quot;&gt;定理陈述&lt;/h1&gt;
+&lt;p&gt;对于任意 &lt;span class=&quot;math inline&quot;&gt;&#92;(m &#92;times n&#92;)&lt;/span&gt; 的矩阵 &lt;span class=&quot;math</summary>
+        
+      
+    
+    
+    
+    <category term="数学" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
+    
+    <category term="线性代数" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"/>
+    
+    
+    <category term="矩阵" scheme="https://bg51717.github.io/tags/%E7%9F%A9%E9%98%B5/"/>
+    
+    <category term="SVD" scheme="https://bg51717.github.io/tags/SVD/"/>
+    
+  </entry>
+  
+  <entry>
     <title>梯度估计STE</title>
     <link href="https://bg51717.github.io/13277/"/>
     <id>https://bg51717.github.io/13277/</id>
     <published>2024-11-04T12:15:47.000Z</published>
-    <updated>2024-11-04T12:53:21.660Z</updated>
+    <updated>2024-11-08T12:36:20.417Z</updated>
     
     
       
@@ -116,9 +173,9 @@ Multiplier</summary>
     
     
     
-    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    <category term="数学" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
     
-    <category term="前置数学" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/"/>
+    <category term="微积分" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/%E5%BE%AE%E7%A7%AF%E5%88%86/"/>
     
     
     <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
@@ -533,7 +590,7 @@ Multiplier</summary>
     <link href="https://bg51717.github.io/5656/"/>
     <id>https://bg51717.github.io/5656/</id>
     <published>2024-01-31T11:19:50.000Z</published>
-    <updated>2024-11-02T02:55:49.879Z</updated>
+    <updated>2024-11-08T05:27:53.593Z</updated>
     
     
       
@@ -549,76 +606,14 @@ H(x)=-&#92;sum</summary>
     
     
     
-    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    <category term="数学" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
     
-    <category term="前置数学" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%89%8D%E7%BD%AE%E6%95%B0%E5%AD%A6/"/>
+    <category term="概率论" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
     
-    
-    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="信息学" scheme="https://bg51717.github.io/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6/"/>
     
     <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
     
-  </entry>
-  
-  <entry>
-    <title>pytroch_tutorials杂项</title>
-    <link href="https://bg51717.github.io/20668/"/>
-    <id>https://bg51717.github.io/20668/</id>
-    <published>2023-12-29T08:23:43.000Z</published>
-    <updated>2024-11-02T02:55:49.878Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
-&lt;p&gt;当作快速过这个资料的笔记，一些关于别的库的介绍是不完全的，考虑在使用的时候从别的信息渠道就行信息的搜集。也可以作为后面待更博客列举？&lt;/p&gt;
-&lt;h2 id=&quot;具体&quot;&gt;具体&lt;/h2&gt;
-&lt;h3</summary>
-        
-      
-    
-    
-    
-    <category term="杂项" scheme="https://bg51717.github.io/categories/%E6%9D%82%E9%A1%B9/"/>
-    
-    
-    <category term="pytroch_tutorials" scheme="https://bg51717.github.io/tags/pytroch-tutorials/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Adam Optimizer</title>
-    <link href="https://bg51717.github.io/12551/"/>
-    <id>https://bg51717.github.io/12551/</id>
-    <published>2023-12-29T08:23:43.000Z</published>
-    <updated>2024-11-02T02:55:49.881Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
-&lt;p&gt;传统的随机梯度下降算法SGD(Stochastic Gradient Descent)的式子为:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;&#92;[
-&#92;theta_{t+1} &#92;leftarrow</summary>
-        
-      
-    
-    
-    
-    <category term="深度学习" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="经典模块" scheme="https://bg51717.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%BB%8F%E5%85%B8%E6%A8%A1%E5%9D%97/"/>
-    
-    
-    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="优化算法" scheme="https://bg51717.github.io/tags/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/"/>
+    <category term="信息学" scheme="https://bg51717.github.io/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6/"/>
     
   </entry>
   
