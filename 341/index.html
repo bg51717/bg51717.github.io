@@ -433,14 +433,14 @@ LLM，以及一种基于矩阵分解的有效参数初始化方法以提高量�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2024-11-08
+                    2024-11-09
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.6k
+                    1.7k
                 </div>
                 
 
@@ -491,7 +491,7 @@ follow的工作是BitNet，BitNet提出BitLinear，BitLinear的forward函数为�
 &amp; \mathbf{W}_{\pm 1} = \operatorname{Sign}(\mathbf{W}), \\
 &amp; \mathbf{Y} = \left[ (\mathbf{X} \odot \mathbf{g}) \mathbf{W}_{\pm
 1}^{\top} \right] \odot \mathbf{h}, \\
-&amp; \mathbf{Z} = \operatorname{LayerNorm}(\mathbf{Y}), \\
+&amp; \mathbf{Z} = \operatorname{LayerNorm}(\mathbf{Y}),
 \end{align*}
 \]</span></p>
 <p>其中的<span class="math inline">\(g\)</span>和<span class="math inline">\(h\)</span>是fp16精度的向量，<span class="math inline">\(Z\)</span>是最终的输出。同时括号严格要求了计算顺序从而减小计算成本。其余的和BitNet保持一致。</p>
@@ -535,8 +535,10 @@ s_{kj}^{\top} a_j \\
 \]</span></p>
 </blockquote>
 <p><strong>命题二</strong>：给定矩阵 $W $和 <span class="math inline">\(|W|\)</span>，其中 <span class="math inline">\(W =
-W_{\text{sign}} \odot |W|\)</span>。以如下方式对这些矩阵进行分解：$W =
-^{} + _1 <span class="math inline">\(和\)</span> |W| = ^{} + _2<span class="math inline">\(，其中\)</span>E_i $表示误差矩阵。就 Frobenius
+W_{\text{sign}} \odot |W|\)</span>。以如下方式对这些矩阵进行分解：<span class="math inline">\(W = \mathbf{a} \mathbf{b}^{\top} +
+\mathbf{E}_1\)</span>和<span class="math inline">\(|W| =
+\tilde{\mathbf{a}} \tilde{\mathbf{b}}^{\top} +
+\mathbf{E}_2\)</span>，其中<span class="math inline">\(E_i\)</span>表示误差矩阵。就 Frobenius
 范数而言，SVD 分解比原始矩阵 $W $更接近：</p>
 <p><span class="math display">\[
 \left\| W - W_{\text{sign}} \odot \tilde{\mathbf{a}}

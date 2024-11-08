@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://bg51717.github.io/wiki/341/1731079794197.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/341/1731080140597.png">
 <meta property="article:published_time" content="2024-11-08T12:33:02.000Z">
-<meta property="article:modified_time" content="2024-11-08T15:40:22.864Z">
+<meta property="article:modified_time" content="2024-11-08T16:44:40.837Z">
 <meta property="article:author" content="bg51717">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://bg51717.github.io/wiki/341/1731079859743.png">
@@ -324,7 +324,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file active"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file active"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -504,7 +504,7 @@ follow的工作是BitNet，BitNet提出BitLinear，BitLinear的forward函数为�
 &amp; \mathbf{W}_{\pm 1} = \operatorname{Sign}(\mathbf{W}), \\
 &amp; \mathbf{Y} = \left[ (\mathbf{X} \odot \mathbf{g}) \mathbf{W}_{\pm
 1}^{\top} \right] \odot \mathbf{h}, \\
-&amp; \mathbf{Z} = \operatorname{LayerNorm}(\mathbf{Y}), \\
+&amp; \mathbf{Z} = \operatorname{LayerNorm}(\mathbf{Y}),
 \end{align*}
 \]</span></p>
 <p>其中的<span class="math inline">\(g\)</span>和<span class="math inline">\(h\)</span>是fp16精度的向量，<span class="math inline">\(Z\)</span>是最终的输出。同时括号严格要求了计算顺序从而减小计算成本。其余的和BitNet保持一致。</p>
@@ -548,8 +548,10 @@ s_{kj}^{\top} a_j \\
 \]</span></p>
 </blockquote>
 <p><strong>命题二</strong>：给定矩阵 $W $和 <span class="math inline">\(|W|\)</span>，其中 <span class="math inline">\(W =
-W_{\text{sign}} \odot |W|\)</span>。以如下方式对这些矩阵进行分解：$W =
-^{} + _1 <span class="math inline">\(和\)</span> |W| = ^{} + _2<span class="math inline">\(，其中\)</span>E_i $表示误差矩阵。就 Frobenius
+W_{\text{sign}} \odot |W|\)</span>。以如下方式对这些矩阵进行分解：<span class="math inline">\(W = \mathbf{a} \mathbf{b}^{\top} +
+\mathbf{E}_1\)</span>和<span class="math inline">\(|W| =
+\tilde{\mathbf{a}} \tilde{\mathbf{b}}^{\top} +
+\mathbf{E}_2\)</span>，其中<span class="math inline">\(E_i\)</span>表示误差矩阵。就 Frobenius
 范数而言，SVD 分解比原始矩阵 $W $更接近：</p>
 <p><span class="math display">\[
 \left\| W - W_{\text{sign}} \odot \tilde{\mathbf{a}}

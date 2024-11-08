@@ -452,7 +452,7 @@ r=rank(A)是矩阵A的秩
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    926
+                    929
                 </div>
                 
 
@@ -497,8 +497,10 @@ A = U \Sigma V^T
 <p>参考自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/THUChina/article/details/102576718">奇异值分解（SVD）推导证明与应用_简述奇异值分解定理,并进行推导与证明(公式以及矩阵可以写在纸上照下来)-CSDN博客</a></p>
 </blockquote>
 <p>因为<span class="math inline">\(AA^\top\)</span>是半正定矩阵，所以存在正交矩阵<span class="math inline">\(V_{n\times n}\)</span>，</p>
-<p>$$ V^T (A^T A) V = (_1, _2, , _n)</p>
-<p>$$</p>
+<p><span class="math display">\[
+V^T (A^T A) V = \operatorname{diag}(\lambda_1, \lambda_2, \dots,
+\lambda_n)
+\]</span></p>
 <p>其中<span class="math inline">\(\lambda_1 &gt; \lambda_2 &gt; \cdots
 &gt; \lambda_r &gt; 0 = \lambda_{r+1} = \cdots =
 \lambda_n\)</span>为<span class="math inline">\(AA^\top\)</span>的n个非负特征根。</p>
