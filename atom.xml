@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-11-08T16:44:40.837Z</updated>
+  <updated>2024-11-08T16:52:28.160Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -21,14 +21,14 @@
     <link href="https://bg51717.github.io/341/"/>
     <id>https://bg51717.github.io/341/</id>
     <published>2024-11-08T12:33:02.000Z</published>
-    <updated>2024-11-08T16:44:40.837Z</updated>
+    <updated>2024-11-08T16:52:28.160Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;介绍&quot;&gt;介绍&lt;/h1&gt;
+    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
 &lt;p&gt;OneBit属于量化方法中的量化感知训练QAT。基于BitNet的OneBit将LLM的权重矩阵量化为1位，用一种新颖的
 1</summary>
         
@@ -41,6 +41,10 @@
     <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
     
     
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
+    
   </entry>
   
   <entry>
@@ -48,14 +52,14 @@
     <link href="https://bg51717.github.io/33996/"/>
     <id>https://bg51717.github.io/33996/</id>
     <published>2024-11-08T05:26:13.000Z</published>
-    <updated>2024-11-08T15:53:38.795Z</updated>
+    <updated>2024-11-08T16:52:57.494Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;定理陈述&quot;&gt;定理陈述&lt;/h1&gt;
+    <summary type="html">&lt;h2 id=&quot;定理陈述&quot;&gt;定理陈述&lt;/h2&gt;
 &lt;p&gt;对于任意 &lt;span class=&quot;math inline&quot;&gt;&#92;(m &#92;times n&#92;)&lt;/span&gt; 的矩阵 &lt;span class=&quot;math</summary>
         
       
@@ -131,7 +135,7 @@
     <link href="https://bg51717.github.io/14592/"/>
     <id>https://bg51717.github.io/14592/</id>
     <published>2024-10-27T05:35:56.000Z</published>
-    <updated>2024-11-02T06:12:26.130Z</updated>
+    <updated>2024-11-08T16:50:22.050Z</updated>
     
     
       
@@ -150,6 +154,10 @@ Activation-aware Weight Quantization for LLM</summary>
     
     <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
     
+    
+    <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="量化" scheme="https://bg51717.github.io/tags/%E9%87%8F%E5%8C%96/"/>
     
   </entry>
   

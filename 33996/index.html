@@ -445,7 +445,7 @@ r=rank(A)是矩阵A的秩
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2024-11-08
+                    2024-11-09
                 </div>
                 
 
@@ -477,7 +477,7 @@ r=rank(A)是矩阵A的秩
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="定理陈述">定理陈述</h1>
+                <h2 id="定理陈述">定理陈述</h2>
 <p>对于任意 <span class="math inline">\(m \times n\)</span> 的矩阵 <span class="math inline">\(A\)</span>，存在一个分解：</p>
 <p><span class="math display">\[
 A = U \Sigma V^T
@@ -492,7 +492,7 @@ A = U \Sigma V^T
 的对角矩阵，其对角线元素是非负实数，前r个非负实数称为A的奇异值。</li>
 </ul>
 <p>分解结果不是唯一的，不同分解的区别主要在于特征向量和奇异值的顺序。</p>
-<h1 id="证明">证明</h1>
+<h2 id="证明">证明</h2>
 <blockquote>
 <p>参考自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/THUChina/article/details/102576718">奇异值分解（SVD）推导证明与应用_简述奇异值分解定理,并进行推导与证明(公式以及矩阵可以写在纸上照下来)-CSDN博客</a></p>
 </blockquote>
@@ -547,16 +547,16 @@ U_2^\top A V_1 &amp; U_2^\top A V_2 \end{bmatrix}
 <p><span class="math display">\[
 U A V^\top=\Sigma
 \]</span></p>
-<h1 id="几何理解">几何理解</h1>
+<h2 id="几何理解">几何理解</h2>
 <p>如果几何变换的方法为<span class="math inline">\(XA\)</span>，那么SVD将矩阵的线性变换拆解为三步：旋转（或方向调整）<span class="math inline">\(U\)</span>- 缩放 <span class="math inline">\(\Sigma\)</span> - 再旋转 <span class="math inline">\(V\)</span>，其中的缩放操作可以理解为，首先奇异值会对向量进行缩放：</p>
 <ul>
 <li>如果m&lt;n，会额外增加一些为0的维度</li>
 <li>如果m&gt;n，会删去一些维度</li>
 </ul>
-<h1 id="应用">应用</h1>
+<h2 id="应用">应用</h2>
 <p>在机器学习的PCA中使用较多，作为特征工程降低数据维度的一个重要方法。</p>
 <p>在一些信号领域也可以用于去噪或者图像领域的数据压缩。</p>
-<h1 id="代码">代码</h1>
+<h2 id="代码">代码</h2>
 <p>Pytorch:</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> torch
 
@@ -598,7 +598,7 @@ A_reduced <span class="token operator">=</span> svd<span class="token punctuatio
 <span class="token keyword">print</span><span class="token punctuation">(</span>A_reduced<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Explained Variance Ratio:"</span><span class="token punctuation">,</span> svd<span class="token punctuation">.</span>explained_variance_ratio_<span class="token punctuation">)</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="参考资料">参考资料</h1>
+<h2 id="参考资料">参考资料</h2>
 <blockquote>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/THUChina/article/details/102576718">奇异值分解（SVD）推导证明与应用_简述奇异值分解定理,并进行推导与证明(公式以及矩阵可以写在纸上照下来)-CSDN博客</a></li>
@@ -827,6 +827,18 @@ A_reduced <span class="token operator">=</span> svd<span class="token punctuatio
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">深度学习</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%87%8F%E5%8C%96/">
+                        <span class="chip bg-color">量化</span>
+                    </a>
+                    
                 </div>
                 
             </div>

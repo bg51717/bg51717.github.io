@@ -399,9 +399,17 @@ LLM，以及一种基于矩阵分解的有效参数初始化方法以提高量�
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                <span class="chip bg-color">深度学习</span>
+                            </a>
+                        
+                            <a href="/tags/%E9%87%8F%E5%8C%96/">
+                                <span class="chip bg-color">量化</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -465,12 +473,12 @@ LLM，以及一种基于矩阵分解的有效参数初始化方法以提高量�
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="介绍">介绍</h1>
+                <h2 id="介绍">介绍</h2>
 <p>OneBit属于量化方法中的量化感知训练QAT。基于BitNet的OneBit将LLM的权重矩阵量化为1位，用一种新颖的
 1 位参数表示方法以更好地量化
 LLM，以及一种基于矩阵分解的有效参数初始化方法以提高量化框架的收敛速度。</p>
-<h1 id="方法">方法</h1>
-<h2 id="bitlinear">BitLinear</h2>
+<h2 id="方法">方法</h2>
+<h3 id="bitlinear">BitLinear</h3>
 <p>OneBit
 follow的工作是BitNet，BitNet提出BitLinear，BitLinear的forward函数为：</p>
 <p><span class="math display">\[
@@ -495,7 +503,7 @@ follow的工作是BitNet，BitNet提出BitLinear，BitLinear的forward函数为�
 \end{align*}
 \]</span></p>
 <p>其中的<span class="math inline">\(g\)</span>和<span class="math inline">\(h\)</span>是fp16精度的向量，<span class="math inline">\(Z\)</span>是最终的输出。同时括号严格要求了计算顺序从而减小计算成本。其余的和BitNet保持一致。</p>
-<h2 id="svid">SVID</h2>
+<h3 id="svid">SVID</h3>
 <p>为了可以使用训练好的模型的ckpt来初始化量化模型的权重，这篇论文还引入了Sign-Value-Independent
 Decomposition (SVID)，所以近似初始化方法为，</p>
 <p><span class="math display">\[
@@ -612,7 +620,7 @@ s_{ij}^2 e_{ij}^2 = \sum_{i,j} e_{ij}^2 = \|\mathbf{E}_2\|_F^2 \leq
 <p>其中 <span class="math inline">\(s_{ij} = \pm 1\)</span> 是 <span class="math inline">\(\mathbf{W}_{\text{sign}}\)</span>
 的元素。由此，该命题中的不等式得证。</p>
 </blockquote>
-<h2 id="知识蒸馏">知识蒸馏</h2>
+<h3 id="知识蒸馏">知识蒸馏</h3>
 <p>考虑在量化模型训练的时候加入知识蒸馏，大的教师模型代表量化前的模型，小的学生模型代表量化后的模型。损失由两部分组成，首先是交叉熵损失，</p>
 <p><span class="math display">\[
 \mathcal{L}_{\text{CE}} = -\frac{1}{n_s} \sum_{i=1}^{n_s} \sum_{c}
@@ -634,13 +642,13 @@ P_c^{T}(o_i) \log P_c^{S}(o_i)
 </blockquote>
 <p>训练的时候，使用是模拟量化进行训练，即原来的权重也会进行训练，部署的时候再压缩：</p>
 <p><img src="/341/1731079859743.png"></p>
-<h1 id="实验">实验</h1>
+<h2 id="实验">实验</h2>
 <p>首先测试了该量化方法和一些PTQ方法和QAT方法的困惑度比较，其中的baseline为W2A16量化，本文方法为W1A16，可以看到取得了较大领先，</p>
 <p><img src="/341/1731079794197.png"></p>
 <p>为了评估实际解决问题的能力，还测试了和一些小模型能力的差异和资源的需求，其中的OneBit是本文方法训练的模型，LowRank
 LLaMA是通过低秩分解压缩的Llama模型：</p>
 <p><img src="/341/1731080140597.png"></p>
-<h1 id="代码">代码</h1>
+<h2 id="代码">代码</h2>
 <p>论文源码：<a target="_blank" rel="noopener" href="https://github.com/xuyuzhuang11/OneBit">xuyuzhuang11/OneBit: The
 homepage of OneBit model quantization framework.</a></p>
 <p>个人认为其中比较重要的部分：</p>
@@ -650,7 +658,7 @@ at main · xuyuzhuang11/OneBit</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/xuyuzhuang11/OneBit/blob/main/scripts/build_start_ckpt.py">OneBit/scripts/build_start_ckpt.py
 at main · xuyuzhuang11/OneBit</a></li>
 </ul>
-<h1 id="参考资料">参考资料</h1>
+<h2 id="参考资料">参考资料</h2>
 <blockquote>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.11295">[2402.11295] OneBit:
@@ -722,7 +730,15 @@ homepage of OneBit model quantization framework.</a></li>
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                                    <span class="chip bg-color">深度学习</span>
+                                </a>
+                            
+                                <a href="/tags/%E9%87%8F%E5%8C%96/">
+                                    <span class="chip bg-color">量化</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -877,6 +893,18 @@ homepage of OneBit model quantization framework.</a></li>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+                        <span class="chip bg-color">深度学习</span>
+                    </a>
+                    
+                    <a href="/tags/%E9%87%8F%E5%8C%96/">
+                        <span class="chip bg-color">量化</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
