@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-11-08T16:52:28.160Z</updated>
+  <updated>2024-11-09T13:43:06.966Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models</title>
+    <link href="https://bg51717.github.io/58958/"/>
+    <id>https://bg51717.github.io/58958/</id>
+    <published>2024-11-09T09:25:51.000Z</published>
+    <updated>2024-11-09T13:43:06.966Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="科研" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/"/>
+    
+    <category term="论文阅读" scheme="https://bg51717.github.io/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>OneBit: Towards Extremely Low-bit Large Language Models</title>
@@ -52,7 +77,7 @@
     <link href="https://bg51717.github.io/33996/"/>
     <id>https://bg51717.github.io/33996/</id>
     <published>2024-11-08T05:26:13.000Z</published>
-    <updated>2024-11-08T16:52:57.494Z</updated>
+    <updated>2024-11-08T17:00:43.626Z</updated>
     
     
       
@@ -590,38 +615,6 @@ Multiplier</summary>
     <category term="模板" scheme="https://bg51717.github.io/tags/%E6%A8%A1%E6%9D%BF/"/>
     
     <category term="深度学习" scheme="https://bg51717.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>信息熵</title>
-    <link href="https://bg51717.github.io/5656/"/>
-    <id>https://bg51717.github.io/5656/</id>
-    <published>2024-01-31T11:19:50.000Z</published>
-    <updated>2024-11-08T05:27:53.593Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;信息熵的公式&quot;&gt;&lt;strong&gt;信息熵的公式&lt;/strong&gt;&lt;/h2&gt;
-&lt;p&gt;计算信息熵的公式为:&lt;/p&gt;
-&lt;p&gt;&lt;span class=&quot;math display&quot;&gt;&#92;[
-H(x)=-&#92;sum</summary>
-        
-      
-    
-    
-    
-    <category term="数学" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
-    
-    <category term="概率论" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E8%AE%BA/"/>
-    
-    
-    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
-    
-    <category term="信息学" scheme="https://bg51717.github.io/tags/%E4%BF%A1%E6%81%AF%E5%AD%A6/"/>
     
   </entry>
   

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="umJh1MKBdH4dUlHcpYXkGto1Vw4htN34qeA2NX-Eey8" />
+    
+    <title>OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models | Blogs</title>
+    
+    
+        <meta name="keywords" content="OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="介绍 很多针对LLM的PTQ量化算法在设计参数的时候都添加了太多的先验知识，导致性能不佳，尤其在低比特量化中。为了解决这个问题，本文提出了全向校准量化（OmniQuant）技术。 OmniQuant包含两个组件，可学习权重裁剪 (LWC) 和可学习等效变换 (LET)。 LWC通过优化限幅阈值来调节权重的极值。同时，LET 通过将量化的挑战从激活转移到权重来解决激活异常值。OmniQuant 在使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models">
+<meta property="og:url" content="https://bg51717.github.io/wiki/58958/">
+<meta property="og:site_name" content="Blogs">
+<meta property="og:description" content="介绍 很多针对LLM的PTQ量化算法在设计参数的时候都添加了太多的先验知识，导致性能不佳，尤其在低比特量化中。为了解决这个问题，本文提出了全向校准量化（OmniQuant）技术。 OmniQuant包含两个组件，可学习权重裁剪 (LWC) 和可学习等效变换 (LET)。 LWC通过优化限幅阈值来调节权重的极值。同时，LET 通过将量化的挑战从激活转移到权重来解决激活异常值。OmniQuant 在使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://bg51717.github.io/wiki/58958/1731158459757.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/58958/1731158796713.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/58958/1731158884137.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/58958/1731159099167.png">
+<meta property="article:published_time" content="2024-11-09T09:25:51.000Z">
+<meta property="article:modified_time" content="2024-11-09T13:43:06.966Z">
+<meta property="article:author" content="bg51717">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://bg51717.github.io/wiki/58958/1731158459757.png">
+    
+
+    
+        <link rel="alternate" href="/atom.xml" title="Blogs" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+<meta name="generator" content="Hexo 6.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/wiki/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Blogs</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/wiki/">首页</a>
+                
+                    <a class="main-nav-link" href="/wiki/archives">归档</a>
+                
+                    <a class="main-nav-link" href="/wiki/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/wiki/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/wiki/about">关于</a>
+                
+            </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/wiki/',
+        CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/wiki/">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/archives">归档</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/wiki/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap" id='categories'>
+        <h3 class="widget-title">
+            <span>分类</span>
+            &nbsp;
+            <a id='allExpand' href="#">
+                <i class="fa fa-angle-double-down fa-2x"></i>
+            </a>
+        </h3>
+        
+        
+        
+         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            SmallProjects
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            博客搭建
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/13640/">Hexo+Github搭建个人Wiki风格博客</a></li>  <li class="file"><a href="/wiki/31680/">hexo博客2:双主题</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            huggingface
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20669/">pytroch_tutorials杂项</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工具
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/44392/">快速启动工具——utools</a></li>  <li class="file"><a href="/wiki/43151/">文献管理工具zotero</a></li>  <li class="file"><a href="/wiki/61294/">安卓手机配置Google</a></li>  <li class="file"><a href="/wiki/13107/">zsh+powerlevel10K优化终端使用体验</a></li>  <li class="file"><a href="/wiki/13162/">使用dotbot快速同步Linux配置</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            数学
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            微积分
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            概率论
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5656/">信息熵</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            线性代数
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/45525/">矩阵偏分</a></li>  <li class="file"><a href="/wiki/33996/">矩阵奇异值分解SVD</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            杂项
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/20668/">pytroch_tutorials杂项</a></li>  <li class="file"><a href="/wiki/30403/">vscode调试python</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            模板
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/42347/">pytorch_model</a></li>  <li class="file"><a href="/wiki/61054/">PyTorch代码转HF</a></li>  <li class="file"><a href="/wiki/45014/">pytorch分布式-ddp</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            深度学习
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            工程细节
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/7369/">随机数种子</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            经典模块
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/12551/">Adam Optimizer</a></li>  <li class="file"><a href="/wiki/13277/">梯度估计STE</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/5925/">Word2Vec</a></li>  <li class="file"><a href="/wiki/51558/">GloVe</a></li>  <li class="file"><a href="/wiki/26708/">依赖分析Dependency Parsing</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            科研
+                        </a>
+                         <ul class="unstyled" id="tree" > 
+                    <li class="directory open">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder-open"></i>
+                            &nbsp;
+                            论文阅读
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  <li class="file active"><a href="/wiki/58958/">OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models</a></li>  </ul> 
+                    </li> 
+                     </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            自然语言处理
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/63314/">nlp常用排行榜</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
+                            课程资源
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/17140/">readme</a></li>  </ul> 
+                    </li> 
+                     <li class="file"><a href="/wiki/14261/">Welcome to bg51717's Wiki and Blog</a></li>  </ul> 
+    </div>
+    <script>
+        $(document).ready(function() {
+            var iconFolderOpenClass  = 'fa-folder-open';
+            var iconFolderCloseClass = 'fa-folder';
+            var iconAllExpandClass = 'fa-angle-double-down';
+            var iconAllPackClass = 'fa-angle-double-up';
+            // Handle directory-tree expansion:
+            // 左键单独展开目录
+            $(document).on('click', '#categories a[data-role="directory"]', function (event) {
+                event.preventDefault();
+
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var subtree = $(this).siblings('ul');
+                icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if (expanded) {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideUp({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderCloseClass);
+                } else {
+                    if (typeof subtree != 'undefined') {
+                        subtree.slideDown({ duration: 100 });
+                    }
+                    icon.addClass(iconFolderOpenClass);
+                }
+            });
+            // 右键展开下属所有目录
+            $('#categories a[data-role="directory"]').bind("contextmenu", function(event){
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconFolderOpenClass);
+                var listNode = $(this).siblings('ul');
+                var subtrees = $.merge(listNode.find('li ul'), listNode);
+                var icons = $.merge(listNode.find('.fa'), icon);
+                icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+                if(expanded) {
+                    subtrees.slideUp({ duration: 100 });
+                    icons.addClass(iconFolderCloseClass);
+                } else {
+                    subtrees.slideDown({ duration: 100 });
+                    icons.addClass(iconFolderOpenClass);
+                }
+            })
+            // 展开关闭所有目录按钮
+            $(document).on('click', '#allExpand', function (event) {
+                event.preventDefault();
+                
+                var icon = $(this).children('.fa');
+                var expanded = icon.hasClass(iconAllExpandClass);
+                icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+                if(expanded) {
+                    $('#sidebar .fa.fa-folder').removeClass('fa-folder').addClass('fa-folder-open')
+                    $('#categories li ul').slideDown({ duration: 100 });
+                    icon.addClass(iconAllPackClass);
+                } else {
+                    $('#sidebar .fa.fa-folder-open').removeClass('fa-folder-open').addClass('fa-folder')
+                    $('#categories li ul').slideUp({ duration: 100 });
+                    icon.addClass(iconAllExpandClass);
+                }
+            });  
+        });
+    </script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-科研/论文阅读/OmniQuant-Omnidirectionally-Calibrated-Quantization-for-Large-Language-Models" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+                    <div class="article-meta">
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/">科研</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/wiki/categories/%E7%A7%91%E7%A0%94/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+    </div>
+
+                        
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/wiki/58958/">
+            <time datetime="2024-11-09T09:25:51.000Z" itemprop="datePublished">2024-11-09</time>
+        </a>
+    </div>
+
+
+                        
+                            <i class="fa fa-bar-chart"></i>
+                            <span id="busuanzi_container_site_pv"><span id="busuanzi_value_page_pv"></span></span>    
+                        
+                        
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/raw/writing/source/_posts/科研/论文阅读/OmniQuant-Omnidirectionally-Calibrated-Quantization-for-Large-Language-Models.md'> Source </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/edit/writing/source/_posts/科研/论文阅读/OmniQuant-Omnidirectionally-Calibrated-Quantization-for-Large-Language-Models.md'> Edit </a>
+                            </div>
+                            <div class="article-meta-button">
+                                <a target="_blank" rel="noopener" href='https://github.com/bg51717/Wiki-site/commits/writing/source/_posts/科研/论文阅读/OmniQuant-Omnidirectionally-Calibrated-Quantization-for-Large-Language-Models.md'> History </a>
+                            </div>
+                        
+                    </div>
+                
+                
+    
+        <h1 class="article-title" itemprop="name">
+            OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models
+        </h1>
+    
+
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+        
+            
+                <div id="toc" class="toc-article">
+                <strong class="toc-title">文章目录</strong>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%9D%97%E9%87%8F%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">分块量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lwc-learnable-weight-clipping"><span class="toc-number">2.2.</span> <span class="toc-text">LWC (Learnable Weight
+Clipping)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#leq-learnable-equivalent-transformation"><span class="toc-number">2.3.</span> <span class="toc-text">LEQ (Learnable
+Equivalent Transformation)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#linear"><span class="toc-number">2.3.1.</span> <span class="toc-text">Linear</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#attention-operation"><span class="toc-number">2.3.2.</span> <span class="toc-text">Attention operation</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
+                </div>
+            
+        
+        
+            <h2 id="介绍">介绍</h2>
+<p>很多针对LLM的PTQ量化算法在设计参数的时候都添加了太多的先验知识，导致性能不佳，尤其在低比特量化中。为了解决这个问题，本文提出了全向校准量化（OmniQuant）技术。</p>
+<p>OmniQuant包含两个组件，可学习权重裁剪 (LWC) 和可学习等效变换 (LET)。
+LWC通过优化限幅阈值来调节权重的极值。同时，LET
+通过将量化的挑战从激活转移到权重来解决激活异常值。OmniQuant
+在使用逐块误差最小化的可微框架内运行。在校准的时候，OmniQuant
+冻结了模型原始的全精度权重，仅包含LWC和LET可学习的量化参数。</p>
+<p>本文也利用了 <code>LLM.int8()</code>和
+<code>AWQ</code>中的几个结论：</p>
+<ul>
+<li>相比模型的权重，大模型的激活的异常值（绝对值远超别的参数）的绝对值更大。并且无论是哪个
+<code>token</code>或者哪个
+<code>Layer</code>，异常值都集中在固定的少数维度。</li>
+<li>由于与激活相对应的权重的重要性，权重的量化误差在最终性能中也起着关键作用。</li>
+</ul>
+<h2 id="方法">方法</h2>
+<h3 id="分块量化">分块量化</h3>
+<p>和别的针对LLm的PTQ量化方法一样，为了降低LLM量化的复杂度，OmniQuant也是逐个block进行量化的。针对每个block，优化的目标函数为：</p>
+<p><span class="math display">\[
+\arg \min_{\Theta_1, \Theta_2} \left\| \mathcal{F}(\mathbf{W},
+\mathbf{X}) - \mathcal{F} \left( Q_w(\mathbf{W}; \Theta_1, \Theta_2),
+Q_a(\mathbf{X}, \Theta_2) \right) \right\|
+\]</span></p>
+<p>其中，<span class="math inline">\(\mathcal{F}\)</span> 表示 LLM
+中一个 Transformer 块的映射函数，<span class="math inline">\(\mathbf{W}\)</span> 和 <span class="math inline">\(\mathbf{X}\)</span>
+分别是全精度的权重和激活，<span class="math inline">\(Q_w(\cdot)\)</span> 和 <span class="math inline">\(Q_a(\cdot)\)</span>
+分别表示权重和激活的量化器，<span class="math inline">\(\Theta_1\)</span> 和 <span class="math inline">\(\Theta_2\)</span>
+分别是可学习权重裁剪（LWC）和可学习等效变换（LET）的量化参数。公式中的逐块量化在移动到下一个块之前，依次量化一个
+Transformer 块的参数。</p>
+<p>以block作为量化优化的最小单位有两个好处：</p>
+<ul>
+<li>可以对LWC和LET的参数同时进行训练</li>
+<li>可以显著减少资源需求</li>
+</ul>
+<h3 id="lwc-learnable-weight-clipping">LWC (Learnable Weight
+Clipping)</h3>
+<p>LWC 优化了一个Clip过程，其公式如下：</p>
+<p><span class="math display">\[
+\mathbf{W}_q = \text{clamp}\left(\left\lfloor \frac{\mathbf{W}}{h}
+\right\rceil + z, 0, 2^N - 1\right), \quad \text{其中 } h = \frac{\gamma
+\max(\mathbf{W}) - \beta \min(\mathbf{W})}{2^N - 1}, \quad z =
+-\left\lfloor \frac{\beta \min(\mathbf{W})}{h} \right\rceil
+\]</span></p>
+<p>公式里面的<span class="math inline">\(\left\lfloor \cdot
+\right\rceil\)</span>代表取整操作，<span class="math inline">\(N\)</span>是量化的比特数，<span class="math inline">\(\mathbf{W}_q\)</span> 和 <span class="math inline">\(\mathbf{W}\)</span>
+分别表示量化后的权重和全精度权重。<span class="math inline">\(h\)</span>
+是权重的归一化因子，<span class="math inline">\(z\)</span>
+是零点值。clamp 操作将值限制在 <span class="math inline">\(N\)</span>
+位整数范围内，具体为 <span class="math inline">\([0, 2^N -
+1]\)</span>。在公式中，<span class="math inline">\(\gamma \in [0,
+1]\)</span> 和 <span class="math inline">\(\beta \in [0, 1]\)</span>
+是分别针对权重上界和下界的可学习剪辑强度。我们通过 sigmoid 函数对 <span class="math inline">\(\gamma\)</span> 和 <span class="math inline">\(\beta\)</span> 进行初始化。因此，在公式 (1)
+中，<span class="math inline">\(\Theta_1 = \{\gamma,
+\beta\}\)</span>。</p>
+<h3 id="leq-learnable-equivalent-transformation">LEQ (Learnable
+Equivalent Transformation)</h3>
+<p>考虑到激活中的异常值是系统性的并且对于特定通道是固定的，follow之前的工作，使用通道级缩放和通道级移位来操纵激活分布。</p>
+<p>OmniQuant 没有引入额外的计算或参数，因为和AWQ量化算法一样，LWC
+中的限幅阈值和 LET 中的等效因子可以融合为量化权重。</p>
+<h4 id="linear">Linear</h4>
+<p>线性层接受一个输入标记序列 <span class="math inline">\(\mathbf{X} \in
+\mathbb{R}^{T \times C_\text{in}}\)</span>，其中 <span class="math inline">\(T\)</span> 是标记长度，其操作是权重矩阵 <span class="math inline">\(\mathbf{W} \in \mathbb{R}^{C_\text{in} \times
+C_\text{out}}\)</span> 与偏置向量 <span class="math inline">\(\mathbf{B}
+\in \mathbb{R}^{1 \times C_\text{out}}\)</span>
+的乘积。一个数学等价的线性层表示为：</p>
+<p><span class="math display">\[
+\mathbf{Y} = \mathbf{X} \mathbf{W} + \mathbf{B} =
+\underbrace{\left(\mathbf{X} - \delta\right) \odot
+s}_{\tilde{\mathbf{X}}} \cdot \underbrace{\left(s \odot
+\mathbf{W}\right)}_{\tilde{\mathbf{W}}} + \underbrace{\left(\mathbf{B} +
+\delta \mathbf{W}\right)}_{\tilde{\mathbf{B}}}
+\]</span></p>
+<p>其中，<span class="math inline">\(\mathbf{Y}\)</span> 表示输出，<span class="math inline">\(s \in \mathbb{R}^{1 \times C_\text{in}}\)</span>
+和 <span class="math inline">\(\delta \in \mathbb{R}^{1 \times
+C_\text{in}}\)</span> 分别是通道级的缩放和偏移参数。<span class="math inline">\(\tilde{\mathbf{X}}\)</span>，<span class="math inline">\(\tilde{\mathbf{W}}\)</span> 和 <span class="math inline">\(\tilde{\mathbf{B}}\)</span>
+分别是等效的激活、权重和偏置，符号“<span class="math inline">\(\odot\)</span>”表示元素级的除法和乘法。</p>
+<p>通过公式，激活被转化为量化友好的形式，但代价是增加了权重量化的难度。在此意义上，LWC可以改善通过
+LET
+实现的权重-激活量化的性能，因为它使权重更加量化友好。最终，我们对转换后的激活和权重进行量化，公式如下：</p>
+<p><span class="math display">\[
+\mathbf{Y} = Q_a(\tilde{\mathbf{X}}) Q_w(\tilde{\mathbf{W}}) +
+\tilde{\mathbf{B}}
+\]</span></p>
+<p>其中，<span class="math inline">\(Q_a\)</span> 是普通的 MinMax
+量化器，<span class="math inline">\(Q_w\)</span>
+是带有可学习权重剪辑（即 LWC）的 MinMax 量化器。</p>
+<p>请注意，<span class="math inline">\(\tilde{\mathbf{X}}\)</span>
+中的缩放和偏移参数可以吸收进前面的归一化或线性层，而 <span class="math inline">\(\tilde{\mathbf{W}}\)</span>
+中的缩放因子可以融合进原始线性权重 <span class="math inline">\(\mathbf{W}\)</span>
+中。因此，公式中的等效变换可以在不引入额外参数或成本的情况下有效减少量化误差。</p>
+<p>OmniQuant在 LLM 的线性层（除了 FFN
+的第二个线性层）中使用此等效变换。这可能是因为在应用可学习的等效变换时，非线性层后的特征高度稀疏，导致梯度不稳定。</p>
+<h4 id="attention-operation">Attention operation</h4>
+<p>除了线性层外，注意力操作也占据了计算的一个重要部分。此外，LLM
+的自回归模式需要存储每个标记的键值（KV）缓存，这对于长序列带来了大量的内存需求。因此，考虑把<span class="math inline">\(Q,K,V\)</span>矩阵在权重-激活量化设置中量化为低比特值。具体而言，自注意力相似度矩阵的可学习等效变换可写为：</p>
+<p><span class="math display">\[
+\mathbf{P} = \text{Softmax}(\mathbf{Q} \mathbf{K}^T) = \text{Softmax}
+\left( \underbrace{\mathbf{Q} \odot s_a}_{\tilde{\mathbf{Q}}} \,
+\underbrace{(s_a \odot \mathbf{K}^T)}_{\tilde{\mathbf{K}}^T} \right).
+\]</span></p>
+<p>其中，<span class="math inline">\(s_a \in \mathbb{R}^{1 \times
+C_\text{out}}\)</span>
+是相似度矩阵中的缩放因子。量化的相似度矩阵计算表示为 <span class="math inline">\(\mathbf{P} =
+\text{Softmax}(Q_a(\tilde{\mathbf{Q}})
+Q_a(\tilde{\mathbf{K}}^T))\)</span>。这里我们同样使用 MinMax 量化方案
+<span class="math inline">\(Q_a\)</span> 对 <span class="math inline">\(\tilde{\mathbf{Q}}/\tilde{\mathbf{K}}\)</span>
+矩阵进行量化。我们可以得出 <span class="math inline">\(\Theta_2 = \{
+\delta, s, s_a \}\)</span> 。</p>
+<p><span class="math inline">\(\tilde{\mathbf{Q}}\)</span> 和 <span class="math inline">\(\tilde{\mathbf{K}}\)</span>
+中的通道级缩放因子，可以分别吸收到查询和键投影的线性权重中。值得一提的是，由于逆变换操作的存在，输出投影线性层中的显式变换在其分布上已按通道维度进行了更改，因此省略了
+<span class="math inline">\(\mathbf{V}\)</span> 的变换。</p>
+<h2 id="实验">实验</h2>
+<p>首先测试了只量化模型权重的结果，和GPTQ和AWQ进行了对比，取得了在WikiText2上最低的困惑度。</p>
+<p><img src="/wiki/58958/1731158459757.png"></p>
+<p>也测试了权重和激活都进行量化的表现，对比的baseline是SmoothQuant和LLM-QAT，可以看到甚至比LLM-QAT这种QAT量化方法还要好。</p>
+<p><img src="/wiki/58958/1731158796713.png"></p>
+<p>然后还参考AWQ的论文，测试了模型回答问题的准确率。把两个模型的回答连接在一起，让GPT-4判断哪个回答更好，为了去除顺序的影响，会交换顺序让GPT-4再回答一次，结果如下图所示：</p>
+<p><img src="/wiki/58958/1731158884137.png"></p>
+<p>最后测试了模型的效率情况，统计了算法在不同规模的Llama上的存储需求和推理速度。</p>
+<p><img src="/wiki/58958/1731159099167.png"></p>
+<p>这篇论文的附录罗列了很多细节，需要的可以去看原文。</p>
+<h2 id="代码">代码</h2>
+<p>论文源码：<a target="_blank" rel="noopener" href="https://github.com/OpenGVLab/OmniQuant/tree/main">OpenGVLab/OmniQuant:
+[ICLR2024 spotlight] OmniQuant is a simple and powerful quantization
+technique for LLMs.</a></p>
+<h2 id="参考资料">参考资料</h2>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.13137">[2308.13137] OmniQuant:
+Omnidirectionally Calibrated Quantization for Large Language
+Models</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/OpenGVLab/OmniQuant/tree/main">OpenGVLab/OmniQuant:
+[ICLR2024 spotlight] OmniQuant is a simple and powerful quantization
+technique for LLMs.</a></li>
+</ul>
+</blockquote>
+
+            </div>
+        
+
+        
+    
+        <section id="comments"> 
+        <!-- 公告区域 -->
+        <div id="announcement" style="background-color: #f8d7da; color: #721c24; padding: 10px; text-align: center; font-weight: bold; border-radius: 15px;">
+            由于评论系统依托于Github的Discuss存在，因此默认评论者会收到所有通知。可以在邮件里点击"unsubscribe"停止接受，后续也可以点击下列仓库进行通知管理：
+            <a href="https://github.com/bg51717/Hexo-Blogs-comments" target="_blank" style="color: #0056b3; text-decoration: underline; white-space: nowrap;">
+                bg51717/Hexo-Blogs-comments
+            </a>
+            <br>
+            Since the comment system relies on GitHub's Discussions feature, by default, commentators will receive all notifications. You can click "unsubscribe" in the email to stop receiving them, and you can also manage your notifications by clicking on the following repositories:
+            <a href="https://github.com/bg51717/Hexo-Blogs-comments" target="_blank" style="color: #0056b3; text-decoration: underline; white-space: nowrap;">
+                bg51717/Hexo-Blogs-comments
+            </a>
+        </div>
+        
+        <!-- Giscus 评论组件 -->
+        <div id="giscus-container"></div>
+        <script src="https://giscus.app/client.js"
+                data-repo="bg51717/Hexo-Blogs-comments"
+                data-repo-id="R_kgDOKhgfLA"
+                data-category="General"
+                data-category-id="DIC_kwDOKhgfLM4CaPMJ"
+                data-mapping="title"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="light"
+                data-lang="zh-CN"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async>
+        </script>
+        <noscript>请启用 JavaScript 以查看评论。</noscript>
+     </section>
+    
+
+
+
+        <footer class="article-footer">
+        </footer>
+    </div>
+</article>
+
+
+    
+<nav id="article-nav">
+    
+    
+        <a href="/wiki/341/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">OneBit: Towards Extremely Low-bit Large Language Models</div>
+        </a>
+    
+</nav>
+
+
+
+
+
+
+<!-- baidu url auto push script -->
+<script type="text/javascript">
+    !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=window.location.href,o=document.referrer;if(!e.test(r)){var n="//api.share.baidu.com/s.gif";o?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var t=new Image;t.src=n}}(window);
+</script>     
+</section>
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            bg51717 &copy; 2024 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+                <br>
+                <span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i> <span id="busuanzi_value_site_pv"></span></span>
+                &nbsp;|&nbsp;
+                <span id="busuanzi_container_site_pv"><i class="fa fa-user"></i> <span id="busuanzi_value_site_uv"></span></span>
+            
+        </div>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
