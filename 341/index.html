@@ -441,7 +441,7 @@ LLM，以及一种基于矩阵分解的有效参数初始化方法以提高量�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2024-11-09
+                    2024-11-11
                 </div>
                 
 
@@ -503,6 +503,7 @@ follow的工作是BitNet，BitNet提出BitLinear，BitLinear的forward函数为�
 \end{align*}
 \]</span></p>
 <p>其中的<span class="math inline">\(g\)</span>和<span class="math inline">\(h\)</span>是fp16精度的向量，<span class="math inline">\(Z\)</span>是最终的输出。同时括号严格要求了计算顺序从而减小计算成本。其余的和BitNet保持一致。</p>
+<p>训练的时候，不需要保存一个高精度的参数矩阵，只需要保存两个高精度的向量即可。</p>
 <h3 id="svid">SVID</h3>
 <p>为了可以使用训练好的模型的ckpt来初始化量化模型的权重，这篇论文还引入了Sign-Value-Independent
 Decomposition (SVID)，所以近似初始化方法为，</p>
@@ -1170,7 +1171,7 @@ homepage of OneBit model quantization framework.</a></li>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">41.1k</span>
+                        class="white-color">42k</span>
             
             
             

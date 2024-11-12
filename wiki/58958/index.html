@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://bg51717.github.io/wiki/58958/1731158884137.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/58958/1731159099167.png">
 <meta property="article:published_time" content="2024-11-09T09:25:51.000Z">
-<meta property="article:modified_time" content="2024-11-09T13:43:06.966Z">
+<meta property="article:modified_time" content="2024-11-11T13:16:01.202Z">
 <meta property="article:author" content="bg51717">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://bg51717.github.io/wiki/58958/1731158459757.png">
@@ -74,9 +74,9 @@
     
         <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     
-<meta name="generator" content="Hexo 6.3.0">
+<meta name="generator" content="Hexo 6.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" />
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
+</head>
 
 <body>
     <div id="container">
@@ -325,7 +325,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  <li class="file active"><a href="/wiki/58958/">OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  <li class="file active"><a href="/wiki/58958/">OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models</a></li>  <li class="file"><a href="/wiki/22407/">论文阅读习惯</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -475,7 +475,7 @@
                 <div id="toc" class="toc-article">
                 <strong class="toc-title">文章目录</strong>
                     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%9D%97%E9%87%8F%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">分块量化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lwc-learnable-weight-clipping"><span class="toc-number">2.2.</span> <span class="toc-text">LWC (Learnable Weight
-Clipping)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#leq-learnable-equivalent-transformation"><span class="toc-number">2.3.</span> <span class="toc-text">LEQ (Learnable
+Clipping)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#let-learnable-equivalent-transformation"><span class="toc-number">2.3.</span> <span class="toc-text">LET (Learnable
 Equivalent Transformation)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#linear"><span class="toc-number">2.3.1.</span> <span class="toc-text">Linear</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#attention-operation"><span class="toc-number">2.3.2.</span> <span class="toc-text">Attention operation</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol>
                 </div>
             
@@ -517,7 +517,8 @@ Transformer 块的参数。</p>
 </ul>
 <h3 id="lwc-learnable-weight-clipping">LWC (Learnable Weight
 Clipping)</h3>
-<p>LWC 优化了一个Clip过程，其公式如下：</p>
+<p>LWC考虑在量化函数里面加入可学习的参数，具体来说，LWC
+优化了一个Clip过程，其公式如下：</p>
 <p><span class="math display">\[
 \mathbf{W}_q = \text{clamp}\left(\left\lfloor \frac{\mathbf{W}}{h}
 \right\rceil + z, 0, 2^N - 1\right), \quad \text{其中 } h = \frac{\gamma
@@ -535,9 +536,10 @@ Clipping)</h3>
 是分别针对权重上界和下界的可学习剪辑强度。我们通过 sigmoid 函数对 <span class="math inline">\(\gamma\)</span> 和 <span class="math inline">\(\beta\)</span> 进行初始化。因此，在公式 (1)
 中，<span class="math inline">\(\Theta_1 = \{\gamma,
 \beta\}\)</span>。</p>
-<h3 id="leq-learnable-equivalent-transformation">LEQ (Learnable
+<p>其中<span class="math inline">\(h,z\)</span>是个整型，如果直接学习可能难度较大。</p>
+<h3 id="let-learnable-equivalent-transformation">LET (Learnable
 Equivalent Transformation)</h3>
-<p>考虑到激活中的异常值是系统性的并且对于特定通道是固定的，follow之前的工作，使用通道级缩放和通道级移位来操纵激活分布。</p>
+<p>考虑到激活中的异常值是系统性的并且对于特定通道是固定的，follow之前的工作，使用通道级缩放和通道级移位来操纵激活分布。参数方面作者认为之前的工作是手动设计的参数，导致结果可能不是很理想。</p>
 <p>OmniQuant 没有引入额外的计算或参数，因为和AWQ量化算法一样，LWC
 中的限幅阈值和 LET 中的等效因子可以融合为量化权重。</p>
 <h4 id="linear">Linear</h4>
@@ -670,6 +672,15 @@ technique for LLMs.</a></li>
     
 <nav id="article-nav">
     
+        <a href="/wiki/22407/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    论文阅读习惯
+                
+            </div>
+        </a>
+    
     
         <a href="/wiki/341/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">下一篇</strong>
@@ -704,6 +715,93 @@ technique for LLMs.</a></li>
         </div>
     </div>
 </footer>
+
+        <!-- partial('comment/scripts', { page: page })  -->
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+    
+        
+    <!-- 引入 KaTeX 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css">
+    
+    <!-- 引入 KaTeX 的 JS 文件 -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 自动渲染公式
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},  // 行间公式
+                    {left: "$", right: "$", display: false},   // 行内公式
+                    {left: "\\(", right: "\\)", display: false}, // 行内公式
+                    {left: "\\[", right: "\\]", display: true}  // 行间公式
+                ],
+                ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],  // 跳过这些标签
+                throwOnError: false  // 遇到无法解析的公式时不抛出错误
+            });
+
+            // 判断是否需要隐藏滚动条
+            var hideScrollbar = false;
+            if (hideScrollbar) {
+                const katexElements = document.querySelectorAll('.katex-display');
+                katexElements.forEach(function(el) {
+                    el.style.overflowX = 'hidden';
+                });
+            }
+
+            // 给含有 KaTeX 公式的元素添加类名 'has-katex'，类似 MathJax 的 'has-jax'
+            var katexElements = document.querySelectorAll('.katex');
+            katexElements.forEach(function(el) {
+                el.classList.add('has-katex');
+            });
+        });
+    </script>
+
+
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
 
     </div>
 </body>
