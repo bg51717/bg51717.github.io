@@ -25,9 +25,10 @@
 <meta property="og:image" content="https://bg51717.github.io/wiki/22407/1731336410193.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/22407/1731336620113.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/22407/1731336562418.png">
+<meta property="og:image" content="https://bg51717.github.io/wiki/22407/1732150648533.png">
 <meta property="og:image" content="https://bg51717.github.io/wiki/22407/1731336812112.png">
 <meta property="article:published_time" content="2024-11-11T13:20:18.000Z">
-<meta property="article:modified_time" content="2024-11-11T15:51:52.779Z">
+<meta property="article:modified_time" content="2024-11-21T00:58:37.745Z">
 <meta property="article:author" content="bg51717">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://bg51717.github.io/wiki/22407/1731333627028.png">
@@ -79,9 +80,9 @@
     
         <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     
-<meta name="generator" content="Hexo 6.3.0"><link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" />
+<meta name="generator" content="Hexo 6.3.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
-</head>
+<link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet" /></head>
 
 <body>
     <div id="container">
@@ -238,6 +239,15 @@
                         <a href="#" data-role="directory">
                             <i class="fa fa-folder"></i>
                             &nbsp;
+                            代码
+                        </a>
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/16846/">数学计算库:SymPy</a></li>  </ul> 
+                    </li> 
+                    
+                    <li class="directory">
+                        <a href="#" data-role="directory">
+                            <i class="fa fa-folder"></i>
+                            &nbsp;
                             微积分
                         </a>
                          <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/49444/">拉格朗日乘数法解条件极值</a></li>  </ul> 
@@ -330,7 +340,7 @@
                             &nbsp;
                             论文阅读
                         </a>
-                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  <li class="file"><a href="/wiki/58958/">OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models</a></li>  <li class="file active"><a href="/wiki/22407/">论文阅读习惯</a></li>  </ul> 
+                         <ul class="unstyled" id="tree" >  <li class="file"><a href="/wiki/8948/">论文阅读:BitNet_Scaling_1-bit_Transformers_for_Large_Language_Models</a></li>  <li class="file"><a href="/wiki/62023/">论文阅读:A_Survey_of_Quantization_Methods_for_Efficient_Neural_Network_Inference</a></li>  <li class="file"><a href="/wiki/21264/">llm.int8</a></li>  <li class="file"><a href="/wiki/31769/">大模型量化~GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers</a></li>  <li class="file"><a href="/wiki/14592/">AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration</a></li>  <li class="file"><a href="/wiki/341/">OneBit: Towards Extremely Low-bit Large Language Models</a></li>  <li class="file"><a href="/wiki/58958/">OmniQuant: Omnidirectionally Calibrated Quantization for Large Language Models</a></li>  <li class="file active"><a href="/wiki/22407/">论文阅读习惯</a></li>  </ul> 
                     </li> 
                      </ul> 
                     </li> 
@@ -495,6 +505,7 @@
 <li>background：这个论文的背景包括，这个论文是关于什么问题或者现象而存在的，关于目前问题的解决办法或者现象的发现方法。</li>
 <li>motivation：这个方法的发现动机是什么？是怎么发现或者提出这个方法的？</li>
 <li>method：这个方法的过程具体是什么样的？具体是怎么解决问题和发现现象的？</li>
+<li>contribution（advantages）：本文的主要贡献是什么？这个方法的优势，和别的方法的对比是什么？</li>
 <li>experiment
 <ul>
 <li>settings：验证方法的实验的设置具体是什么？通过设置可以复现实验。</li>
@@ -523,8 +534,8 @@ results：消融实验代表了方法的内部组件或者不同设置的对比�
 </figure>
 <table>
 <colgroup>
-<col style="width: 54%">
-<col style="width: 45%">
+<col style="width: 64%">
+<col style="width: 35%">
 </colgroup>
 <thead>
 <tr>
@@ -535,7 +546,7 @@ results：消融实验代表了方法的内部组件或者不同设置的对比�
 <tbody>
 <tr>
 <td style="text-align: center;"><img src="/wiki/22407/1731336154271.png"></td>
-<td style="text-align: center;">background</td>
+<td style="text-align: center;">method</td>
 </tr>
 <tr>
 <td style="text-align: center;"><img src="/wiki/22407/1731336257655.png"></td>
@@ -543,7 +554,7 @@ results：消融实验代表了方法的内部组件或者不同设置的对比�
 </tr>
 <tr>
 <td style="text-align: center;"><img src="/wiki/22407/1731336286381.png"></td>
-<td style="text-align: center;">method</td>
+<td style="text-align: center;">background</td>
 </tr>
 <tr>
 <td style="text-align: center;"><img src="/wiki/22407/1731336410193.png"></td>
@@ -556,6 +567,10 @@ results：消融实验代表了方法的内部组件或者不同设置的对比�
 <tr>
 <td style="text-align: center;"><img src="/wiki/22407/1731336562418.png"></td>
 <td style="text-align: center;">experiment ablation results</td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="/wiki/22407/1732150648533.png"></td>
+<td style="text-align: center;">contribution(advantages)</td>
 </tr>
 <tr>
 <td style="text-align: center;"><img src="/wiki/22407/1731336812112.png"></td>
@@ -620,6 +635,15 @@ results：消融实验代表了方法的内部组件或者不同设置的对比�
 
     
 <nav id="article-nav">
+    
+        <a href="/wiki/16846/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    数学计算库:SymPy
+                
+            </div>
+        </a>
     
     
         <a href="/wiki/58958/" id="article-nav-older" class="article-nav-link-wrap">

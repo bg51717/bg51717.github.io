@@ -4,11 +4,40 @@
   
     
     <entry>
+      <title>数学计算库:SymPy</title>
+      <link href="//16846/"/>
+      <url>//16846/</url>
+      
+        <content type="html"><![CDATA[<h2 id="介绍">介绍</h2><p><strong>SymPy</strong>是一个功能强大、开源的符号计算库（数值计算也同样支持），涵盖了代数、微积分、线性代数、数论、组合数学、物理学等领域的广泛功能。</p><p>这个库可以提供你想象到的所有数学操作，包括但不限于：</p><ul><li>符号计算：可以定义符号，然后求解方程或者优化问题的解析解。比如合并同类项，简化，展开，因式分解，求导，微分，解方程，极限，泰勒展开，数论，离散数学，统计，几何学等。</li><li>数值计算：作为数学库的必备功能，计算数值答案也是稳定支持的。</li><li>公式转 <code>latex</code>：对于部分符号，支持转化为<code>latex</code>代码。</li><li>可视化：提供了基本的可视化功能，包括绘制函数图像，几何图像，向量场，符号计算结果等。</li></ul><p>和别的科学计算库相比，<code>SymPy</code>的优势有：</p><ul><li>基于 <code>BSD</code>协议，开源免费</li><li>基于Python，方便使用，可以在交互窗口使用也可以在代码中作为库引入</li><li>轻量化，相比别的计算系统，<code>SymPy</code>需要的依赖少且体积小很多</li></ul><p>总之，个人感觉这个开源库提供了你所能想象到的所有数学相关的操作，也是许多常用的框架的前置库之一。当你遇到一些数学问题的时候，不妨先查询<code>SymPy</code>库能否解决。</p><h2 id="教程">教程</h2><p>由于这个库包罗万象，支持的功能过多，因此通过短短一篇博客了解或者快速查询到需要的功能是不太现实的。</p><p>因此建议使用的时候可以直接查看参考资料里的相关文档和伟大的<code>GPT</code>。</p><h2 id="参考资料">参考资料</h2><blockquote><ul><li><a href="https://docs.sympy.org/latest/tutorials/index.html">Tutorials -SymPy 1.13.3 documentation</a></li><li><a href="https://chatgpt.com/">Chatgpt</a></li></ul></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数学 </category>
+          
+          <category> 代码 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数学 </tag>
+            
+            <tag> SymPy </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>论文阅读习惯</title>
       <link href="//22407/"/>
       <url>//22407/</url>
       
-        <content type="html"><![CDATA[<h2 id="介绍">介绍</h2><p>发现<strong>论文阅读习惯</strong>是一个十分重要的事情。</p><p>在和师兄的交流当中发现，读完一篇文献总是会遗漏一部分内容，这是因为没有良好的论文阅读习惯导致无法从一个文献中获得足够的信息从而变成自己的东西。</p><p>因此考虑使用这篇博客记录、分享和培养自己的阅读习惯，进而形成一种规范。</p><p>当然，如果你作为有缘人看到这篇博客，希望我的阅读习惯可以为你带来一些帮助，我也十分欢迎有缘人一起在评论区分享自己的阅读习惯。</p><h2 id="关注重点">关注重点</h2><p>一篇论文，是为解决一个问题或者公布一个发现而存在的，因此关注的重点应该有。</p><ul><li>background：这个论文的背景包括，这个论文是关于什么问题或者现象而存在的，关于目前问题的解决办法或者现象的发现方法。</li><li>motivation：这个方法的发现动机是什么？是怎么发现或者提出这个方法的？</li><li>method：这个方法的过程具体是什么样的？具体是怎么解决问题和发现现象的？</li><li>experiment<ul><li>settings：验证方法的实验的设置具体是什么？通过设置可以复现实验。</li><li>comparisonresults：对比结果代表了这个方法的改进以及与过去方法的不同体现在哪里，包括不使用这个方法的效果会怎么样。结果可能会以图标或者文字的方式呈现。</li><li>ablationresults：消融实验代表了方法的内部组件或者不同设置的对比，可以体现不同组件的作用。呈现方式和对比实验一样。</li></ul></li><li>limitation：局限代表了作者认为方法的局限体现在哪里，可以作为日后改进的参考。</li></ul><h2 id="流程">流程</h2><blockquote><p>我目前是使用 <code>Zotero7</code>来进行论文的阅读。</p></blockquote><h3 id="大致了解">大致了解</h3><p>通过 <code>ChatGPT</code>或<code>博客文章分享</code>来首先对文章有个大致的了解。</p><h3 id="细致阅读笔记">细致阅读+笔记</h3><p>有了大致的了解后，对文章进行细致的阅读。</p><p>使用 <code>Zotero</code>阅读论文的时候，可以在右侧记笔记。</p><p><img src="/22407/1731333627028.png"></p><p>文章不同需要关注的点也可以画出来。</p><figure><img src="/22407/1731333678362.png" alt="img"><figcaption aria-hidden="true">img</figcaption></figure><table><colgroup><col style="width: 54%"><col style="width: 45%"></colgroup><thead><tr><th style="text-align: center;">颜色</th><th style="text-align: center;">论文重点</th></tr></thead><tbody><tr><td style="text-align: center;"><img src="/22407/1731336154271.png"></td><td style="text-align: center;">background</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336257655.png"></td><td style="text-align: center;">motivation</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336286381.png"></td><td style="text-align: center;">method</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336410193.png"></td><td style="text-align: center;">experiment settings</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336620113.png"></td><td style="text-align: center;">experiment comparison results</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336562418.png"></td><td style="text-align: center;">experiment ablation results</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336812112.png"></td><td style="text-align: center;">limitation</td></tr></tbody></table><p>其中背景色代表重要的，下划线代表重要性次一点的。</p><h3 id="代码">代码</h3><p>如果可以的话，尽量去尝试阅读代码，观察具体是如何实现的，同时也可以作为学习的过程，解答论文里不理解的点。</p><h3 id="博客">博客</h3><p>如果有足够时间，可以尝试去试着输出，通过输出可能会更好的把握内容。</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="介绍">介绍</h2><p>发现<strong>论文阅读习惯</strong>是一个十分重要的事情。</p><p>在和师兄的交流当中发现，读完一篇文献总是会遗漏一部分内容，这是因为没有良好的论文阅读习惯导致无法从一个文献中获得足够的信息从而变成自己的东西。</p><p>因此考虑使用这篇博客记录、分享和培养自己的阅读习惯，进而形成一种规范。</p><p>当然，如果你作为有缘人看到这篇博客，希望我的阅读习惯可以为你带来一些帮助，我也十分欢迎有缘人一起在评论区分享自己的阅读习惯。</p><h2 id="关注重点">关注重点</h2><p>一篇论文，是为解决一个问题或者公布一个发现而存在的，因此关注的重点应该有。</p><ul><li>background：这个论文的背景包括，这个论文是关于什么问题或者现象而存在的，关于目前问题的解决办法或者现象的发现方法。</li><li>motivation：这个方法的发现动机是什么？是怎么发现或者提出这个方法的？</li><li>method：这个方法的过程具体是什么样的？具体是怎么解决问题和发现现象的？</li><li>contribution（advantages）：本文的主要贡献是什么？这个方法的优势，和别的方法的对比是什么？</li><li>experiment<ul><li>settings：验证方法的实验的设置具体是什么？通过设置可以复现实验。</li><li>comparisonresults：对比结果代表了这个方法的改进以及与过去方法的不同体现在哪里，包括不使用这个方法的效果会怎么样。结果可能会以图标或者文字的方式呈现。</li><li>ablationresults：消融实验代表了方法的内部组件或者不同设置的对比，可以体现不同组件的作用。呈现方式和对比实验一样。</li></ul></li><li>limitation：局限代表了作者认为方法的局限体现在哪里，可以作为日后改进的参考。</li></ul><h2 id="流程">流程</h2><blockquote><p>我目前是使用 <code>Zotero7</code>来进行论文的阅读。</p></blockquote><h3 id="大致了解">大致了解</h3><p>通过 <code>ChatGPT</code>或<code>博客文章分享</code>来首先对文章有个大致的了解。</p><h3 id="细致阅读笔记">细致阅读+笔记</h3><p>有了大致的了解后，对文章进行细致的阅读。</p><p>使用 <code>Zotero</code>阅读论文的时候，可以在右侧记笔记。</p><p><img src="/22407/1731333627028.png"></p><p>文章不同需要关注的点也可以画出来。</p><figure><img src="/22407/1731333678362.png" alt="img"><figcaption aria-hidden="true">img</figcaption></figure><table><colgroup><col style="width: 64%"><col style="width: 35%"></colgroup><thead><tr><th style="text-align: center;">颜色</th><th style="text-align: center;">论文重点</th></tr></thead><tbody><tr><td style="text-align: center;"><img src="/22407/1731336154271.png"></td><td style="text-align: center;">method</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336257655.png"></td><td style="text-align: center;">motivation</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336286381.png"></td><td style="text-align: center;">background</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336410193.png"></td><td style="text-align: center;">experiment settings</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336620113.png"></td><td style="text-align: center;">experiment comparison results</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336562418.png"></td><td style="text-align: center;">experiment ablation results</td></tr><tr><td style="text-align: center;"><img src="/22407/1732150648533.png"></td><td style="text-align: center;">contribution(advantages)</td></tr><tr><td style="text-align: center;"><img src="/22407/1731336812112.png"></td><td style="text-align: center;">limitation</td></tr></tbody></table><p>其中背景色代表重要的，下划线代表重要性次一点的。</p><h3 id="代码">代码</h3><p>如果可以的话，尽量去尝试阅读代码，观察具体是如何实现的，同时也可以作为学习的过程，解答论文里不理解的点。</p><h3 id="博客">博客</h3><p>如果有足够时间，可以尝试去试着输出，通过输出可能会更好的把握内容。</p>]]></content>
       
       
       <categories>

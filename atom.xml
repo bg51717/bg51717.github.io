@@ -6,7 +6,7 @@
   <link href="https://bg51717.github.io/atom.xml" rel="self"/>
   
   <link href="https://bg51717.github.io/"/>
-  <updated>2024-11-11T15:51:52.779Z</updated>
+  <updated>2024-11-19T12:10:11.693Z</updated>
   <id>https://bg51717.github.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>数学计算库:SymPy</title>
+    <link href="https://bg51717.github.io/16846/"/>
+    <id>https://bg51717.github.io/16846/</id>
+    <published>2024-11-19T11:19:17.000Z</published>
+    <updated>2024-11-19T12:10:11.693Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="数学" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
+    
+    <category term="代码" scheme="https://bg51717.github.io/categories/%E6%95%B0%E5%AD%A6/%E4%BB%A3%E7%A0%81/"/>
+    
+    
+    <category term="数学" scheme="https://bg51717.github.io/tags/%E6%95%B0%E5%AD%A6/"/>
+    
+    <category term="SymPy" scheme="https://bg51717.github.io/tags/SymPy/"/>
+    
+  </entry>
+  
+  <entry>
     <title>论文阅读习惯</title>
     <link href="https://bg51717.github.io/22407/"/>
     <id>https://bg51717.github.io/22407/</id>
     <published>2024-11-11T13:20:18.000Z</published>
-    <updated>2024-11-11T15:51:52.779Z</updated>
+    <updated>2024-11-21T00:58:37.745Z</updated>
     
     
       
@@ -583,36 +612,6 @@ Multiplier</summary>
     
     <category term="自然语言处理" scheme="https://bg51717.github.io/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>pytroch_tutorials杂项</title>
-    <link href="https://bg51717.github.io/20669/"/>
-    <id>https://bg51717.github.io/20669/</id>
-    <published>2024-03-23T08:23:43.000Z</published>
-    <updated>2024-11-02T02:55:49.875Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;介绍&quot;&gt;介绍&lt;/h2&gt;
-&lt;p&gt;当作快速过这个资料的笔记，一些关于别的库的介绍是不完全的，考虑在使用的时候从别的信息渠道就行信息的搜集。也可以作为后面待更博客列举？&lt;/p&gt;
-&lt;h2 id=&quot;常用方式&quot;&gt;常用方式&lt;/h2&gt;
-&lt;p&gt;可以参考&lt;a</summary>
-        
-      
-    
-    
-    
-    <category term="杂项" scheme="https://bg51717.github.io/categories/%E6%9D%82%E9%A1%B9/"/>
-    
-    <category term="huggingface" scheme="https://bg51717.github.io/categories/huggingface/"/>
-    
-    
-    <category term="transformers_tutorials" scheme="https://bg51717.github.io/tags/transformers-tutorials/"/>
     
   </entry>
   
