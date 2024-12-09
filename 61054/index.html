@@ -465,21 +465,21 @@ Dataset
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2024-11-02
+                    2024-12-10
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    2.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    9 分
                 </div>
                 
 
@@ -509,9 +509,33 @@ Dataset
 <code>configuration_xxx.py</code>和
 <code>modeling_xxx.py</code>文件放在同一个目录下，并且添加
 <code>__init__.py</code>文件。</p>
+<p>在hf框架下模型的ckpt文件夹里面，我们一般可以看到以下几个文件（假如模型是ltgbert）：</p>
+<ul>
+<li><code>config.json</code>：存放模型的具体设置，比如num_heads，act_fn等。</li>
+<li><code>configuration_ltgbert.py</code>：存放关于模型
+<code>config</code>类的代码。</li>
+<li><code>modeling_ltgbert.py</code>：模型类以及各种组件模块的代码，也会包含一些功能函数。</li>
+<li><code>pytorch_model.bin</code>：模型的权重，存放模型参数具体的值。</li>
+<li><code>special_token_map.json</code>：模型的
+<code>tokenizer</code>的特殊token。</li>
+<li><code>tokenizer_config.json</code>：模型的
+<code>tokenizer</code>的设置，参考 <code>config.json</code>。</li>
+<li><code>tokenizer.json</code>：模型的
+<code>token</code>以及序号，等同于 <code>tokenizer</code>的权重。</li>
+</ul>
+<p>部分 <code>ckpt</code>里如果有自定义的
+<code>tokenizer</code>，可能还会有相关的代码定义，此处暂不列出。<del>（挖坑</del></p>
+<p>部分
+<code>ckpt</code>里模型的权重可能会使用多个文件拆分存放或者多种格式的，此处暂不列出。</p>
+<p>模型的设置和类的代码可能不会在文件中出现，因为hf官方会把一些常用的模型的相关代码放在官方库里，该文件夹在github上的网址为：<a target="_blank" rel="noopener" href="https://github.com/huggingface/transformers/tree/main/src/transformers/models">transformers/src/transformers/models
+at main · huggingface/transformers</a>。</p>
+<p>尽管文件的
+<code>ckpt</code>里文件较多，但是框架可以帮你自动保存相关文件，当然也可以通过重载函数实现自定义的保存过程。<del>（挖坑</del></p>
 <h2 id="config">Config</h2>
 <p>参考：<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/custom_models#building-custom-models">Building
 custom models (huggingface.co)</a></p>
+<p>代码主要在 <code>configuration_xxx.py</code>。</p>
+<p><code>config</code>主要是在模型基本架构不变的情况下，怎么通过超参设置模型的具体结构，在模型初始化或者加载权重的时候会传入的config进行模型设置。</p>
 <p>示例：</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> transformers <span class="token keyword">import</span> PretrainedConfig
 <span class="token keyword">from</span> typing <span class="token keyword">import</span> List
@@ -575,6 +599,50 @@ custom models (huggingface.co)</a></p>
 <h2 id="model">Model</h2>
 <p>参考：<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/custom_models#building-custom-models">Building
 custom models (huggingface.co)</a></p>
+<p><code>modeling_xxx.py</code>会存放模型的函数，模块，主要类的代码。</p>
+<p>函数按照正常定义即可，除了函数以外也可以存放一些常量。</p>
+<p>模块基本是需要继承自 <code>nn.Module</code>，关于模块的各种知识参考
+<code>pytorch</code>教程。</p>
+<p>首先模型需要一个基类，需要是
+<code>transformers.PreTrainedModel</code>的子类，然后其
+<code>self.model</code>需要是具体的模型主体，需要实现
+<code>__init__</code>和
+<code>forward</code>函数，并且部分参数需要固定，可以参考官方库里的模型源码。</p>
+<p>然后针对每一个下游任务，都需要有对应的类，比如自回归任务需要
+<code>LlamaForCausalLM</code>。具体要求基本和模型的基类差不多。但是一般会针对下游任务额外多一个分类头等小组件，然后
+<code>forward</code>函数的部分固定参数可能会变化，基本也是根据已有的源码模仿即可。</p>
+<p>此外，每个模型的类可能会有一些特殊的成员属性，比如
+<code>_tp_plan = {"lm_head": "colwise_rep"}</code>，是用于配合框架进行模型判断的，一般不设置也没有关系，代码执行时如果遇到缺少该属性的时候框架也会提示。</p>
+<p>我们可以以
+<code>llama</code>模型举例，查看其模型定义文件里所有类：</p>
+<ul>
+<li>模块类：
+<ul>
+<li>class LlamaRMSNorm(nn.Module)</li>
+<li>class LlamaRotaryEmbedding(nn.Module)</li>
+<li>class LlamaLinearScalingRotaryEmbedding(LlamaRotaryEmbedding)</li>
+<li>class
+LlamaDynamicNTKScalingRotaryEmbedding(LlamaRotaryEmbedding)</li>
+<li>class LlamaMLP(nn.Module)</li>
+<li>class LlamaAttention(nn.Module)</li>
+<li>class LlamaFlashAttention2(LlamaAttention)</li>
+<li>class LlamaSdpaAttention(LlamaAttention)</li>
+<li>class LlamaDecoderLayer(nn.Module)</li>
+</ul></li>
+<li>模型类：
+<ul>
+<li>class LlamaPreTrainedModel(PreTrainedModel)</li>
+<li>class LlamaModel(LlamaPreTrainedModel)</li>
+<li>class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin)</li>
+<li>class LlamaForSequenceClassification(LlamaPreTrainedModel)</li>
+<li>class LlamaForQuestionAnswering(LlamaPreTrainedModel)</li>
+<li>class LlamaForTokenClassification(LlamaPreTrainedModel)</li>
+</ul></li>
+<li>函数：
+<ul>
+<li>对于其中的函数不予列出，因为这没有什么理解难度。</li>
+</ul></li>
+</ul>
 <p>示例：</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">LtgBertForMaskedLM</span><span class="token punctuation">(</span>PreTrainedModel<span class="token punctuation">)</span><span class="token punctuation">:</span>
     config_class<span class="token operator">=</span>LtgBertConfig
@@ -676,16 +744,21 @@ custom models (huggingface.co)</a></p>
 <code>auto_map</code>指明 <code>AutoClass</code>的注册：</p>
 <pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"auto_map"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
   <span class="token property">"AutoConfig"</span><span class="token operator">:</span> <span class="token string">"configuration_ltgbert.LtgBertConfig"</span><span class="token punctuation">,</span>
-  <span class="token property">"AutoModelForMaskedLM"</span><span class="token operator">:</span> <span class="token string">"modeling_ltgbert.LtgBertForMaskedLM"</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+  <span class="token property">"AutoModelForMaskedLM"</span><span class="token operator">:</span> <span class="token string">"modeling_ltgbert.LtgBertForMaskedLM"</span><span class="token punctuation">,</span>
+  <span class="token property">"AutoModelForSequenceClassification"</span><span class="token operator">:</span> <span class="token string">"modeling_ltgbert.LtgBertForSequenceClassification"</span><span class="token punctuation">,</span>
+  <span class="token property">"AutoModelForCausalLM"</span><span class="token operator">:</span> <span class="token string">"modeling_ltgbert.LtgBertForCausalLM"</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>那么需要手动添加，在读取ckpt的代码里添加：</p>
 <pre class="line-numbers language-python-repl" data-language="python-repl"><code class="language-python-repl">AutoConfig.register("LtgBert", LtgBertConfig)
 AutoModelForMaskedLM.register(LtgBertConfig, LtgBertForMaskedLM)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+AutoModelForSequenceClassification.register(LtgBertConfig, LtgBertForSequenceClassification)
+AutoModelForCausalLM.register(LtgBertConfig, AutoModelForCausalLM)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>如果希望在保存模型的时候 <code>config.json</code>文件中自动包含
-<code>auto_map</code>，可以添加以下代码（如果模型是从ckpt里加载的就不需要添加）：</p>
+<code>auto_map</code>，可以在模型代码文件里添加以下代码（如果模型是从ckpt里加载的就不需要添加）：</p>
 <pre class="line-numbers language-python" data-language="python"><code class="language-python">LtgBertConfig<span class="token punctuation">.</span>register_for_auto_class<span class="token punctuation">(</span><span class="token punctuation">)</span>
-LtgBertForMaskedLM<span class="token punctuation">.</span>register_for_auto_class<span class="token punctuation">(</span><span class="token string">"AutoModelForMaskedLM"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+LtgBertForMaskedLM<span class="token punctuation">.</span>register_for_auto_class<span class="token punctuation">(</span><span class="token string">"AutoModelForMaskedLM"</span><span class="token punctuation">)</span>
+LtgBertForSequenceClassification<span class="token punctuation">.</span>register_for_auto_class<span class="token punctuation">(</span><span class="token string">"AutoModelForSequenceClassification"</span><span class="token punctuation">)</span>
+LtgBertForCausalLM<span class="token punctuation">.</span>register_for_auto_class<span class="token punctuation">(</span><span class="token string">"AutoModelForCausalLM"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>后来发现只有注册可能会存在 <code>config.json</code>里
 <code>auto_map</code>不完整的情况（原因暂时没有调查），可以考虑直接在
 <code>config.__init__</code>里强制指定：</p>
@@ -693,8 +766,10 @@ LtgBertForMaskedLM<span class="token punctuation">.</span>register_for_auto_clas
    ...
    self.auto_map={
     "AutoConfig": "configuration_ltgbert.LtgBertConfig",
-    "AutoModelForMaskedLM": "modeling_ltgbert.LtgBertForMaskedLM"
-   }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    "AutoModelForMaskedLM": "modeling_ltgbert.LtgBertForMaskedLM",
+    "AutoModelForSequenceClassification": "modeling_ltgbert.LtgBertForSequenceClassification",
+    "AutoModelForCausalLM": "modeling_ltgbert.LtgBertForCausalLM"
+   }<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="trainer">Trainer</h2>
 <p>训练流程的转换主要设计HF的 <code>Trainer</code>类，可以参考<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/main/zh/main_classes/trainer">Trainer
 (huggingface.co)</a>和<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/main/en/main_classes/trainer#transformers.TrainingArguments">Trainer
@@ -1251,7 +1326,7 @@ custom models (huggingface.co)</a></li>
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">42.5k</span>
+                        class="white-color">43.3k</span>
             
             
             
